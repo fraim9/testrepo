@@ -1,0 +1,78 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::view('/', 'landing');
+
+Auth::routes();
+
+Route::get('/admin', 'DashboardController@index')->name('admin.dashboard');
+
+
+//=== SETTINGS ===
+
+Route::get('/admin/settings/countries', 'Settings\CountriesController@index')->name('countries.index');
+Route::get('/admin/settings/countries/form/{id}', 'Settings\CountriesController@form')->name('countries.form');
+Route::post('/admin/settings/countries/{id}', 'Settings\CountriesController@store')->name('countries.store');
+Route::delete('/admin/settings/countries/{id}', 'Settings\CountriesController@delete')->name('countries.delete');
+
+Route::get('/admin/settings/cities', 'Settings\CitiesController@index')->name('cities.index');
+Route::get('/admin/settings/cities/form/{id}', 'Settings\CitiesController@form')->name('cities.form');
+Route::post('/admin/settings/cities/{id}', 'Settings\CitiesController@store')->name('cities.store');
+Route::delete('/admin/settings/cities/{id}', 'Settings\CitiesController@delete')->name('cities.delete');
+
+Route::get('/admin/settings/time-zones', 'Settings\TimeZonesController@index')->name('timeZones.index');
+Route::get('/admin/settings/time-zones/form/{id}', 'Settings\TimeZonesController@form')->name('timeZones.form');
+Route::post('/admin/settings/time-zones/{id}', 'Settings\TimeZonesController@store')->name('timeZones.store');
+Route::delete('/admin/settings/time-zones/{id}', 'Settings\TimeZonesController@delete')->name('timeZones.delete');
+
+
+//=== USERS ===
+
+// user groups
+Route::get('/admin/user-groups', 'Users\UserGroupsController@index')->name('userGroups.index');
+Route::get('/admin/user-groups/form/{id}', 'Users\UserGroupsController@form')->name('userGroups.form');
+Route::post('/admin/user-groups/{id}', 'Users\UserGroupsController@store')->name('userGroups.store');
+Route::delete('/admin/user-groups/{id}', 'Users\UserGroupsController@delete')->name('userGroups.delete');
+
+Route::get('/admin/users', 'Users\UsersController@index')->name('users.index');
+Route::get('/admin/users/form/{id}', 'Users\UsersController@form')->name('users.form');
+Route::post('/admin/users/{id}', 'Users\UsersController@store')->name('users.store');
+Route::delete('/admin/users/{id}', 'Users\UsersController@delete')->name('users.delete');
+
+
+//=== STORES ===
+
+Route::get('/admin/store-groups', 'Stores\StoreGroupsController@index')->name('storeGroups.index');
+Route::get('/admin/store-groups/form/{id}', 'Stores\StoreGroupsController@form')->name('storeGroups.form');
+Route::post('/admin/store-groups/{id}', 'Stores\StoreGroupsController@store')->name('storeGroups.store');
+Route::delete('/admin/store-groups/{id}', 'Stores\StoreGroupsController@delete')->name('storeGroups.delete');
+
+Route::get('/admin/stores', 'Stores\StoresController@index')->name('stores.index');
+Route::get('/admin/stores/form/{id}', 'Stores\StoresController@form')->name('stores.form');
+Route::post('/admin/stores/{id}', 'Stores\StoresController@store')->name('stores.store');
+Route::delete('/admin/stores/{id}', 'Stores\StoresController@delete')->name('stores.delete');
+
+Route::get('/admin/stores/prices', 'Stores\PricesController@index')->name('prices.index');
+Route::get('/admin/stores/prices/form/{id}', 'Stores\PricesController@form')->name('prices.form');
+Route::post('/admin/stores/prices/{id}', 'Stores\PricesController@store')->name('prices.store');
+Route::delete('/admin/stores/prices/{id}', 'Stores\PricesController@delete')->name('prices.delete');
+
+
+
+
+
+Route::view('/examples/plugin-helper', 'examples.plugin_helper');
+Route::view('/examples/plugin-init', 'examples.plugin_init');
+Route::view('/examples/blank', 'examples.blank');
+
+
