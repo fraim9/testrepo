@@ -88,3 +88,10 @@ Route::get('/admin/crm/clients', 'Crm\ClientsController@index')->name('clients.i
 Route::get('/admin/crm/clients/form/{id}', 'Crm\ClientsController@form')->name('clients.form');
 Route::post('/admin/crm/clients/{id}', 'Crm\ClientsController@store')->name('clients.store');
 Route::delete('/admin/crm/clients/{id}', 'Crm\ClientsController@delete')->name('clients.delete');
+
+
+
+
+//=== API ===
+
+Route::any('/api/{ver}/{method}', 'ApiController@index');

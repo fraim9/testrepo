@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Crm;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BackendController;
-use App\Http\Requests\Employee as EmployeeRequest;
+use App\Http\Requests\Client as ClientRequest;
 use App\Client;
+use App\Country;
+use App\TimeZone;
+use App\Employee;
+use App\Store;
 
 
 class ClientsController extends BackendController
@@ -13,43 +17,49 @@ class ClientsController extends BackendController
 
     public function index()
     {
-        $employees = Employee::all();
-        return view('company.employees.index', compact('employees'));
+        $clients = Client::all();
+        return view('crm.clients.index', compact('clients'));
     }
 
     
     public function form($id)
     {
-        $employee = $id ? Employee::find($id) : null;
-        $divisions = Division::orderBy('sort')->where('active', '=', 1)->get();
-    	return view('company.employees.form', compact('employee', 'divisions'));
+        $client = $id ? Client::find($id) : null;
+        $countries = Country::orderBy('name')->get();
+        $timeZoneModel = new TimeZone();
+        $timeZones = $timeZoneModel->asOptions();
+        $employees = Employee::orderBy('name')->where('active', '=', 1)->get();
+        $stores = Store::orderBy('name')->get();
+        return view('crm.clients.form', compact('client', 'countries', 'timeZones', 'employees', 'stores'));
     }
     
-    public function store(EmployeeRequest $request, $id)
+    public function store(ClientRequest $request, $id)
     {
-        $employee = $id ? Employee::find($id) : null;
+        $client = $id ? Client::find($id) : null;
     	
-        if (!$employee) {
-            $employee = new Employee();
-            $employee->created_by = Auth::id();
-            $employee->created_date = date('Y-m-d H:i:s');
+        if (!$client) {
+            $client = new Client();
+            $client->created_by = Auth::id();
+            $client->created_date = date('Y-m-d H:i:s');
 	    }
-	    $employee->fill($request->all());
+	    $client->fill($request->all());
+
+	    $client->name = implode(' ', [$client->last_name, $client->first_name, $client->middle_name]);
 	    
-	    $employee->modified_date = date('Y-m-d H:i:s');
-	    $employee->modified_by = Auth::id();
-	    $employee->save();
+	    $client->modified_date = date('Y-m-d H:i:s');
+	    $client->modified_by = Auth::id();
+	    $client->save();
 	    
-	    return redirect()->route('employees.index')->with('success', 'Employee has been saved');
+	    return redirect()->route('clients.index')->with('success', 'Client has been saved');
     }
     
     public function delete($id)
     {
-        $employee = Employee::find($id);
-        $employee->delete();
+        $client = Client::find($id);
+        $client->delete();
     	
-    	return redirect()->route('employees.index')
-    	   ->with('success', 'Employee has been deleted Successfully');
+    	return redirect()->route('clients.index')
+    	   ->with('success', 'Client has been deleted Successfully');
     }
     
 }

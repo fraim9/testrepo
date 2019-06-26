@@ -32,7 +32,7 @@ class UsersController extends BackendController
     	
         if (!$user) {
             $user = new User();
-            $user->created_by = Auth::id();
+            $user->created_by = (int) Auth::id();
             $user->created_date = date('Y-m-d H:i:s');
 	    }
 	    $user->fill($request->all());
@@ -43,7 +43,7 @@ class UsersController extends BackendController
         }
         
 	    $user->modified_date = date('Y-m-d H:i:s');
-	    $user->modified_by = Auth::id();
+	    $user->modified_by = (int) Auth::id();
 	    $user->save();
 	    
 	    return redirect()->route('users.index')->with('success', 'User has been saved');

@@ -87,12 +87,8 @@
             <aside id="side-overlay" class="font-size-sm">
                 <!-- Side Header -->
                 <div class="content-header border-bottom">
-                    <!-- User Avatar -->
-                    <a class="img-link mr-1" href="javascript:void(0)">
-                        <img class="img-avatar img-avatar32" src="<?php echo e(asset('media/avatars/avatar10.jpg')); ?>" alt="">
-                    </a>
-                    <!-- END User Avatar -->
-
+                	
+					 
                     <!-- User Info -->
                     <div class="ml-2">
                         <a class="link-fx text-dark font-w600" href="javascript:void(0)"><?php echo e($user->display_name); ?></a>
@@ -270,7 +266,7 @@
                         <!-- User Dropdown -->
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded" src="<?php echo e(asset('media/avatars/avatar10.jpg')); ?>" alt="Header Avatar" style="width: 18px;">
+                                
                                 <span class="d-none d-sm-inline-block ml-1"><?php echo e($user->display_name); ?></span>
                                 <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
                             </button>

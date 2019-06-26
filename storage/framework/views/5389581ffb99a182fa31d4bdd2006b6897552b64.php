@@ -7,6 +7,19 @@
     </li>
     
     
+    <li class="nav-main-item<?php echo e(request()->is('admin/crm*') ? ' open' : ''); ?>">
+        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
+            <i class="nav-main-link-icon fas fa-building"></i>
+            <span class="nav-main-link-name">CRM</span>
+        </a>
+        <ul class="nav-main-submenu">
+            <li class="nav-main-item">
+                <a class="nav-main-link<?php echo e(request()->is('*/clients*') ? ' active' : ''); ?>" href="<?php echo e(route('clients.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Clients')); ?></span>
+                </a>
+            </li>
+        </ul>
+    </li>
     <li class="nav-main-item<?php echo e(request()->is('admin/company*') ? ' open' : ''); ?>">
         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
             <i class="nav-main-link-icon fas fa-building"></i>
