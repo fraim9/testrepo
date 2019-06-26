@@ -7,6 +7,24 @@
     </li>
     
     
+    <li class="nav-main-item<?php echo e(request()->is('admin/company*') ? ' open' : ''); ?>">
+        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
+            <i class="nav-main-link-icon fas fa-building"></i>
+            <span class="nav-main-link-name">Company</span>
+        </a>
+        <ul class="nav-main-submenu">
+            <li class="nav-main-item">
+                <a class="nav-main-link<?php echo e(request()->is('*/employees*') ? ' active' : ''); ?>" href="<?php echo e(route('employees.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Employees')); ?></span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link<?php echo e(request()->is('*/divisions*') ? ' active' : ''); ?>" href="<?php echo e(route('divisions.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Divisions')); ?></span>
+                </a>
+            </li>
+        </ul>
+    </li>
     <li class="nav-main-item<?php echo e(request()->is('admin/store*') ? ' open' : ''); ?>">
         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
             <i class="nav-main-link-icon fas fa-building"></i>

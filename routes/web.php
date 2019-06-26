@@ -68,11 +68,23 @@ Route::post('/admin/stores/prices/{id}', 'Stores\PricesController@store')->name(
 Route::delete('/admin/stores/prices/{id}', 'Stores\PricesController@delete')->name('prices.delete');
 
 
+//=== COMPANY ===
+
+Route::get('/admin/company/employees', 'Company\EmployeesController@index')->name('employees.index');
+Route::get('/admin/company/employees/form/{id}', 'Company\EmployeesController@form')->name('employees.form');
+Route::post('/admin/company/employees/{id}', 'Company\EmployeesController@store')->name('employees.store');
+Route::delete('/admin/company/employees/{id}', 'Company\EmployeesController@delete')->name('employees.delete');
+
+Route::get('/admin/company/divisions', 'Company\DivisionsController@index')->name('divisions.index');
+Route::get('/admin/company/divisions/form/{id}', 'Company\DivisionsController@form')->name('divisions.form');
+Route::post('/admin/company/divisions/{id}', 'Company\DivisionsController@store')->name('divisions.store');
+Route::delete('/admin/company/divisions/{id}', 'Company\DivisionsController@delete')->name('divisions.delete');
 
 
 
-Route::view('/examples/plugin-helper', 'examples.plugin_helper');
-Route::view('/examples/plugin-init', 'examples.plugin_init');
-Route::view('/examples/blank', 'examples.blank');
+//=== CRM ===
 
-
+Route::get('/admin/crm/clients', 'Crm\ClientsController@index')->name('clients.index');
+Route::get('/admin/crm/clients/form/{id}', 'Crm\ClientsController@form')->name('clients.form');
+Route::post('/admin/crm/clients/{id}', 'Crm\ClientsController@store')->name('clients.store');
+Route::delete('/admin/crm/clients/{id}', 'Crm\ClientsController@delete')->name('clients.delete');
