@@ -6,7 +6,7 @@ deploy_to_dev:
   stage: deploy 
   script:
     - apk add --update openssh-client rsync
-    - chmod 600 $ssh_dev_key_omnipos
+    - chmod 600 $ssh_dev_omnipos_key
     - ssh -i $ssh_dev_omnipos_key -o StrictHostKeyChecking=no build@dev.omnipos.cloud 'mv /home/ipos-api/release /home/ipos-api/old || mkdir -p /home/ipos-api/release'
     - rsync -arc -e "ssh -i $ssh_dev_omnipos_key -o StrictHostKeyChecking=no" --rsync-path="mkdir -p /home/ipos-api/release && rsync"  ./* build@dev.omnipos.cloud:/home/ipos-api/release
     - ssh -i $ssh_dev_omnipos_key -o StrictHostKeyChecking=no build@dev.omnipos.cloud 'cd /home/ipos-api/release/ && mv .env.prod .env && ./composer install && sudo systemctl restart php7.3-fpm'
