@@ -36,6 +36,13 @@ class StoreGroupsController extends BackendController
             $group->created_date = date('Y-m-d H:i:s');
 	    }
 	    $group->fill($request->all());
+	    
+	    $iposFeatures = (new IposFeatures())->findAll();
+	    $settings = [];
+	    foreach ($iposFeatures as $iposFeature) {
+	        $settings[$iposFeature->id] = ($request->input('ipos_settings.' . $iposFeature->id) == 1) ? true : false;
+	    }
+	    $group->ipos_settings = $settings;
         
 	    $group->modified_date = date('Y-m-d H:i:s');
 	    $group->modified_by = Auth::id();
