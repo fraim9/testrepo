@@ -21,6 +21,7 @@
 		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
 		        	<thead>
 		        		<tr>
+		        			<th>{{ __('ID') }}</th>
 		        			<th>{{ __('Code') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
@@ -31,6 +32,7 @@
 		        	<tbody>
 			        	@foreach ($clients as $client)
 			        		<tr>
+			        			<td>{{ $client->id }}</td>
 			        			<td>{{ $client->code }}</td>
 			        			<td>{{ $client->name }}</td>
 			        			<td>{{ $client->email }}</td>
