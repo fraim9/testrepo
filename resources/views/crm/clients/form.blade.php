@@ -160,7 +160,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'citizenship_id', 
 								'label' => 'Citizenship', 
-								'value' => $store->citizenship_id ?? '',
+								'value' => $client->citizenship_id ?? '',
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
 							
