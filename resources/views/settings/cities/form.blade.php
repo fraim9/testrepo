@@ -23,7 +23,7 @@
 
 							@include('helpers.formText', [
 								'name' => 'code', 
-								'label' => 'Code',
+								'label' => 'External ID',
 								'required' => true,
 								'value' => $city->code ?? ''
 							])
@@ -31,7 +31,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'country_id', 
 								'label' => 'Country', 
-								'value' => $store->country_id ?? '',
+								'value' => $city->country_id ?? '',
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
 								

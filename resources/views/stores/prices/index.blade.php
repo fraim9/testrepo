@@ -22,7 +22,7 @@
 		        	<thead>
 		        		<tr>
 		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('Code') }}</th>
+		        			<th>{{ __('External ID') }}</th>
 		        			<th>{{ __('Action') }}</th>
 		        		</tr>
 		        	</thead>

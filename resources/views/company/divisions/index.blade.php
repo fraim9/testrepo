@@ -23,7 +23,7 @@
 		        		<tr>
 		        			<th>{{ __('A') }}</th>
 		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('Code') }}</th>
+		        			<th>{{ __('External ID') }}</th>
 		        			<th>{{ __('Sort index') }}</th>
 		        			<th>{{ __('Action') }}</th>
 		        		</tr>

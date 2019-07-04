@@ -21,7 +21,7 @@
 		        	<thead>
 		        		<tr>
 		        			<th>{{ __('ID') }}</th>
-		        			<th>{{ __('Code') }}</th>
+		        			<th>{{ __('External ID') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
 		        			<th>{{ __('Phone') }}</th>

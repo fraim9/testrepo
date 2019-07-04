@@ -23,7 +23,7 @@
 								
 							@include('helpers.formText', [
 								'name' => 'code', 
-								'label' => 'Code',
+								'label' => 'External ID',
 								'required' => true,
 								'value' => $employee->code ?? ''
 							])
