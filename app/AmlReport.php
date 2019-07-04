@@ -26,7 +26,7 @@ class AmlReport extends AppModel
 	
 	public function miniQuest()
 	{
-	    return $this->belongsTo('App\Amlmini', 'mini_quest_id');
+	    return $this->belongsTo('App\AmlMini', 'mini_quest_id');
 	}
 	public function store()
 	{

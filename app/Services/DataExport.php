@@ -92,13 +92,13 @@ class DataExport
     
     public function getAmlmini($id)
     {
-        $amlmini = Amlmini::find($id);
+        $amlmini = AmlMini::find($id);
         return $amlmini ? $this->_amlmini2obj($amlmini) : null;
     }
     
     public function getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize)
     {
-        $select = Amlmini::offset(($page-1) * $pageSize)->limit($pageSize);
+        $select = AmlMini::offset(($page-1) * $pageSize)->limit($pageSize);
         if ($modifiedFrom) {
             $select->where('modified_date', '>=', $modifiedFrom);
         }
