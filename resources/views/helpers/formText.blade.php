@@ -6,6 +6,7 @@ $value
 $required
 $labelClass
 $elementClass
+$disabled
 */
 
 $value = $value ?? '';
@@ -14,16 +15,17 @@ $required = $required ?? false;
 
 $labelClass = $labelClass ?? 'col-md-4';
 $elementClass = $elementClass ?? 'col-md-6';
+$disabled = $disabled ?? false;
 
 @endphp
 
 <div class="form-group row">
-    <label for="iso2" class="{{ $labelClass }} col-form-label text-md-right">{{ __($label) }}</label>
+    <label for="iso2" class="{{ $labelClass }} {{ $disabled ? 'text-muted' : '' }} col-form-label text-md-right">{{ __($label) }}</label>
 
     <div class="{{ $elementClass }}">
         <input id="{{ $name }}" type="text" class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}" 
         	name="{{ $name }}" value="{{ strlen(old($name)) ? old($name) : ($value ?? '') }}" 
-        	{{ $required ? 'required' : '' }} >
+        	{{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }} >
         	
         @if (strlen($description))
         	<div class="form-control-description">
