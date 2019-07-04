@@ -4,13 +4,7 @@
 
 	@include('layouts.backendPageHero', [
     	'title' => $client->name,
-    	'btns' => [
-    		[
-                'class' => 'btn btn-primary',
-                'caption' => 'Add client',
-                'url' => route('clients.form', 0)
-            ]
-    	]
+    	'btns' => []
     ])
 
     <!-- Page Content -->
@@ -41,6 +35,8 @@
 		        					__('E-mail') => $client->email,
 		        				],
 		        				__('Общая информация') => [
+		        					__('ID') => $client->id,
+		        					__('External ID') => $client->code,
 		        					__('Фамилия') => $client->last_name,
 		        					__('Имя') => $client->first_name,
 		        					__('Отчество') => $client->middle_name,
@@ -56,6 +52,7 @@
 		        					__('Почтовый индекс') => $client->postcode,
 		        					__('Город') => $client->city,
 		        					__('Адрес') => $client->address,
+		        					__('Time Zone') => $client->timeZone->offset . ' (' . $client->timeZone->name . ')',
 		        				],
 		        				__('Регистрационная информация') => [
 		        					__('ИНН') => $client->inn,
@@ -78,9 +75,6 @@
 		        					__('Закреплен за магазином') => $client->attached_store_id ? $client->attachedStore->name : '---',
 		        				],
 		        				__('Системная информация') => [
-		        					__('ID') => $client->id,
-		        					__('External ID') => $client->code,
-		        					__('Time Zone') => $client->timeZone->offset . ' (' . $client->timeZone->name . ')',
 		        					__('Date created') => (new DateTime($client->created_date))->format($datetimeFormat),
 		        					__('Created by') => $client->createdBy->display_name,
 		        					__('Date modified') => (new DateTime($client->modified_date))->format($datetimeFormat),
@@ -146,27 +140,37 @@
         												<a href="{{ route('file.view', $amlMini->questionnaire_file) }}" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> {{ __('просмотр') }}</a>
         						        				<a href="{{ route('file.download', $amlMini->questionnaire_file) }}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ __('скачать') }}</a>
 		        									</div>
-		        									<div class="col-sm-3 text-right">
-		        										{{ __('ОТЧЕТ') }}:
+		        									<div class="col-sm-6">
+		        										<div class="row">
+        		        									<div class="col-sm-6 text-right">
+        		        										{{ __('ОТЧЕТ') }}:
+        		        									</div>
+        		        									<div class="col-sm-6">
+        		        										<a href="{{ route('clients.amlReport', $amlMini->report->id) }}" 
+        		        											class="btn {{ $amlMini->report->status()->id == 1 ? 'btn-dark' : 'btn-success' }}  btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+        		        									</div>
+    		        									</div>
+    		        									@if ($amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
+        		        									<div class="row mt-1">
+            		        									<div class="col-sm-6 text-right text-small text-muted">
+            		        										{{ __('Ответственный') }}:
+            		        									</div>
+            		        									<div class="col-sm-6">
+            		        										{{ $amlMini->report->responsible_id ? $amlMini->report->responsible->name : '---' }}
+            		        									</div>
+            		        								</div>
+        		        									<div class="row mt-1">
+            		        									<div class="col-sm-6 text-right text-small text-muted">
+            		        										{{ __('Изменено') }}:
+            		        									</div>
+            		        									<div class="col-sm-6">
+            		        										@include('helpers.viewDate', ['value' => $amlMini->report->modified_date, 'format' => 'd M Y H:i:s'])
+            		        									</div>
+            		        								</div>
+        		        								@endif
+            		        									
 		        									</div>
-		        									<div class="col-sm-3">
-		        										<a href="{{ route('clients.amlReport', $amlMini->report->id) }}" 
-		        											class="btn {{ $amlMini->report->status()->id == 1 ? 'btn-dark' : 'btn-success' }}  btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
-		        									</div>
-		        								</div>
-		        								@if ($amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
-		        									<div class="row mt-1">
-    		        									<div class="col-sm-6">
-    		        									</div>
-    		        									<div class="col-sm-3 text-right text-small text-muted">
-    		        										{{ __('Ответственный') }}:
-    		        									</div>
-    		        									<div class="col-sm-3">
-    		        										{{ $amlMini->report->responsible_id ? $amlMini->report->responsible->name : '---' }}
-    		        									</div>
-    		        								</div>
-		        								@endif
-		        								
+		        								</div> 
 		        							</td>
 		        						</tr>
     		        				</tbody>
