@@ -15,8 +15,15 @@
     					<div class="block-content">
 							
 							@include('helpers.formText', [
+								'name' => 'view_id', 
+								'label' => 'ID',
+								'value' => $client->id ?? '',
+								'disabled' => true,
+							])
+								
+							@include('helpers.formText', [
 								'name' => 'code', 
-								'label' => 'Code',
+								'label' => 'External ID',
 								'required' => true,
 								'value' => $client->code ?? ''
 							])
