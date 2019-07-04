@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 //use App\Exceptions\ApiException;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 use App\Exceptions\ApiExceptionFactory as AEF;
+use App\Services\DataExport;
 
 
 class ApiController extends Controller
 {
     const TEMP_TOKEN = '1cecc8fb-fb47-4c8a-af3d-d34c1ead8c4f';
+    
+    protected $_dataService = null;
     
     /**
      * Create a new controller instance.
@@ -35,6 +39,7 @@ class ApiController extends Controller
         $result->apiMethod = $method;
         $result->errorCode = 0;
         $result->errorMessage = 0;
+        $result->errorDetails = '';
         try {
             // проверка токена
             $this->_checkToken($request);
@@ -51,6 +56,7 @@ class ApiController extends Controller
         } catch (Exception $e) {
             $result->errorCode = $e->getCode();
             $result->errorMessage = $e->getMessage();
+            $result->errorDetails = AEF::getDetails();
         }
         
         $result->callId = 0;
@@ -62,6 +68,12 @@ class ApiController extends Controller
         switch ($method) {
             case 'authentication':
                 $this->_authentication($request, $result);
+                break;
+            case 'clients':
+                $this->_clients($request, $result);
+                break;
+            case 'amlminis':
+                $this->_amlminis($request, $result);
                 break;
             default:
                 throw AEF::create(AEF::API_METHOD_UNKNOWN);
@@ -95,6 +107,90 @@ class ApiController extends Controller
         }
     }
     
+    protected function _clients(Request $request, $result)
+    {
+        $validator = Validator::make($request->all(), [
+                'page' => 'nullable|integer',
+                'pageSize' => 'nullable|integer',
+                'modifiedFrom' => 'nullable|date_format:Y-m-d\TH:i:s',
+                'id' => 'nullable|integer',
+                'onlyCount' => 'nullable|boolean',
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $message = $errors->first();
+            throw AEF::create(AEF::INVALID_REQUEST_PARAMETERS, $message);
+        }
+        
+        $page = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 1000);
+        $modifiedFrom = $request->input('modifiedFrom');
+        $id = $request->input('id');
+        $onlyCount = $request->input('onlyCount');
+        
+        $result->clients = [];
+        
+        if ($id) {
+            $client = $this->_getDataService()->getClient($id);
+            if ($client) {
+                $result->clients[] = $client;
+                $result->count = 1;
+            } else {
+                throw AEF::create(AEF::ITEM_NOT_FOUND);
+            }
+        } else if ($onlyCount) {
+            $result->clients = null;
+            $result->count = $this->_getDataService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
+        } else {
+            $result->clients = $this->_getDataService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
+            $result->count = count($result->clients);
+        }
+        
+    }
+    
+    protected function _amlminis(Request $request, $result)
+    {
+        $validator = Validator::make($request->all(), [
+                'page' => 'nullable|integer',
+                'pageSize' => 'nullable|integer',
+                'modifiedFrom' => 'nullable|date_format:Y-m-d\TH:i:s',
+                'clientId' => 'nullable|integer',
+                'id' => 'nullable|integer',
+                'onlyCount' => 'nullable|boolean',
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $message = $errors->first();
+            throw AEF::create(AEF::INVALID_REQUEST_PARAMETERS, $message);
+        }
+        
+        $page = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 1000);
+        $modifiedFrom = $request->input('modifiedFrom');
+        $clientId = $request->input('clientId');
+        $id = $request->input('id');
+        $onlyCount = $request->input('onlyCount');
+        
+        $result->clients = [];
+        
+        if ($id) {
+            $amlmini = $this->_getDataService()->getAmlmini($id);
+            if ($amlmini) {
+                $result->amlminis[] = $amlmini;
+                $result->count = 1;
+            } else {
+                throw AEF::create(AEF::ITEM_NOT_FOUND);
+            }
+        } else if ($onlyCount) {
+            $result->amlminis = null;
+            $result->count = $this->_getDataService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
+        } else {
+            $result->amlminis = $this->_getDataService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
+            $result->count = count($result->amlminis);
+        }
+        
+    }
+    
     protected function _checkToken(Request $request)
     {
         $token = $request->bearerToken();
@@ -122,5 +218,15 @@ class ApiController extends Controller
         return true;
     }
     
+    /**
+     * @return DataExport
+     */
+    protected function _getDataService()
+    {
+        if ($this->_dataService === null) {
+            $this->_dataService = new DataExport();
+        }
+        return $this->_dataService;
+    }
     
 }

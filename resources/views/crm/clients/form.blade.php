@@ -266,7 +266,8 @@
 								'name' => 'employee_id', 
 								'label' => 'Employee', 
 								'value' => $client->employee_id ?? '',
-								'options' => array_column($employees->toArray(), 'name', 'id')
+								'options' => array_column($employees->toArray(), 'name', 'id'),
+								'emptyValue' => true,
 							])
 							
 							<hr>
@@ -275,14 +276,16 @@
 								'name' => 'created_employee_id', 
 								'label' => 'Created employee', 
 								'value' => $client->created_employee_id ?? '',
-								'options' => array_column($employees->toArray(), 'name', 'id')
+								'options' => array_column($employees->toArray(), 'name', 'id'),
+								'emptyValue' => true,
 							])
 							
 							@include('helpers.formSelect', [
 								'name' => 'responsible_id', 
 								'label' => 'Responsible employee', 
 								'value' => $client->responsible_id ?? '',
-								'options' => array_column($employees->toArray(), 'name', 'id')
+								'options' => array_column($employees->toArray(), 'name', 'id'),
+								'emptyValue' => true,
 							])
 							
 							<hr>
@@ -292,14 +295,16 @@
 								'name' => 'created_store_id', 
 								'label' => 'Created store', 
 								'value' => $client->created_store_id ?? '',
-								'options' => array_column($stores->toArray(), 'name', 'id')
+								'options' => array_column($stores->toArray(), 'name', 'id'),
+								'emptyValue' => true,
 							])
 								
 							@include('helpers.formSelect', [
 								'name' => 'attached_store_id', 
 								'label' => 'Attached store', 
 								'value' => $client->attached_store_id ?? '',
-								'options' => array_column($stores->toArray(), 'name', 'id')
+								'options' => array_column($stores->toArray(), 'name', 'id'),
+								'emptyValue' => true,
 							])
 							
 							

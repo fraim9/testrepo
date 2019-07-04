@@ -4,11 +4,12 @@ $name
 $label
 $value
 $options
+$empty_value
 */
 
 $required = $required ?? false;
-
 $value = strlen(old($name)) ? old($name) : ($value ?? '');
+$emptyValue = $emptyValue ?? false;
 
 @endphp
 
@@ -19,6 +20,10 @@ $value = strlen(old($name)) ? old($name) : ($value ?? '');
         <select id="{{ $name }}" type="text" class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}" 
         	name="{{ $name }}" 
         	{{ $required ? 'required' : '' }} >
+        	@if ($emptyValue) 
+        		<option value="">{{ __('-- значение не выбрано --') }}</option>
+        	@endif
+        	
             @if ($options)
             	@foreach ($options as $val => $name)
             		<option value="{{ $val }}" {{ ($val == $value) ? 'selected' : '' }}>{{ $name }}</option>

@@ -88,8 +88,16 @@ Route::get('/admin/crm/clients', 'Crm\ClientsController@index')->name('clients.i
 Route::get('/admin/crm/clients/form/{id}', 'Crm\ClientsController@form')->name('clients.form');
 Route::post('/admin/crm/clients/{id}', 'Crm\ClientsController@store')->name('clients.store');
 Route::delete('/admin/crm/clients/{id}', 'Crm\ClientsController@delete')->name('clients.delete');
+Route::get('/admin/crm/clients/info/{id}', 'Crm\ClientsController@info')->name('clients.info');
+Route::get('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReport')->name('clients.amlReport');
+Route::post('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReportStore')->name('clients.amlReportStore');
 
 
+
+
+//=== FILES ===
+Route::get('/admin/file/view/{filename}', 'FilesController@view')->name('file.view');
+Route::get('/admin/file/download/{filename}', 'FilesController@download')->name('file.download');
 
 
 //=== API ===

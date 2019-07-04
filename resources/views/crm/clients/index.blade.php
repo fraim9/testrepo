@@ -17,7 +17,6 @@
     <div class="content">
         <div class="block">
         	<div class="block-content">
-        	
 		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
 		        	<thead>
 		        		<tr>
@@ -34,7 +33,7 @@
 			        		<tr>
 			        			<td>{{ $client->id }}</td>
 			        			<td>{{ $client->code }}</td>
-			        			<td>{{ $client->name }}</td>
+			        			<td><a href="{{ route('clients.info', $client->id) }}">{{ $client->name }}</a></td>
 			        			<td>{{ $client->email }}</td>
 			        			<td>{{ $client->phone }}</td>
 			        			<td class="text-center">

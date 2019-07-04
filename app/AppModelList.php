@@ -38,11 +38,16 @@ class AppModelList
     {
     }
     
-    protected function _add($id, $name)
+    protected function _add($id, $name, array $options = null)
     {
         $item = new \stdClass();
         $item->id = $id;
         $item->name = $name;
+        if (is_array($options)) {
+            foreach ($options as $key => $value) {
+                $item->{$key} = $value;
+            }
+        }
         $this->_items[$item->id] = $item;
     }
 	

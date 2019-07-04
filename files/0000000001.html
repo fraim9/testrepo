@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>HTML signature template</title>
+    <style>
+        .invoice-box {
+            /*max-width: 600px;*/
+            /*height:880px;*/
+            /*margin: auto;*/
+            /*padding: 10px;*/
+            /*border: 2px solid black;*/
+            /*box-shadow:0 0 10px rgba(0, 0, 0, .15); */
+            font-size: 12px;
+            /*line-height: 12px;*/
+            font-family: Arial;
+            color: #555;
+        }
+
+            .invoice-box table {
+                width: 100%;
+                line-height: inherit;
+                text-align: left;
+            }
+
+                .invoice-box table td {
+                    padding: 5px;
+                    vertical-align: top;
+                }
+
+                .invoice-box table tr.top table td {
+                    padding-bottom: 10px;
+                    display: block;
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .invoice-box table tr.heading td {
+                    background: #eee;
+                    border-bottom: 1px solid #ddd;
+                    font-weight: bold;
+                }
+
+                .invoice-box table tr.consent {
+                    /*height:380px;*/
+                    font-size: 9px;
+                    line-height: 12px;
+                }
+
+                .invoice-box table tr.iconsent {
+                    /*font-style:italic;*/
+                    font-size: 9px;
+                    line-height: 12px;
+                }
+
+                .invoice-box table tr.signature td {
+                    padding-top: 0px;
+                    vertical-align: bottom;
+                }
+
+                .invoice-box table tr.signature table td {
+                    width: 50%;
+                }
+
+                .invoice-box table tr.information td:nth-child(2) {
+                    width: 60%;
+                }
+
+                .invoice-box table tr.information table td:nth-child(2) {
+                    font-weight: bold;
+                    width: 50%;
+                }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="information">
+                    <td colspan="2"> Фамилия: #LAST_NAME# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> Имя: #FIRST_NAME# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> Отчество: #MIDDLE_NAME# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> Дата рождения: #DATE_OF_BIRTH# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> <hr> </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> Страна: #COUNTRY# </td>
+                </tr>
+                <tr class="information">
+                    <td> Индекс: #POSTAL_CODE# </td>
+                    <td> Город: #CITY# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> Адрес: #ADDRESS# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> <hr> </td>
+                </tr>
+                <tr class="information">
+                    <td> Мобильный телефон: #MOBILE_PHONE# </td>
+                    <td> E-mail: #EMAIL# </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2"> <hr> </td>
+                </tr>
+                <tr class="customerconsent">
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td> <input type="checkbox" #PHONE_CALLS# /> Я разрешаю звонить мне </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" #TEXT_MESSAGES# /> Я разрешаю отправлять мне текстовые сообщения </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" #E-MAILS# /> Я разрешаю отправлять мне письма на электронный адрес </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" #PAPER_MAIL# /> Я разрешаю отправлять мне печатную продукцию </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="consent">
+                    <td colspan="2"> #LEGAL_MENTIONS# </td>
+                </tr>
+                <tr class="iconsent">
+                    <td colspan="2"> Настоящим подтверждаю, что ознакомлен(а) с вышеперечисленными целями и порядком обработки моих персональных данных, и даю свое согласие на такую обработку с учетом способов направления информации, как указано выше:</td>
+                </tr>
+                <tr class="signature">
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td> Дата: #DATE# </td>
+                                    <td> Подпись: <img src="#SIGNATURE_IMAGE#" style="width:200px; height:100px"> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

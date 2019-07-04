@@ -22,10 +22,21 @@ class ApiExceptionFactory
     const USER_PASSWORD_EMPTY = 300020;
     const USER_CREDENTIALS_INVALID = 300030;
     
+    // 400000 - Ошибки при получении данных
+    const ITEM_NOT_FOUND = 400010;
+
+    // 500000 - Ошибки при передаче данных
+    //const ITEM_NOT_FOUND = 500010;
+
+    // 600000 - Ошибки формата данных
+    const INVALID_REQUEST_PARAMETERS = 600010;
     
     
-    public static function create($code)
+    static protected $_details = '';
+    
+    public static function create($code, $details = '')
     {
+        self::$_details = $details;
         return new ApiException(self::getMessage($code), $code);
     }
     
@@ -47,8 +58,17 @@ class ApiExceptionFactory
             case self::USER_LOGIN_EMPTY: return 'User login is empty';
             case self::USER_PASSWORD_EMPTY: return 'User password is empty';
             case self::USER_CREDENTIALS_INVALID: return 'Invalid user credentials';
+
+            
+            
+            case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in request';
                 
         }
+    }
+    
+    public static function getDetails()
+    {
+        return self::$_details;
     }
     
 }

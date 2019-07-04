@@ -6,6 +6,8 @@ $value
 $required
 $rows
 $cols
+$labelClass
+$elementClass
 */
 
 $value = $value ?? '';
@@ -13,13 +15,15 @@ $description = $description ?? '';
 $required = $required ?? false;
 $rows = $rows ?? 3;
 $cols = $cols ?? 45;
+$labelClass = $labelClass ?? 'col-md-4';
+$elementClass = $elementClass ?? 'col-md-6';
 
 @endphp
 
 <div class="form-group row">
-    <label for="iso2" class="col-md-4 col-form-label text-md-right">{{ __($label) }}</label>
+    <label for="iso2" class="{{ $labelClass }} col-form-label text-md-right">{{ __($label) }}</label>
 
-    <div class="col-md-6">
+    <div class="{{ $elementClass }}">
         <textarea id="{{ $name }}" type="text" class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}" 
         	name="{{ $name }}" cols="{{ $cols }}" rows="{{ $rows }}"
         	{{ $required ? 'required' : '' }} >{{ strlen(old($name)) ? old($name) : ($value ?? '') }}</textarea>

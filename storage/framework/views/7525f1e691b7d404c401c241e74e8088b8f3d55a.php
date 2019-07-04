@@ -4,11 +4,12 @@ $name
 $label
 $value
 $options
+$empty_value
 */
 
 $required = $required ?? false;
-
 $value = strlen(old($name)) ? old($name) : ($value ?? '');
+$emptyValue = $emptyValue ?? false;
 
 ?>
 
@@ -19,6 +20,10 @@ $value = strlen(old($name)) ? old($name) : ($value ?? '');
         <select id="<?php echo e($name); ?>" type="text" class="form-control<?php echo e($errors->has($name) ? ' is-invalid' : ''); ?>" 
         	name="<?php echo e($name); ?>" 
         	<?php echo e($required ? 'required' : ''); ?> >
+        	<?php if($emptyValue): ?> 
+        		<option value=""><?php echo e(__('-- значение не выбрано --')); ?></option>
+        	<?php endif; ?>
+        	
             <?php if($options): ?>
             	<?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val => $name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             		<option value="<?php echo e($val); ?>" <?php echo e(($val == $value) ? 'selected' : ''); ?>><?php echo e($name); ?></option>
