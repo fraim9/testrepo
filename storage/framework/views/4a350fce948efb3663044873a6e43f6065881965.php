@@ -22,7 +22,7 @@
 		        	<thead>
 		        		<tr>
 		        			<th><?php echo e(__('Name')); ?></th>
-		        			<th><?php echo e(__('Code')); ?></th>
+		        			<th><?php echo e(__('External ID')); ?></th>
 		        			<th><?php echo e(__('Country')); ?></th>
 		        			<th><?php echo e(__('Action')); ?></th>
 		        		</tr>

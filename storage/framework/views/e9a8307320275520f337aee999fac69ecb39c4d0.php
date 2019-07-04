@@ -21,7 +21,7 @@
 								
 							<?php echo $__env->make('helpers.formText', [
 								'name' => 'code', 
-								'label' => 'Code',
+								'label' => 'External ID',
 								'required' => true,
 								'value' => $store->code ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

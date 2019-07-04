@@ -21,7 +21,7 @@
 
 							<?php echo $__env->make('helpers.formText', [
 								'name' => 'code', 
-								'label' => 'Code',
+								'label' => 'External ID',
 								'required' => true,
 								'value' => $city->code ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -29,7 +29,7 @@
 							<?php echo $__env->make('helpers.formSelect', [
 								'name' => 'country_id', 
 								'label' => 'Country', 
-								'value' => $store->country_id ?? '',
+								'value' => $city->country_id ?? '',
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 								
