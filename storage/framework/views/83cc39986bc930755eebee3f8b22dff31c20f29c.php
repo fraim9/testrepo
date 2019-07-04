@@ -39,6 +39,14 @@
 								'required' => true,
 								'value' => $user->email ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+							
+							<?php echo $__env->make('helpers.formSelect', [
+								'name' => 'employee_id', 
+								'label' => 'Employee', 
+								'value' => $user->employee_id ?? '',
+								'options' => array_column($employees->toArray(), 'name', 'id'),
+								'emptyValue' => true,
+							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 								
 							<?php echo $__env->make('helpers.formSelect', [
 								'name' => 'group_id', 

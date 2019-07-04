@@ -23,7 +23,8 @@ class User extends Authenticatable
 	 */
 	protected $fillable = [
 			'username', 'email', 'group_id', 
-	        'display_name', 'email_subscribe', 'active'
+	        'display_name', 'email_subscribe', 'active',
+	        'employee_id'
 	];
 	
 	/**
@@ -50,6 +51,11 @@ class User extends Authenticatable
 	public function group()
 	{
 	    return $this->belongsTo('App\UserGroup');
+	}
+	
+	public function employee()
+	{
+	    return $this->belongsTo('App\Employee');
 	}
 	
 }

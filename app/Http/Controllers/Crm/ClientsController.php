@@ -117,7 +117,8 @@ class ClientsController extends BackendController
         
         $amlReport->fill($request->all());
         
-        $amlReport->responsible_id = Auth::id();
+        $user = Auth::user();
+        $amlReport->responsible_id = $user->employee_id ?: null; 
         $amlReport->check_date = date('Y-m-d H:i:s');
         
         $amlReport->modified_date = date('Y-m-d H:i:s');

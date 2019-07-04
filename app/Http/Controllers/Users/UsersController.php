@@ -8,6 +8,7 @@ use App\Http\Controllers\BackendController;
 use App\Http\Requests\User as UserRequest;
 use App\User;
 use App\UserGroup;
+use App\Employee;
 
 class UsersController extends BackendController
 {
@@ -23,7 +24,8 @@ class UsersController extends BackendController
     {
         $user = $id ? User::find($id) : null;
         $userGroups = UserGroup::orderBy('name')->get();
-    	return view('users.users.form', compact('user', 'userGroups'));
+        $employees = Employee::orderBy('name')->where('active', '=', 1)->get();
+    	return view('users.users.form', compact('user', 'userGroups', 'employees'));
     }
     
     public function store(UserRequest $request, $id)

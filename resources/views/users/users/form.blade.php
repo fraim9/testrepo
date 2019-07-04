@@ -41,6 +41,14 @@
 								'required' => true,
 								'value' => $user->email ?? ''
 							])
+							
+							@include('helpers.formSelect', [
+								'name' => 'employee_id', 
+								'label' => 'Employee', 
+								'value' => $user->employee_id ?? '',
+								'options' => array_column($employees->toArray(), 'name', 'id'),
+								'emptyValue' => true,
+							])
 								
 							@include('helpers.formSelect', [
 								'name' => 'group_id', 

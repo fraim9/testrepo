@@ -162,7 +162,7 @@
     		        										{{ __('Ответственный') }}:
     		        									</div>
     		        									<div class="col-sm-3">
-    		        										{{ $amlMini->report->responsible->name }}
+    		        										{{ $amlMini->report->responsible_id ? $amlMini->report->responsible->name : '---' }}
     		        									</div>
     		        								</div>
 		        								@endif
