@@ -8,6 +8,7 @@ $rows
 $cols
 $labelClass
 $elementClass
+$readonly
 */
 
 $value = $value ?? '';
@@ -17,6 +18,7 @@ $rows = $rows ?? 3;
 $cols = $cols ?? 45;
 $labelClass = $labelClass ?? 'col-md-4';
 $elementClass = $elementClass ?? 'col-md-6';
+$readonly = $readonly ?? false;
 
 @endphp
 
@@ -26,7 +28,8 @@ $elementClass = $elementClass ?? 'col-md-6';
     <div class="{{ $elementClass }}">
         <textarea id="{{ $name }}" type="text" class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}" 
         	name="{{ $name }}" cols="{{ $cols }}" rows="{{ $rows }}"
-        	{{ $required ? 'required' : '' }} >{{ strlen(old($name)) ? old($name) : ($value ?? '') }}</textarea>
+        	{{ $required ? 'required' : '' }} 
+        	{{ $readonly ? 'readonly' : '' }} >{{ strlen(old($name)) ? old($name) : ($value ?? '') }}</textarea>
         	
         @if (strlen($description))
         	<div class="form-control-description">

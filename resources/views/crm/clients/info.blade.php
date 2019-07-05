@@ -10,7 +10,7 @@
     <!-- Page Content -->
     <div class="content">
 	    <div class="row">
-	        <div class="wr30">
+	        <div class="wr27">
 	        	<div class="block">
 		        	<div class="block-content">
 		        	
@@ -145,9 +145,14 @@
         		        									<div class="col-sm-6 text-right">
         		        										{{ __('ОТЧЕТ') }}:
         		        									</div>
-        		        									<div class="col-sm-6">
-        		        										<a href="{{ route('clients.amlReport', $amlMini->report->id) }}" 
-        		        											class="btn {{ $amlMini->report->status()->id == 1 ? 'btn-dark' : 'btn-success' }}  btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+        		        									<div class="col-sm-6 text-nowrap">
+        		        										@if ($amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
+            		        										<a href="{{ route('clients.amlReportView', $amlMini->report->id) }}" 
+            		        											class="btn btn-success btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+        		        										@else
+            		        										<a href="{{ route('clients.amlReport', $amlMini->report->id) }}" 
+            		        											class="btn btn-dark btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+        		        										@endif
         		        									</div>
     		        									</div>
     		        									@if ($amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)

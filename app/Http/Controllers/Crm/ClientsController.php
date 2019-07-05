@@ -104,8 +104,20 @@ class ClientsController extends BackendController
         $questions = (new AmlReportQuestion())->findAll();
         $dateText = (new \DateTime($amlMini->created_date))->format('d.m.Y');
         $statusList = (new AmlReportStatus())->findAll();
+        $currentEmployee = Auth::user()->employee;
         return view('crm.clients.amlReport', compact('amlReport', 'amlMini', 
-                'client', 'countries', 'questions', 'dateText', 'statusList'));
+                'client', 'countries', 'questions', 'dateText', 'statusList', 'currentEmployee'));
+    }
+    
+    public function amlReportView($id)
+    {
+        $amlReport = AmlReport::find($id);
+        $amlMini = $amlReport->miniQuest;
+        $client = $amlReport->client;
+        $countries = Country::orderBy('name')->get();
+        $questions = (new AmlReportQuestion())->findAll();
+        return view('crm.clients.amlReportView', compact('amlReport', 'amlMini',
+                'client', 'countries', 'questions'));
     }
     
     public function amlReportStore(AmlReportRequest $request, $id)
@@ -116,7 +128,7 @@ class ClientsController extends BackendController
         }
         
         $amlReport->fill($request->all());
-        
+                
         $user = Auth::user();
         $amlReport->responsible_id = $user->employee_id ?: null; 
         $amlReport->check_date = date('Y-m-d H:i:s');

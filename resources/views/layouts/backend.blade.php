@@ -81,7 +81,7 @@
         
         
         <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed">
-           
+            
             <!-- Side Overlay-->
             <aside id="side-overlay" class="font-size-sm">
                 <!-- Side Header -->
@@ -238,21 +238,22 @@
                             <i class="fa fa-fw fa-bars"></i>
                         </button>
                         <!-- END Toggle Sidebar -->
-
+						
                         <!-- Toggle Mini Sidebar -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
                         <button type="button" class="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" data-toggle="layout" data-action="sidebar_mini_toggle">
                             <i class="fa fa-fw fa-ellipsis-v"></i>
                         </button>
                         <!-- END Toggle Mini Sidebar -->
-
+						{{--
                         <!-- Apps Modal -->
                         <!-- Opens the Apps modal found at the bottom of the page, after footer’s markup -->
                         <button type="button" class="btn btn-sm btn-dual mr-2" data-toggle="modal" data-target="#one-modal-apps">
                             <i class="si si-grid"></i>
                         </button>
                         <!-- END Apps Modal -->
-
+						--}}
+						
                         <!-- Open Search Section (visible on smaller screens) -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                         <button type="button" class="btn btn-sm btn-dual d-sm-none" data-toggle="layout" data-action="header_search_on">
@@ -290,10 +291,13 @@
                                 <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
+                                {{--
                                 <div class="p-3 text-center bg-primary">
                                     <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="">
                                 </div>
+                                --}}
                                 <div class="p-2">
+                                	{{--
                                     <h5 class="dropdown-header text-uppercase">User Options</h5>
                                     <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
                                         <span>Inbox</span>
@@ -319,6 +323,8 @@
                                         <span>Lock Account</span>
                                         <i class="si si-lock ml-1"></i>
                                     </a>
+                                    --}}
+                                    
                                     <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('logout') }}"
                                     		onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <span>Log Out</span>
@@ -332,7 +338,7 @@
                             </div>
                         </div>
                         <!-- END User Dropdown -->
-
+						{{--
                         <!-- Notifications Dropdown -->
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -426,6 +432,7 @@
                             <i class="fa fa-fw fa-list-ul fa-flip-horizontal"></i>
                         </button>
                         <!-- END Toggle Side Overlay -->
+                        --}}
                     </div>
                     <!-- END Right Section -->
                 </div>

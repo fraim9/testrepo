@@ -8,6 +8,7 @@ $rows
 $cols
 $labelClass
 $elementClass
+$readonly
 */
 
 $value = $value ?? '';
@@ -17,6 +18,7 @@ $rows = $rows ?? 3;
 $cols = $cols ?? 45;
 $labelClass = $labelClass ?? 'col-md-4';
 $elementClass = $elementClass ?? 'col-md-6';
+$readonly = $readonly ?? false;
 
 ?>
 
@@ -26,7 +28,8 @@ $elementClass = $elementClass ?? 'col-md-6';
     <div class="<?php echo e($elementClass); ?>">
         <textarea id="<?php echo e($name); ?>" type="text" class="form-control<?php echo e($errors->has($name) ? ' is-invalid' : ''); ?>" 
         	name="<?php echo e($name); ?>" cols="<?php echo e($cols); ?>" rows="<?php echo e($rows); ?>"
-        	<?php echo e($required ? 'required' : ''); ?> ><?php echo e(strlen(old($name)) ? old($name) : ($value ?? '')); ?></textarea>
+        	<?php echo e($required ? 'required' : ''); ?> 
+        	<?php echo e($readonly ? 'readonly' : ''); ?> ><?php echo e(strlen(old($name)) ? old($name) : ($value ?? '')); ?></textarea>
         	
         <?php if(strlen($description)): ?>
         	<div class="form-control-description">

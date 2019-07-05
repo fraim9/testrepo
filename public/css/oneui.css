@@ -25641,8 +25641,16 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   max-width: 100px;
 }
 
+.wr27 {
+  width: 27rem;
+}
+
 .wr30 {
   width: 30rem;
+}
+
+.no-border {
+  border: 0 !important;
 }
 
 body {
@@ -25696,4 +25704,8 @@ ul.compact {
 .custom-control.is-invalid ~ .invalid-feedback,
 .custom-control.is-invalid ~ .invalid-tooltip {
   display: block;
+}
+
+.table .table tr::first-child td {
+  border-top: 0 !important;
 }

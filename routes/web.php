@@ -89,6 +89,7 @@ Route::get('/admin/crm/clients/form/{id}', 'Crm\ClientsController@form')->name('
 Route::post('/admin/crm/clients/{id}', 'Crm\ClientsController@store')->name('clients.store');
 Route::delete('/admin/crm/clients/{id}', 'Crm\ClientsController@delete')->name('clients.delete');
 Route::get('/admin/crm/clients/info/{id}', 'Crm\ClientsController@info')->name('clients.info');
+Route::get('/admin/crm/clients/amlReportView/{id}', 'Crm\ClientsController@amlReportView')->name('clients.amlReportView');
 Route::get('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReport')->name('clients.amlReport');
 Route::post('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReportStore')->name('clients.amlReportStore');
 

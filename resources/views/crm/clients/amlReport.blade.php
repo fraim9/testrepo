@@ -193,13 +193,23 @@
     										@endif
     										
     										@if ($question->type == 'employee')
-    										
+    											@php
+                                                    $q23 = 'Принял: ' . ($amlReport->initiator_id ? $amlReport->initiator->position . ' ' . $amlReport->initiator->name : '---') . "\n";
+                                                    $q23 .= 'Обновил: ' . ($currentEmployee ? $currentEmployee->position . ' ' . $currentEmployee->name : '---' );
+    											@endphp
+    											
     											@include('helpers.formTextarea', [
                     								'name' => 'questionnaire[' . $question->id . ']', 
                     								'label' => '', 
-                    								'value' => $amlReport->questionnaire[$question->id] ?? ($amlReport->initiator_id ? $amlReport->initiator->position . ' ' . $amlReport->initiator->name : ''),
+                    								'value' => $q23,
                     								'elementClass' => 'col-md-8',
+                    								'readonly' => true
                     							])
+    											
+    											<div class="row">
+    												<div class="col-md-8 offset-md-4">
+    												</div>
+    											</div>
                     							
     										@endif
     										
