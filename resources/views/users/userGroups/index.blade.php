@@ -34,7 +34,7 @@
 			        				<ul class="text-small compact">
 									@foreach ($userRights as $userRight)
 										<li>
-											<span class="">{{ $userRight->name }}</span>:
+											<span class="">{{ __($userRight->name) }}</span>:
 											<span class="text-info">{{ $userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---' }}</span>
 										</li>
 									@endforeach

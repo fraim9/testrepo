@@ -13,7 +13,6 @@
 	        <div class="wr27">
 	        	<div class="block">
 		        	<div class="block-content">
-		        	
 		        		@php
 		        			$datetimeFormat = 'd M Y H:i:s';
 		        			$bdText = '';
@@ -25,8 +24,8 @@
 		        			$no = '<i class="fa fa-square"></i>';
 		        			
 		        			$fileLink = $client->consent_file ? 
-		        				'<a href="' . route('file.view', $client->consent_file) . '" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> ' . __('просмотр') . '</a>' . 
-		        				'<a href="' . route('file.download', $client->consent_file) . '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' . __('скачать') . '</a>' 
+		        				'<a href="' . route('file.view', $client->consent_file) . '" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> ' . __('Просмотр') . '</a>' . 
+		        				'<a href="' . route('file.download', $client->consent_file) . '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' . __('Скачать') . '</a>' 
 		        			: '---';
 		        			
 		        			$data = [
@@ -90,7 +89,7 @@
 			        			<tbody>
                 					@foreach($rows as $name => $value)
                 						<tr>
-        		        					<td style="width:33%" class="text-small text-muted">{{ $name }}</td>
+        		        					<td style="width:45%" class="text-small text-muted">{{ $name }}</td>
         		        					<td class="">{!! $value !!}</td>
         		        				</tr>
                 					@endforeach
@@ -137,21 +136,21 @@
 		        							<td colspan="3" class="">
 		        								<div class="row">
 		        									<div class="col-sm-6">
-        												<a href="{{ route('file.view', $amlMini->questionnaire_file) }}" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> {{ __('просмотр') }}</a>
-        						        				<a href="{{ route('file.download', $amlMini->questionnaire_file) }}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ __('скачать') }}</a>
+        												<a href="{{ route('file.view', $amlMini->questionnaire_file) }}" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> {{ __('Просмотр') }}</a>
+        						        				<a href="{{ route('file.download', $amlMini->questionnaire_file) }}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ __('Скачать') }}</a>
 		        									</div>
 		        									<div class="col-sm-6">
 		        										<div class="row">
         		        									<div class="col-sm-6 text-right">
-        		        										{{ __('ОТЧЕТ') }}:
+        		        										{{ __('Отчет') }}:
         		        									</div>
         		        									<div class="col-sm-6 text-nowrap">
         		        										@if ($amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
             		        										<a href="{{ route('clients.amlReportView', $amlMini->report->id) }}" 
-            		        											class="btn btn-success btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+            		        											class="btn btn-success btn-sm"><i class="fa fa-file"></i> {{ __($amlMini->report->status()->name) }}</a>
         		        										@else
             		        										<a href="{{ route('clients.amlReport', $amlMini->report->id) }}" 
-            		        											class="btn btn-dark btn-sm"><i class="fa fa-file"></i> {{ $amlMini->report->status()->name }}</a>
+            		        											class="btn btn-dark btn-sm"><i class="fa fa-file"></i> {{ __($amlMini->report->status()->name) }}</a>
         		        										@endif
         		        									</div>
     		        									</div>

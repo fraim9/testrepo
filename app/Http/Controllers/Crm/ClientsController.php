@@ -137,7 +137,7 @@ class ClientsController extends BackendController
         $amlReport->modified_by = Auth::id();
         $amlReport->save();
         
-        return redirect()->route('clients.info', ['clientId' => $amlReport->client])->with('success', 'Report has been saved');
+        return redirect()->route('clients.info', ['clientId' => $amlReport->client])->with('success', __('messages.reportAmlSaved'));
     }
     
     

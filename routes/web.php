@@ -35,6 +35,8 @@ Route::get('/admin/settings/time-zones/form/{id}', 'Settings\TimeZonesController
 Route::post('/admin/settings/time-zones/{id}', 'Settings\TimeZonesController@store')->name('timeZones.store');
 Route::delete('/admin/settings/time-zones/{id}', 'Settings\TimeZonesController@delete')->name('timeZones.delete');
 
+Route::get('/admin/settings/translate', 'Settings\TranslationController@index')->name('translations.index');
+Route::post('/admin/settings/translate', 'Settings\TranslationController@store')->name('translations.store');
 
 //=== USERS ===
 

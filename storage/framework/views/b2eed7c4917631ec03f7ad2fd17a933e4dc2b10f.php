@@ -34,7 +34,7 @@
 			        				<ul class="text-small compact">
 									<?php $__currentLoopData = $iposFeatures; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $iposFeature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 										<li>
-											<span class=""><?php echo e($iposFeature->name); ?></span>:
+											<span class=""><?php echo e(__($iposFeature->name)); ?></span>:
 											<?php echo $__env->make('helpers.viewBool', ['value' => $group->ipos_settings[$iposFeature->id]], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 										</li>
 									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

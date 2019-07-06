@@ -34,7 +34,7 @@
 			        				<ul class="text-small compact">
 									@foreach ($iposFeatures as $iposFeature)
 										<li>
-											<span class="">{{ $iposFeature->name }}</span>:
+											<span class="">{{ __($iposFeature->name) }}</span>:
 											@include('helpers.viewBool', ['value' => $group->ipos_settings[$iposFeature->id]])
 										</li>
 									@endforeach

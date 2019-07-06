@@ -34,7 +34,7 @@
 			        				<ul class="text-small compact">
 									<?php $__currentLoopData = $userRights; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $userRight): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 										<li>
-											<span class=""><?php echo e($userRight->name); ?></span>:
+											<span class=""><?php echo e(__($userRight->name)); ?></span>:
 											<span class="text-info"><?php echo e($userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---'); ?></span>
 										</li>
 									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
