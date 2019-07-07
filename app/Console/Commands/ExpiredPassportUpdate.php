@@ -19,7 +19,7 @@ class ExpiredPassportUpdate extends Command
      *
      * @var string
      */
-    protected $description = 'Update the base of expired passport numbers';
+    protected $description = 'Update the database of expired passport numbers';
 
     /**
      * Create a new command instance.
