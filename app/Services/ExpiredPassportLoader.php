@@ -61,7 +61,7 @@ class ExpiredPassportLoader
         $filename = storage_path('downloads' . DIRECTORY_SEPARATOR . $this->_unzippedFilename);
         $fp = fopen($filename, 'r');
         if ($fp) {
-            $t = 0;
+            //$t = 0;
             $i = 0;
             $values = [];
             while ($row = fgetcsv($fp, null, ',')) {
@@ -74,9 +74,9 @@ class ExpiredPassportLoader
                     $values = [];
                 }
                 
-                if ($t++ > 100000) {
-                    break;
-                }
+                //if ($t++ > 100000) {
+                //    break;
+                //}
             }
             fclose($fp);
         }
