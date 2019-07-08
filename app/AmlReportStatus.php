@@ -3,22 +3,15 @@
 namespace App;
 
 
-class AclResources extends AppModelList {
+class AmlReportStatus extends AppModelList {
     
-    protected function _init() 
+    const DRAFT = 1;
+    const COMPLETED = 2;
+    
+    protected function _init()
     {
-        $this->_add('backendAccess', 'Доступ к OmniPOS BackOffice');
-        
-        $this->_add('users', 'Управление пользователями');
-        $this->_add('userGroups', 'Настройка групп пользователей');
-        
-        $this->_add('settings', 'Доступ к общим настройкам');
-
-        $this->_add('stores', 'Настройка магазинов');
-        $this->_add('storeGroups', 'Настройка групп магазинов');
-        $this->_add('prices', 'Настройка типов цен');
-        
+        $this->_add(self::DRAFT, 'Черновик');
+        $this->_add(self::COMPLETED, 'Подписан');
     }
     
 }
-
