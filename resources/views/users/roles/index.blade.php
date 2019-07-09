@@ -22,6 +22,7 @@
 		        	<thead>
 		        		<tr>
 		        			<th>{{ __('Name') }}</th>
+		        			<th>{{ __('Access to resources') }}</th>
 		        			<th>{{ __('Created') }}</th>
 		        			<th>{{ __('Action') }}</th>
 		        		</tr>
@@ -30,6 +31,19 @@
 			        	@foreach ($roles as $role)
 			        		<tr>
 			        			<td>{{ $role->name }}</td>
+			        			<td>
+        							@if ($groups)
+        								@foreach ($groups as $group)
+        									@if ($resourceByGroup[$group->id])
+	   											<div class="text-small"><strong>{{ $group->name }}</strong>:
+                    								@foreach ($resourceByGroup[$group->id] as $resource)
+                    									<span class="{{ (isset($role->rights[$resource->id]) && $role->rights[$resource->id]) ? 'text-success' : 'text-muted' }}">{{ $resource->name }}</span>, 
+                    								@endforeach
+	                							</div>
+                   							@endif
+        								@endforeach
+        							@endif
+								</td>
 			        			<td class="text-center">
 			        				@include('helpers.viewDate', ['value' => $role->created_date])
 			        			</td>

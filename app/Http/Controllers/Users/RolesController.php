@@ -16,7 +16,13 @@ class RolesController extends BackendController
     public function index()
     {
         $roles = AclRole::all();
-        return view('users.roles.index', compact('roles'));
+        $resources = (new AclResources())->findAll();
+        $resourceByGroup = [];
+        foreach ($resources as $resource) {
+            $resourceByGroup[$resource->group][$resource->id] = $resource;
+        }
+        $groups = (new AclResourceGroups())->findAll();
+        return view('users.roles.index', compact('roles', 'resourceByGroup', 'groups'));
     }
 
     
