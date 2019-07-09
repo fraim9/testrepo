@@ -32,12 +32,17 @@ class AuthServiceProvider extends ServiceProvider
         $resources = AclResources::all();
         foreach ($resources as $resource) {
             Gate::define($resource->id, function ($user) use ($resource) {
-                //return $user->role_id && $user->role && isset($user->role->rights[$resource->id]) && $user->role->rights[$resource->id];
+                // strong variant
+                 return $user->role_id && $user->role && isset($user->role->rights[$resource->id]) && $user->role->rights[$resource->id];
+                
+                // soft variant
+                /*
                 if ($user->role_id && $user->role && isset($user->role->rights[$resource->id])) {
                     return $user->role->rights[$resource->id];
                 } else {
                     return true;
                 }
+                */
             });
         }
         
