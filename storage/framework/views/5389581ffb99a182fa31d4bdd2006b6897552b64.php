@@ -77,6 +77,11 @@
                 	<span class="nav-main-link-name"><?php echo e(__('User groups')); ?></span>
                 </a>
             </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link<?php echo e(request()->is('*/user-acl-roles*') ? ' active' : ''); ?>" href="<?php echo e(route('aclRoles.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('ACL roles')); ?></span>
+                </a>
+            </li>
         </ul>
     </li>
     <li class="nav-main-item<?php echo e(request()->is('admin/settings*') ? ' open' : ''); ?>">

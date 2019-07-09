@@ -43,6 +43,15 @@
 							])
 							
 							@include('helpers.formSelect', [
+								'name' => 'role_id', 
+								'label' => 'ACL Role', 
+								'value' => $user->role_id ?? '',
+								'options' => array_column($roles->toArray(), 'name', 'id'),
+								'required' => true,
+								'emptyValue' => true,
+							])
+								
+							@include('helpers.formSelect', [
 								'name' => 'employee_id', 
 								'label' => 'Employee', 
 								'value' => $user->employee_id ?? '',

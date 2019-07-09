@@ -10,7 +10,8 @@ use App\Division;
 
 class DivisionsController extends BackendController
 {
-
+    protected $_aclResource = 'divisions';
+    
     public function index()
     {
         $divisions = Division::all(); 

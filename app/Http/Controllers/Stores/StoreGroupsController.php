@@ -10,6 +10,7 @@ use App\IposFeatures;
 
 class StoreGroupsController extends BackendController
 {
+    protected $_aclResource = 'storeGroups';
 
     public function index()
     {

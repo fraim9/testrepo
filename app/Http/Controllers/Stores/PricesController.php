@@ -9,7 +9,8 @@ use App\Price;
 
 class PricesController extends BackendController
 {
-
+    protected $_aclResource = 'prices';
+    
     public function index()
     {
         $prices = Price::all();

@@ -11,7 +11,8 @@ use App\Division;
 
 class EmployeesController extends BackendController
 {
-
+    protected $_aclResource = 'employees';
+    
     public function index()
     {
         $employees = Employee::all();

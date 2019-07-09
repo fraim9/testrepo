@@ -7,9 +7,11 @@ use App\Http\Controllers\BackendController;
 use App\Http\Requests\AclRole as AclRoleRequest;
 use App\AclRole;
 use App\AclResources;
+use App\AclResourceGroups;
 
 class RolesController extends BackendController
 {
+    protected $_aclResource = 'aclRoles';
 
     public function index()
     {
@@ -22,7 +24,12 @@ class RolesController extends BackendController
     {
         $role = $id ? AclRole::find($id) : null;
         $resources = (new AclResources())->findAll();
-    	return view('users.roles.form', compact('role', 'resources'));
+        $resourceByGroup = [];
+        foreach ($resources as $resource) {
+            $resourceByGroup[$resource->group][$resource->id] = $resource;
+        }
+        $groups = (new AclResourceGroups())->findAll();
+    	return view('users.roles.form', compact('role', 'resourceByGroup', 'groups'));
     }
     
     public function store(AclRoleRequest $request, $id)
@@ -35,6 +42,14 @@ class RolesController extends BackendController
             $role->created_date = date('Y-m-d H:i:s');
 	    }
 	    $role->fill($request->all());
+	    
+	    $resources = (new AclResources())->findAll();
+	    $rights = [];
+	    foreach ($resources as $resource) {
+	        $rights[$resource->id] = ($request->input('rights.' . $resource->id) == 1) ? true : false;
+	    }
+	    $role->rights = $rights;
+	    
 	    
 	    $role->modified_date = date('Y-m-d H:i:s');
 	    $role->modified_by = (int) Auth::id();

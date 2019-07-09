@@ -10,7 +10,8 @@ use App\IposUserRights;
 
 class UserGroupsController extends BackendController
 {
-
+    protected $_aclResource = 'userGroups';
+    
     public function index()
     {
         $groups = UserGroup::all();

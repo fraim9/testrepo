@@ -10,7 +10,8 @@ use App\City;
 
 class CitiesController extends BackendController
 {
-
+    protected $_aclResource = 'settings';
+    
     public function index()
     {
         $cities = City::orderBy('name')->get();

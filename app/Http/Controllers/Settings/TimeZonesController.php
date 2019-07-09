@@ -8,7 +8,8 @@ use App\TimeZone;
 
 class TimeZonesController extends BackendController
 {
-
+    protected $_aclResource = 'settings';
+    
     public function index()
     {
         $zones = TimeZone::orderBy('name')->get();

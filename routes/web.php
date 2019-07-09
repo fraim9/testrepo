@@ -51,10 +51,10 @@ Route::get('/admin/users/form/{id}', 'Users\UsersController@form')->name('users.
 Route::post('/admin/users/{id}', 'Users\UsersController@store')->name('users.store');
 Route::delete('/admin/users/{id}', 'Users\UsersController@delete')->name('users.delete');
 
-Route::get('/admin/aclRoles', 'Users\RolesController@index')->name('aclRoles.index');
-Route::get('/admin/aclRoles/form/{id}', 'Users\RolesController@form')->name('aclRoles.form');
-Route::post('/admin/aclRoles/{id}', 'Users\RolesController@store')->name('aclRoles.store');
-Route::delete('/admin/aclRoles/{id}', 'Users\RolesController@delete')->name('aclRoles.delete');
+Route::get('/admin/user-acl-roles', 'Users\RolesController@index')->name('aclRoles.index');
+Route::get('/admin/user-acl-roles/form/{id}', 'Users\RolesController@form')->name('aclRoles.form');
+Route::post('/admin/user-acl-roles/{id}', 'Users\RolesController@store')->name('aclRoles.store');
+Route::delete('/admin/user-acl-roles/{id}', 'Users\RolesController@delete')->name('aclRoles.delete');
 
 
 //=== STORES ===

@@ -7,68 +7,40 @@
 	        <div class="col-md-10">
 	        
 	        	<div class="block">
-					<form method="post" action="{{ route('users.store', $user ? $user->id : 0) }}">
+					<form method="post" action="{{ route('aclRoles.store', $role ? $role->id : 0) }}">
 						@csrf
     	        		<div class="block-header block-header-default">
-    	        			<h3 class="block-title">{{ __($user ? 'Edit user' : 'Add user') }}</h3>
+    	        			<h3 class="block-title">{{ __($role ? 'Edit role' : 'Add role') }}</h3>
     	        		</div>
     					<div class="block-content">
 							
 							@include('helpers.formText', [
-								'name' => 'username', 
-								'label' => 'Username', 
+								'name' => 'name', 
+								'label' => 'Name', 
 								'required' => true,
-								'value' => $user->username ?? ''
-							])
-								
-							@include('helpers.formText', [
-								'name' => 'password', 
-								'label' => 'Password', 
-								'description' => 'Here you can set a new password', 
-								'value' => ''
-							])
-								
-							@include('helpers.formText', [
-								'name' => 'display_name', 
-								'label' => 'Display name', 
-								'required' => true,
-								'value' => $user->display_name ?? ''
-							])
-								
-							@include('helpers.formText', [
-								'name' => 'email', 
-								'label' => 'E-mail', 
-								'required' => true,
-								'value' => $user->email ?? ''
+								'value' => $role->name ?? ''
 							])
 							
-							@include('helpers.formSelect', [
-								'name' => 'employee_id', 
-								'label' => 'Employee', 
-								'value' => $user->employee_id ?? '',
-								'options' => array_column($employees->toArray(), 'name', 'id'),
-								'emptyValue' => true,
-							])
-								
-							@include('helpers.formSelect', [
-								'name' => 'group_id', 
-								'label' => 'User group', 
-								'required' => true,
-								'value' => $user->group_id ?? '',
-								'options' => array_column($userGroups->toArray(), 'name', 'id')
-							])
-
-							@include('helpers.formCheckbox', [
-								'name' => 'email_subscribe', 
-								'label' => 'Email subscribe', 
-								'value' => $user->email_subscribe ?? true,
-							])
+							@if ($groups)
+								@foreach ($groups as $group)
+									<hr>
+									<div class="row">
+										<div class="offset-md-4 col-md-8">
+											<h6>{{ $group->name }}</h6>
+										</div>
+									</div>
+									@if ($resourceByGroup[$group->id])
+        								@foreach ($resourceByGroup[$group->id] as $resource)
+        									@include('helpers.formCheckbox', [
+        										'name' => 'rights[' . $resource->id . ']', 
+                								'label' => $resource->name, 
+                								'value' => $role->rights[$resource->id] ?? false
+                							])
+        								@endforeach
+        							@endif
+								@endforeach
+							@endif
 							
-							@include('helpers.formCheckbox', [
-								'name' => 'active', 
-								'label' => 'User is active', 
-								'value' => $user->active ?? true,
-							])
 							
     					</div>
     					

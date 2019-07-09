@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class TranslationController extends BackendController
 {
-
+    protected $_aclResource = 'settings';
+    
     public function index()
     {
         $lang = 'en';

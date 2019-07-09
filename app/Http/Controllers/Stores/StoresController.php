@@ -14,7 +14,8 @@ use App\Price;
 
 class StoresController extends BackendController
 {
-
+    protected $_aclResource = 'stores';
+    
     public function index()
     {
         $stores = Store::all();

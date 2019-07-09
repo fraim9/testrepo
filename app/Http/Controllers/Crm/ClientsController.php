@@ -20,7 +20,9 @@ use App\AmlReportStatus;
 
 class ClientsController extends BackendController
 {
-
+    protected $_aclResource = 'clients';
+    
+    
     public function index()
     {
         $clients = Client::all();

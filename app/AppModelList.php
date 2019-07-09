@@ -4,7 +4,23 @@ namespace App;
 
 class AppModelList
 {
+    static protected $_instance = null;
+    
     protected $_items = [];
+    
+    public static function getInstance()
+    {
+        if (null === static::$_instance) {
+            static::$_instance = new static();
+        }
+        
+        return static::$_instance;
+    }
+    
+    public static function all()
+    {
+        return static::getInstance()->findAll();
+    }
     
     public function __construct()
     {

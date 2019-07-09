@@ -22,7 +22,7 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $fillable = [
-			'username', 'email', 'group_id', 
+			'username', 'email', 'group_id', 'role_id',
 	        'display_name', 'email_subscribe', 'active',
 	        'employee_id'
 	];
@@ -57,5 +57,11 @@ class User extends Authenticatable
 	{
 	    return $this->belongsTo('App\Employee');
 	}
+	
+	public function role()
+	{
+	    return $this->belongsTo('App\AclRole');
+	}
+	
 	
 }

@@ -9,7 +9,8 @@ use App\Country;
 
 class CountriesController extends BackendController
 {
-
+    protected $_aclResource = 'settings';
+    
     public function index()
     {
     	$countries = Country::orderBy('name')->get();

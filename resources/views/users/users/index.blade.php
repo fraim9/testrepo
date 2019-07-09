@@ -25,6 +25,7 @@
 		        			<th>{{ __('Display name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
 		        			<th>{{ __('User group') }}</th>
+		        			<th>{{ __('ACL Role') }}</th>
 		        			<th>{{ __('Subscribe') }}</th>
 		        			<th>{{ __('Created') }}</th>
 		        			<th>{{ __('Action') }}</th>
@@ -39,6 +40,7 @@
 			        			<td>{{ $user->display_name }}</td>
 			        			<td>{{ $user->email }}</td>
 			        			<td>{{ $user->group->name }}</td>
+			        			<td>{{ $user->role ? $user->role->name : '---' }}</td>
 			        			<td class="text-center">
 			        				@include('helpers.viewBool', ['value' => $user->email_subscribe])
 			        			</td>

@@ -9,10 +9,12 @@ use App\Http\Requests\User as UserRequest;
 use App\User;
 use App\UserGroup;
 use App\Employee;
+use App\AclRole;
 
 class UsersController extends BackendController
 {
-
+    protected $_aclResource = 'users';
+    
     public function index()
     {
         $users = User::all();
@@ -25,7 +27,8 @@ class UsersController extends BackendController
         $user = $id ? User::find($id) : null;
         $userGroups = UserGroup::orderBy('name')->get();
         $employees = Employee::orderBy('name')->where('active', '=', 1)->get();
-    	return view('users.users.form', compact('user', 'userGroups', 'employees'));
+        $roles = AclRole::orderBy('name')->get();
+    	return view('users.users.form', compact('user', 'userGroups', 'employees', 'roles'));
     }
     
     public function store(UserRequest $request, $id)
