@@ -12,8 +12,8 @@ class ExpiredPassportLoader
     
     public function run()
     {
-        $this->download();
-        $this->unpack();
+        //$this->download();
+        //$this->unpack();
         $this->loadToDb();
     }
     
@@ -56,12 +56,13 @@ class ExpiredPassportLoader
         
         $conn = DB::connection('omnipos_auth');
         $conn->statement('TRUNCATE ' . $tableName);
-        $conn->statement('ALTER TABLE ' . $tableName . ' DISABLE KEYS');
+        $conn->statement('ALTER TABLE `' . $tableName . '` DROP PRIMARY KEY');
+        //$conn->statement('ALTER TABLE ' . $tableName . ' DISABLE KEYS');
 
         $filename = storage_path('downloads' . DIRECTORY_SEPARATOR . $this->_unzippedFilename);
         $fp = fopen($filename, 'r');
         if ($fp) {
-            //$t = 0;
+            $t = 0;
             $i = 0;
             $values = [];
             while ($row = fgetcsv($fp, null, ',')) {
@@ -74,14 +75,15 @@ class ExpiredPassportLoader
                     $values = [];
                 }
                 
-                //if ($t++ > 100000) {
-                //    break;
-                //}
+                if ($t++ > 1000000) {
+                    break;
+                }
             }
             fclose($fp);
         }
         
-        $conn->statement('ALTER TABLE ' . $tableName . ' ENABLE KEYS');
+        $conn->statement('ALTER TABLE `' . $tableName . '` ADD PRIMARY KEY (`series`, `number`)');
+        //$conn->statement('ALTER TABLE ' . $tableName . ' ENABLE KEYS');
         
         $manager->switchTables();
     }
