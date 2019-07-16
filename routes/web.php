@@ -121,8 +121,8 @@ Route::post('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlRepor
 
 
 //=== FILES ===
-Route::get('/admin/file/view/{filename}', 'FilesController@view')->name('file.view');
-Route::get('/admin/file/download/{filename}', 'FilesController@download')->name('file.download');
+Route::get('/admin/file/view/{fileId}', 'FilesController@view')->name('file.view');
+Route::get('/admin/file/download/{fileId}', 'FilesController@download')->name('file.download');
 
 
 //=== API ===

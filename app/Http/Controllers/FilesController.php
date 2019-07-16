@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\FileSequence;
+use App\Settings;
 
 class FilesController extends BackendController
 {
 
     
-    public function view($filename)
+    public function view($fileId)
     {
-        $fullFilename = $this->_getFullName($filename);
+        $fullFilename = $this->_getFullName($fileId);
         return response()->file($fullFilename);
     }
     
-    public function download($filename)
+    public function download($fileId)
     {
-        $fullFilename = $this->_getFullName($filename);
-        return response()->download($fullFilename, $filename);
+        $fullFilename = $this->_getFullName($fileId);
+        return response()->download($fullFilename,  pathinfo($fullFilename, PATHINFO_BASENAME));
     }
     
-    protected function _getFullName($filename)
+    protected function _getFullName($fileId)
     {
-        $path = '/Users/roman/WebServers/clt-omnipos2/files';
-        $path = '/home/cltmobiftp/htdocs/omnipos/files';
+        $settings = Settings::Storage();
+        $file = FileSequence::findOrFail($fileId);
         
-        $fullFilename = $path . DIRECTORY_SEPARATOR . $filename;
+        if ($file->cold) {
+            $path = $settings->doc['localStorage']['folderPathCold'];
+        } else {
+            $path = $settings->doc['localStorage']['folderPath'];
+        }
+        
+        $fullFilename = rtrim($path, '\\/') . DIRECTORY_SEPARATOR . sprintf("%010d", intval($file->id)) . '.' . $file->extension;
         if (!is_readable($fullFilename)) {
             abort(404);
         }

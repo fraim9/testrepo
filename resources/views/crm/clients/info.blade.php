@@ -23,9 +23,9 @@
 		        			$yes = '<i class="fa fa-check-square text-success"></i>';
 		        			$no = '<i class="fa fa-square"></i>';
 		        			
-		        			$fileLink = $client->consent_file ? 
-		        				'<a href="' . route('file.view', $client->consent_file) . '" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> ' . __('Просмотр') . '</a>' . 
-		        				'<a href="' . route('file.download', $client->consent_file) . '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' . __('Скачать') . '</a>' 
+		        			$fileLink = $client->consent_file_id ? 
+		        				'<a href="' . route('file.view', $client->consent_file_id) . '" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> ' . __('Просмотр') . '</a>' . 
+		        				'<a href="' . route('file.download', $client->consent_file_id) . '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' . __('Скачать') . '</a>' 
 		        			: '---';
 		        			
 		        			$data = [
@@ -136,8 +136,8 @@
 		        							<td colspan="3" class="">
 		        								<div class="row">
 		        									<div class="col-sm-6">
-        												<a href="{{ route('file.view', $amlMini->questionnaire_file) }}" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> {{ __('Просмотр') }}</a>
-        						        				<a href="{{ route('file.download', $amlMini->questionnaire_file) }}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ __('Скачать') }}</a>
+        												<a href="{{ route('file.view', $amlMini->questionnaire_file_id) }}" target="_blank" class="btn btn-primary btn-sm mr-1"><i class="fa fa-eye"></i> {{ __('Просмотр') }}</a>
+        						        				<a href="{{ route('file.download', $amlMini->questionnaire_file_id) }}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ __('Скачать') }}</a>
 		        									</div>
 		        									<div class="col-sm-6">
 		        										<div class="row">

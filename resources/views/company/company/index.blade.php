@@ -18,7 +18,7 @@
 			        		$datetimeFormat = 'd M Y H:i:s';
 		        			$data = [
 		        				__('Общая информация') => [
-		        					__('ID') => $company ? $company->id : '---',
+		        					//__('ID') => $company ? $company->id : '---',
 		        					__('Name') => $company ? $company->name : '---',
 		        					__('Description') => $company ? nl2br($company->description) : '---',
 		        					__('Phone') => $company ? $company->phone : '---',

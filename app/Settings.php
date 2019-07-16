@@ -39,6 +39,16 @@ class Settings extends AppModel
 	    
 	}
 	
+	public static function iPos()
+	{
+	    return static::query()->find('iPOS');
+	}
+	
+	public static function Storage()
+	{
+	    return static::query()->find('Storage');
+	}
+	
 	
 }
 
