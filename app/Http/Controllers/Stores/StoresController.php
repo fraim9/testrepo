@@ -11,6 +11,7 @@ use App\Country;
 use App\City;
 use App\TimeZone;
 use App\Price;
+use App\Company;
 
 class StoresController extends BackendController
 {
@@ -32,8 +33,10 @@ class StoresController extends BackendController
         $timeZoneModel = new TimeZone();
         $timeZones = $timeZoneModel->asOptions();
         $prices = Price::orderBy('name')->get();
+        $companyInfo = Company::getInfo();
+
     	return view('stores.stores.form', compact('store', 'storeGroups', 'countries',
-    	        'cities', 'timeZones', 'prices'));
+    	        'cities', 'timeZones', 'prices', 'companyInfo'));
     }
     
     public function store(StoreRequest $request, $id)

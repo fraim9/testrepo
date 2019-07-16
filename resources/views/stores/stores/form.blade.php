@@ -5,7 +5,11 @@
 	<div class="container">
 	    <div class="row justify-content-center">
 	        <div class="col-md-10">
-	        
+	        	<?php 
+	        	echo '<pre>';
+	        	print_r($companyInfo->country_id);
+	        	echo '</pre>';
+	        	?>
 	        	<div class="block">
 					<form method="post" action="{{ route('stores.store', $store ? $store->id : 0) }}">
 						@csrf
@@ -56,21 +60,21 @@
 							@include('helpers.formSelect', [
 								'name' => 'country_id', 
 								'label' => 'Country', 
-								'value' => $store->country_id ?? '',
+								'value' => isset($store->country_id) ? $store->country_id : $companyInfo->country_id,
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
 
 							@include('helpers.formSelect', [
 								'name' => 'city_id', 
 								'label' => 'City', 
-								'value' => $store->city_id ?? '',
+								'value' => isset($store->city_id) ? $store->city_id : $companyInfo->city_id,
 								'options' => array_column($cities->toArray(), 'name', 'id')
 							])
 
 							@include('helpers.formSelect', [
 								'name' => 'time_zone_id', 
 								'label' => 'Time zone', 
-								'value' => $store->time_zone_id ?? '',
+								'value' => isset($store->time_zone_id) ? $store->time_zone_id : $companyInfo->time_zone_id,
 								'options' => $timeZones
 							])
 
@@ -84,7 +88,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'currency', 
 								'label' => 'Currency', 
-								'value' => $store->currency ?? '',
+								'value' => isset($store->currency) ? $store->currency : $companyInfo->currency,
 								'options' => array('RUB' => 'RUB', 'USD' => 'USD', 'EUR' => 'EUR')
 							])
 							

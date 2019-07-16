@@ -11,7 +11,7 @@ class Company extends AppModel
 	
 	protected $fillable = [
 			'name', 'logo', 'description', 'phone', 'country_id',
-	        'city_id', 'address', 'time_zone', 'legal_mentions', 'currency', 
+	        'city_id', 'address', 'time_zone_id', 'legal_mentions', 'currency', 
 	];
 	
 	
