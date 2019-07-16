@@ -32,9 +32,9 @@
 		        				],
 		        				__('Системная информация') => [
 		        					__('Date created') => $company ? (new DateTime($company->created_date))->format($datetimeFormat) : '---',
-		        					__('Created by') => $company ? $company->createdBy->display_name : '---',
+		        					__('Created by') => ($company && $company->createdBy) ? $company->createdBy->display_name : '---',
 		        					__('Date modified') => $company ? (new DateTime($company->modified_date))->format($datetimeFormat) : '---',
-		        					__('Modified by') => $company ? $company->modifiedBy->display_name : '---',
+		        					__('Modified by') => ($company && $company->modifiedBy) ? $company->modifiedBy->display_name : '---',
 		        				],
 		        			];
 		        		@endphp

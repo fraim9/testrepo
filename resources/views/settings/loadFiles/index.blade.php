@@ -16,7 +16,7 @@
     					<form method="post" action="{{ route('loadFiles.store') }}" enctype="multipart/form-data">
     						@csrf
         	        		<div class="block-header block-header-default">
-        	        			<h3 class="block-title">{{ __('Person mass destruction (List_Weapons.xml)') }}</h3>
+        	        			<h3 class="block-title">{{ __('Person mass destruction') }}</h3>
         	        		</div>
         					<div class="block-content">
     							
@@ -65,7 +65,7 @@
     					<form method="post" action="{{ route('loadFiles.store') }}" enctype="multipart/form-data">
     						@csrf
         	        		<div class="block-header block-header-default">
-        	        			<h3 class="block-title">{{ __('Person blocked (List_Accounts_block.xml)') }}</h3>
+        	        			<h3 class="block-title">{{ __('Person blocked') }}</h3>
         	        		</div>
         					<div class="block-content">
     							
@@ -114,7 +114,7 @@
     					<form method="post" action="{{ route('loadFiles.store') }}" enctype="multipart/form-data">
     						@csrf
         	        		<div class="block-header block-header-default">
-        	        			<h3 class="block-title">{{ __('Terrorist (terrorist.xml)') }}</h3>
+        	        			<h3 class="block-title">{{ __('Terrorist') }}</h3>
         	        		</div>
         					<div class="block-content">
     							
