@@ -41,9 +41,9 @@
                                         	data-style="expand-right">{{ __('Load') }}</button>
                                     </div>
                                     <div class="col-md-5 text-right">
-                                    	@if (isset($data['PersonBlokedLoaded']))
+                                    	@if (isset($data['PersonMassDestructionLoaded']))
                                     		@php
-                                    		$action = $data['PersonBlokedLoaded'];
+                                    		$action = $data['PersonMassDestructionLoaded'];
                                     		@endphp
                                     		<div>
                                             	<span class="text-muted text-small">{{ __('Last update') }}: </span>
@@ -90,9 +90,9 @@
                                         	data-style="expand-right">{{ __('Load') }}</button>
                                     </div>
                                     <div class="col-md-5 text-right">
-                                    	@if (isset($data['TerroristLoaded']))
+                                    	@if (isset($data['PersonBlokedLoaded']))
                                     		@php
-                                    		$action = $data['TerroristLoaded'];
+                                    		$action = $data['PersonBlokedLoaded'];
                                     		@endphp
                                         	<div>
                                             	<span class="text-muted text-small">{{ __('Last update') }}: </span>
@@ -139,9 +139,9 @@
                                         	data-style="expand-right">{{ __('Load') }}</button>
                                     </div>
                                     <div class="col-md-5 text-right">
-                                    	@if (isset($data['PersonMassDestructionLoaded']))
+                                    	@if (isset($data['TerroristLoaded']))
                                     		@php
-                                    		$action = $data['PersonMassDestructionLoaded'];
+                                    		$action = $data['TerroristLoaded'];
                                     		@endphp
                                         	<div>
                                             	<span class="text-muted text-small">{{ __('Last update') }}: </span>
