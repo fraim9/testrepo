@@ -25,6 +25,7 @@
 		        			<th><?php echo e(__('ISO 3')); ?></th>
 		        			<th><?php echo e(__('Name')); ?></th>
 		        			<th><?php echo e(__('Calling code')); ?></th>
+		        			<th><?php echo e(__('AML Risk')); ?></th>
 		        			<th><?php echo e(__('Action')); ?></th>
 		        		</tr>
 		        	</thead>
@@ -35,6 +36,11 @@
 			        			<td><?php echo e($country->iso3); ?></td>
 			        			<td><?php echo e($country->name); ?></td>
 			        			<td><?php echo e($country->calling_code); ?></td>
+			        			<td class="text-center"><?php if($country->aml_risk): ?>
+			        				<i class="fa fa-exclamation-triangle text-warning"></i>
+			        			<?php else: ?>
+			        				---
+			        			<?php endif; ?></td>
 			        			<td class="text-center">
 									<div class="btn-group">
 										<?php echo $__env->make('helpers.btnEdit', [
@@ -75,7 +81,7 @@
         	// Init full DataTable
             jQuery('.js-dataTable').dataTable({
             	'columnDefs': [
-					{ "width": "80px", targets: [ 4 ] }
+					{ "width": "80px", targets: [ 5 ] }
 				]
             });
 

@@ -25629,6 +25629,10 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   font-size: 0.85rem;
 }
 
+.text-smallest {
+  font-size: 0.75rem;
+}
+
 .mw50 {
   max-width: 50px;
 }

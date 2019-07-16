@@ -103,7 +103,9 @@ class ClientsController extends BackendController
         $amlMini = $amlReport->miniQuest;
         $client = $amlReport->client;
         $countries = Country::orderBy('name')->get();
-        $questions = (new AmlReportQuestion())->findAll();
+        $amlReportQuestions = new AmlReportQuestion();
+        $amlReportQuestions->setAmlMini($amlMini);
+        $questions = $amlReportQuestions->findAll();
         $dateText = (new \DateTime($amlMini->created_date))->format('d.m.Y');
         $statusList = (new AmlReportStatus())->findAll();
         $currentEmployee = Auth::user()->employee;

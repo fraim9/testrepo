@@ -40,6 +40,12 @@
 								'required' => true,
 								'value' => $country->calling_code ?? ''
 							])
+							
+							@include('helpers.formCheckbox', [
+								'name' => 'aml_risk', 
+								'label' => 'AML Risk', 
+								'value' => $country->aml_risk ?? false,
+							])
 								
     					</div>
     					

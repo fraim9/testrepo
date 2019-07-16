@@ -271,9 +271,16 @@ class AmlReportQuestion extends AppModelList {
                         'default' => 'Отсутствуют',
                 ]);
         
-        
-        
-        
+    }
+    
+    public function setAmlMini($amlMini)
+    {
+        // проверка на публичное лицо или гражданство рисковой страны 
+        if ($amlMini->questionnaire['PublicOfficial']) {
+            $this->_items['q_20']->default = 'Повышенный. Клиент и/или выгодоприобретателями и/или бенефициарными владельцами клиента являются иностранные публичные должностные лица, их супруги, близкие родственники';
+        } else if ($amlMini->citizenship->aml_risk) {
+            $this->_items['q_20']->default = 'Повышенный. Гражданство страны, входящей в перечень стран с высоким риском';
+        }
     }
     
 }

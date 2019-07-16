@@ -10,6 +10,8 @@ class IposFeatures extends AppModelList
     const ACTIVITIES = 'activities'; 
     const DASHBOARD = 'dashboard'; 
     const ITEM_REQUESTS = 'itemRequests'; 
+    const MOBILE_CHECKOUT = 'mobileCheckout'; 
+    const AML = 'aml'; 
     
     protected function _init() 
     {
@@ -18,6 +20,8 @@ class IposFeatures extends AppModelList
         $this->_add(self::ACTIVITIES, __('Активности (контакты с клиентами)'));
         $this->_add(self::DASHBOARD, __('Аналитика'));
         $this->_add(self::ITEM_REQUESTS, __('Запросы товара со склада'));
+        $this->_add(self::MOBILE_CHECKOUT, __('Отправка заказа на кассу'));
+        $this->_add(self::AML, __('AML'));
     }
     
 }

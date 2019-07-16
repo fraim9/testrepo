@@ -20,6 +20,7 @@ class AclResources extends AppModelList {
 
         $this->_add('employees', 'Access to company employees', ['group' => AclResourceGroups::COMPANY]);
         $this->_add('divisions', 'Access to company divisions', ['group' => AclResourceGroups::COMPANY]);
+        $this->_add('companyInfo', 'Access to company information', ['group' => AclResourceGroups::COMPANY]);
         
         $this->_add('clients', 'Access to clients', ['group' => AclResourceGroups::CRM]);
 

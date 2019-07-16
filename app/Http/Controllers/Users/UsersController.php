@@ -10,6 +10,7 @@ use App\User;
 use App\UserGroup;
 use App\Employee;
 use App\AclRole;
+use App\Store;
 
 class UsersController extends BackendController
 {
@@ -28,7 +29,9 @@ class UsersController extends BackendController
         $userGroups = UserGroup::orderBy('name')->get();
         $employees = Employee::orderBy('name')->where('active', '=', 1)->get();
         $roles = AclRole::orderBy('name')->get();
-    	return view('users.users.form', compact('user', 'userGroups', 'employees', 'roles'));
+        $stores = Store::orderBy('name')->get();
+        $userStores = $user ? array_column($user->stores->toArray(), 'name', 'id') : [];
+    	return view('users.users.form', compact('user', 'userGroups', 'employees', 'roles', 'stores', 'userStores'));
     }
     
     public function store(UserRequest $request, $id)
@@ -41,6 +44,8 @@ class UsersController extends BackendController
             $user->created_date = date('Y-m-d H:i:s');
 	    }
 	    $user->fill($request->all());
+	    
+	    $user->stores()->sync($request->stores);
 	    
         $password = $request->input('password');
         if (strlen($password)) {

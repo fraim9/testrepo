@@ -10,6 +10,8 @@ class IposUserRights extends AppModelList {
     const ACTIVITIES = 'activities'; 
     const DASHBOARD = 'dashboard'; 
     const ITEM_REQUESTS = 'itemRequests'; 
+    const MOBILE_CHECKOUT = 'mobileCheckout';
+    const AML = 'aml';
     
     protected function _init() 
     {
@@ -18,6 +20,8 @@ class IposUserRights extends AppModelList {
         $this->_add(self::ACTIVITIES, __('Активности (контакты с клиентами)'));
         $this->_add(self::DASHBOARD, __('Аналитика'));
         $this->_add(self::ITEM_REQUESTS, __('Запросы товара со склада'));
+        $this->_add(self::MOBILE_CHECKOUT, __('Отправка заказа на кассу'));
+        $this->_add(self::AML, __('AML'));
     }
     
     public function getRightsValues()
@@ -32,6 +36,8 @@ class IposUserRights extends AppModelList {
                 case self::ITEM_SEARCH:
                 case self::ACTIVITIES:
                 case self::ITEM_REQUESTS:
+                case self::MOBILE_CHECKOUT:
+                case self::AML:
                     $values[$right->id] = $accessLevels;
                     break;
                 case self::DASHBOARD:

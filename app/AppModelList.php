@@ -4,17 +4,17 @@ namespace App;
 
 class AppModelList
 {
-    static protected $_instance = null;
+    static protected $_instance = [];
     
     protected $_items = [];
     
     public static function getInstance()
     {
-        if (null === static::$_instance) {
-            static::$_instance = new static();
+        if (!isset(static::$_instance[static::class])) {
+            static::$_instance[static::class] = new static();
         }
         
-        return static::$_instance;
+        return static::$_instance[static::class];
     }
     
     public static function all()

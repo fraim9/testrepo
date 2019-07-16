@@ -25,6 +25,7 @@
 		        			<th>{{ __('ISO 3') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('Calling code') }}</th>
+		        			<th>{{ __('AML Risk') }}</th>
 		        			<th>{{ __('Action') }}</th>
 		        		</tr>
 		        	</thead>
@@ -35,6 +36,11 @@
 			        			<td>{{ $country->iso3 }}</td>
 			        			<td>{{ $country->name }}</td>
 			        			<td>{{ $country->calling_code }}</td>
+			        			<td class="text-center">@if ($country->aml_risk)
+			        				<i class="fa fa-exclamation-triangle text-warning"></i>
+			        			@else
+			        				---
+			        			@endif</td>
 			        			<td class="text-center">
 									<div class="btn-group">
 										@include('helpers.btnEdit', [
@@ -75,7 +81,7 @@
         	// Init full DataTable
             jQuery('.js-dataTable').dataTable({
             	'columnDefs': [
-					{ "width": "80px", targets: [ 4 ] }
+					{ "width": "80px", targets: [ 5 ] }
 				]
             });
 

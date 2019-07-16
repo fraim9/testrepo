@@ -50,7 +50,7 @@ class AmlReport extends FormRequest
                 
                 'registration_address' => 'nullable|string|max:255',
                 
-                'inn' => 'nullable|string|max:12',
+                'inn' => 'required_if:citizenship_id,150|string|max:12',
                 
                 'status' => 'required|int',
                 

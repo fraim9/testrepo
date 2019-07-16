@@ -58,6 +58,7 @@ class Client extends AppModel
 	    return $this->belongsTo('App\Store', 'attached_store_id');
 	}
 	
+	/*
 	public function createdBy()
 	{
 	    return $this->belongsTo('App\User', 'created_by');
@@ -67,6 +68,6 @@ class Client extends AppModel
 	{
 	    return $this->belongsTo('App\User', 'modified_by');
 	}
-	
+	*/
 	
 }

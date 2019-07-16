@@ -12,8 +12,8 @@ class ExpiredPassportLoader
     
     public function run()
     {
-        //$this->download();
-        //$this->unpack();
+        $this->download();
+        $this->unpack();
         $this->loadToDb();
     }
     

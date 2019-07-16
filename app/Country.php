@@ -12,7 +12,7 @@ class Country extends AppModel
 	 * @var array
 	 */
 	protected $fillable = [
-			'iso2', 'iso3', 'name', 'calling_code'
+			'iso2', 'iso3', 'name', 'calling_code', 'aml_risk'
 	];
 	
 	/**

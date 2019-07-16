@@ -79,6 +79,26 @@
 								'value' => $user->active ?? true,
 							])
 							
+							<hr>
+							
+							<div class="form-group row">
+								<div class="col-md-4">
+									<label>{{ __('Stores') }}</label>
+								</div>
+								<div class="col-md-8">
+									@if ($stores)
+        								@foreach ($stores as $store)
+        									<div class="custom-control custom-switch pb-2">
+                                                <input type="checkbox" class="custom-control-input" value="{{ $store->id }}"
+                                                	id="store_{{ $store->id }}" name="stores[]" {{ isset($userStores[$store->id]) ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="store_{{ $store->id }}">{{ $store->name }}</label>
+                                    		</div>
+        								@endforeach
+        							@endif
+								</div>
+							
+							</div>
+							
     					</div>
     					
     					@include('helpers.formButtons')

@@ -16,6 +16,13 @@ class AmlMini extends AppModel
 	        'questionnaire', 'questionnaire_file'
 	];
 	
+	public function __construct(array $attributes = [])
+	{
+	    parent::__construct($attributes);
+	    $this->casts['questionnaire'] = 'json';
+	}
+	
+	
 	public function store()
 	{
 	    return $this->belongsTo('App\Store');
@@ -29,6 +36,11 @@ class AmlMini extends AppModel
 	public function client()
 	{
 	    return $this->belongsTo('App\Client');
+	}
+	
+	public function citizenship()
+	{
+	    return $this->belongsTo('App\Country');
 	}
 	
 }

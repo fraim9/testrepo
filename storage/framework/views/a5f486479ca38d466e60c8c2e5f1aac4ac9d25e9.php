@@ -15,28 +15,34 @@
 								'name' => 'iso2', 
 								'label' => 'Iso 2', 
 								'required' => true,
-								'value' => $country->iso2
+								'value' => $country->iso2 ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 							<?php echo $__env->make('helpers.formText', [
 								'name' => 'iso3', 
 								'label' => 'Iso 3', 
 								'required' => true,
-								'value' => $country->iso3
+								'value' => $country->iso3 ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 							<?php echo $__env->make('helpers.formText', [
 								'name' => 'name', 
 								'label' => 'Name',
 								'required' => true,
-								'value' => $country->name
+								'value' => $country->name ?? ''
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 							<?php echo $__env->make('helpers.formText', [
 								'name' => 'calling_code', 
 								'label' => 'Calling code', 
 								'required' => true,
-								'value' => $country->calling_code
+								'value' => $country->calling_code ?? ''
+							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+							
+							<?php echo $__env->make('helpers.formCheckbox', [
+								'name' => 'aml_risk', 
+								'label' => 'AML Risk', 
+								'value' => $country->aml_risk ?? false,
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 								
     					</div>

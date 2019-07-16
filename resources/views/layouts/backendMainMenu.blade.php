@@ -38,6 +38,11 @@
                 	<span class="nav-main-link-name">{{ __('Divisions') }}</span>
                 </a>
             </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link{{ request()->is('*/company-info*') ? ' active' : '' }}" href="{{ route('company.index') }}">
+                	<span class="nav-main-link-name">{{ __('Company info') }}</span>
+                </a>
+            </li>
         </ul>
     </li>
     <li class="nav-main-item{{ request()->is('admin/store*') ? ' open' : '' }}">
@@ -105,6 +110,21 @@
             <li class="nav-main-item">
             	<a class="nav-main-link{{ request()->is('*/time-zones*') ? ' active' : '' }}" href="{{ route('timeZones.index') }}">
                 	<span class="nav-main-link-name">{{ __('Time zones') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/currencies*') ? ' active' : '' }}" href="{{ route('currencies.index') }}">
+                	<span class="nav-main-link-name">{{ __('Currencies') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/loadFiles*') ? ' active' : '' }}" href="{{ route('loadFiles.index') }}">
+                	<span class="nav-main-link-name">{{ __('Load XML files') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/settings/settings*') ? ' active' : '' }}" href="{{ route('settings.index') }}">
+                	<span class="nav-main-link-name">{{ __('Settings') }}</span>
                 </a>
             </li>
         </ul>

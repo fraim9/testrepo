@@ -35,7 +35,7 @@
 									@foreach ($userRights as $userRight)
 										<li>
 											<span class="">{{ __($userRight->name) }}</span>:
-											<span class="text-info">{{ $userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---' }}</span>
+											<span class="text-info">{{ isset($group->ipos_rights[$userRight->id]) ? ($userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---') : '---' }}</span>
 										</li>
 									@endforeach
 									</ul>

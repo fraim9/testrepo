@@ -15,6 +15,17 @@
 					@csrf
     	        	<div class="block-content">
     	        		<h3 class="text-center">{{ __('Анкета клиента-физического лица, представителя клиента, выгодоприобретателя – физического лица и бенефициарного владельца') }}</h3>
+    	        		
+    	        		@if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+    	        		
     	        		<table class="table">
     	        			<tbody>
             	        		@foreach ($questions as $question)
@@ -179,6 +190,15 @@
                     								'value' => $amlReport->inn ?: $question->default,
                     							])
                     							
+                    							@if ($amlReport->citizenship_id == 150)
+                    								<div class="row">
+                        								<div class="col-md-8 offset-md-4 text-small">
+    														<a href="https://service.nalog.ru/inn.do" 
+    															target="_blank">https://service.nalog.ru/inn.do</a>
+    													</div>
+													</div>
+												@endif
+                    							
     										@endif
     										
     										@if ($question->type == 'contacts')
@@ -194,8 +214,8 @@
     										
     										@if ($question->type == 'employee')
     											@php
-                                                    $q23 = 'Принял: ' . ($amlReport->initiator_id ? $amlReport->initiator->position . ' ' . $amlReport->initiator->name : '---') . "\n";
-                                                    $q23 .= 'Обновил: ' . ($currentEmployee ? $currentEmployee->position . ' ' . $currentEmployee->name : '---' );
+                                                    $q23 = 'Принял Клиента на обслуживание: ' . ($amlReport->initiator_id ? $amlReport->initiator->position . ' ' . $amlReport->initiator->name : '---') . "\n";
+                                                    $q23 .= 'Заполнил/обновил Анкету: ' . ($currentEmployee ? $currentEmployee->position . ' ' . $currentEmployee->name : '---' );
     											@endphp
     											
     											@include('helpers.formTextarea', [

@@ -37,8 +37,13 @@
 			        			<td class="text-center">
 			        				@include('helpers.viewBool', ['value' => $user->active])
 			        			</td>
-			        			<td>{{ $user->display_name }}</td>
-			        			<td>{{ $user->email }}</td>
+			        			<td>
+			        				{{ $user->display_name }}
+			        				<div class="text-smallest text-flat-light">
+			        					{{ implode(', ', array_column($user->stores->toArray(), 'name', 'id')) }}
+			        				</div>
+			        			</td>
+			        			<td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
 			        			<td>{{ $user->group->name }}</td>
 			        			<td>{{ $user->role ? $user->role->name : '---' }}</td>
 			        			<td class="text-center">

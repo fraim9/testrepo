@@ -37,8 +37,15 @@
 			        			<td class="text-center">
 			        				<?php echo $__env->make('helpers.viewBool', ['value' => $user->active], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 			        			</td>
-			        			<td><?php echo e($user->display_name); ?></td>
-			        			<td><?php echo e($user->email); ?></td>
+			        			<td>
+			        				<?php echo e($user->display_name); ?>
+
+			        				<div class="text-smallest text-flat-light">
+			        					<?php echo e(implode(', ', array_column($user->stores->toArray(), 'name', 'id'))); ?>
+
+			        				</div>
+			        			</td>
+			        			<td><a href="mailto:<?php echo e($user->email); ?>"><?php echo e($user->email); ?></a></td>
 			        			<td><?php echo e($user->group->name); ?></td>
 			        			<td><?php echo e($user->role ? $user->role->name : '---'); ?></td>
 			        			<td class="text-center">

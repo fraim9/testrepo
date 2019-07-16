@@ -28,4 +28,16 @@ class AppModel extends Model
         return false;
     }
     
+    
+    
+    public function createdBy()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+    
+    public function modifiedBy()
+    {
+        return $this->belongsTo('App\User', 'modified_by');
+    }
+    
 }

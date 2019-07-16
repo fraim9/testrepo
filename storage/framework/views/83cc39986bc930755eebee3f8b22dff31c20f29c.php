@@ -77,6 +77,26 @@
 								'value' => $user->active ?? true,
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 							
+							<hr>
+							
+							<div class="form-group row">
+								<div class="col-md-4">
+									<label><?php echo e(__('Stores')); ?></label>
+								</div>
+								<div class="col-md-8">
+									<?php if($stores): ?>
+        								<?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        									<div class="custom-control custom-switch pb-2">
+                                                <input type="checkbox" class="custom-control-input" value="<?php echo e($store->id); ?>"
+                                                	id="store_<?php echo e($store->id); ?>" name="stores[]" <?php echo e(isset($userStores[$store->id]) ? 'checked' : ''); ?>>
+                                                <label class="custom-control-label" for="store_<?php echo e($store->id); ?>"><?php echo e($store->name); ?></label>
+                                    		</div>
+        								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        							<?php endif; ?>
+								</div>
+							
+							</div>
+							
     					</div>
     					
     					<?php echo $__env->make('helpers.formButtons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

@@ -38,6 +38,20 @@ Route::delete('/admin/settings/time-zones/{id}', 'Settings\TimeZonesController@d
 Route::get('/admin/settings/translate', 'Settings\TranslationController@index')->name('translations.index');
 Route::post('/admin/settings/translate', 'Settings\TranslationController@store')->name('translations.store');
 
+Route::get('/admin/settings/currencies', 'Settings\CurrenciesController@index')->name('currencies.index');
+Route::get('/admin/settings/currencies/form/{id}', 'Settings\CurrenciesController@form')->name('currencies.form');
+Route::post('/admin/settings/currencies/{id}', 'Settings\CurrenciesController@store')->name('currencies.store');
+Route::delete('/admin/settings/currencies/{id}', 'Settings\CurrenciesController@delete')->name('currencies.delete');
+
+Route::get('/admin/settings/loadFiles', 'Settings\LoadFilesController@index')->name('loadFiles.index');
+Route::post('/admin/settings/loadFiles/', 'Settings\LoadFilesController@store')->name('loadFiles.store');
+
+Route::get('/admin/settings/settings', 'Settings\SettingsController@index')->name('settings.index');
+Route::get('/admin/settings/settings/form/{id}', 'Settings\SettingsController@form')->name('settings.form');
+Route::post('/admin/settings/settings/{id}', 'Settings\SettingsController@store')->name('settings.store');
+
+
+
 //=== USERS ===
 
 // user groups
@@ -87,6 +101,9 @@ Route::get('/admin/company/divisions/form/{id}', 'Company\DivisionsController@fo
 Route::post('/admin/company/divisions/{id}', 'Company\DivisionsController@store')->name('divisions.store');
 Route::delete('/admin/company/divisions/{id}', 'Company\DivisionsController@delete')->name('divisions.delete');
 
+Route::get('/admin/company/company-info', 'Company\CompanyController@index')->name('company.index');
+Route::get('/admin/company/company-info/form', 'Company\CompanyController@form')->name('company.form');
+Route::post('/admin/company/company-info', 'Company\CompanyController@store')->name('company.store');
 
 
 //=== CRM ===

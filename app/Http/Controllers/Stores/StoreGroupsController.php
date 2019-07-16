@@ -23,7 +23,7 @@ class StoreGroupsController extends BackendController
     public function form($id)
     {
         $group = $id ? StoreGroup::find($id) : null;
-        $iposFeatures = (new IposFeatures())->findAll();
+        $iposFeatures = IposFeatures::all();
     	return view('stores.storeGroups.form', compact('group', 'iposFeatures'));
     }
     

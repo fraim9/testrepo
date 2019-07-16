@@ -63,5 +63,10 @@ class User extends Authenticatable
 	    return $this->belongsTo('App\AclRole');
 	}
 	
+	public function stores()
+	{
+	    return $this->belongsToMany('App\Store', 'user_to_store');
+	}
+	
 	
 }

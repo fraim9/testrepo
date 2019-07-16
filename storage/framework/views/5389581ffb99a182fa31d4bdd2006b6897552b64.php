@@ -36,6 +36,11 @@
                 	<span class="nav-main-link-name"><?php echo e(__('Divisions')); ?></span>
                 </a>
             </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link<?php echo e(request()->is('*/company-info*') ? ' active' : ''); ?>" href="<?php echo e(route('company.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Company info')); ?></span>
+                </a>
+            </li>
         </ul>
     </li>
     <li class="nav-main-item<?php echo e(request()->is('admin/store*') ? ' open' : ''); ?>">
@@ -103,6 +108,21 @@
             <li class="nav-main-item">
             	<a class="nav-main-link<?php echo e(request()->is('*/time-zones*') ? ' active' : ''); ?>" href="<?php echo e(route('timeZones.index')); ?>">
                 	<span class="nav-main-link-name"><?php echo e(__('Time zones')); ?></span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/currencies*') ? ' active' : ''); ?>" href="<?php echo e(route('currencies.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Currencies')); ?></span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/loadFiles*') ? ' active' : ''); ?>" href="<?php echo e(route('loadFiles.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Load XML files')); ?></span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/settings*') ? ' active' : ''); ?>" href="<?php echo e(route('settings.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Settings')); ?></span>
                 </a>
             </li>
         </ul>
