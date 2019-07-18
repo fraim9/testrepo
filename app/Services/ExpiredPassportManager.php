@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\AuthParameters;
+use App\Parameters;
 
 class ExpiredPassportManager
 {
@@ -13,7 +13,7 @@ class ExpiredPassportManager
     
     public function getActiveTablename()
     {
-        if ($this->_getAuthParameters()->getPrimary() == 1) {
+        if ($this->_getParameters()->getPrimary() == 1) {
             return self::PRIMARY_TABLE;
         }
         return self::SECONDARY_TABLE;
@@ -21,7 +21,7 @@ class ExpiredPassportManager
     
     public function getInactiveTablename()
     {
-        if ($this->_getAuthParameters()->getPrimary() == 1) {
+        if ($this->_getParameters()->getPrimary() == 1) {
             return self::SECONDARY_TABLE;
         }
         return self::PRIMARY_TABLE;
@@ -29,16 +29,16 @@ class ExpiredPassportManager
     
     public function switchTables()
     {
-        $model = $this->_getAuthParameters();
+        $model = $this->_getParameters();
         $current = $model->getPrimary();
         $model->setPrimary(($current == 1) ? 0 : 1);
     }
     
     
-    protected function _getAuthParameters()
+    protected function _getParameters()
     {
         if ($this->_authParameters === null) {
-            $this->_authParameter = new AuthParameters();
+            $this->_authParameter = new Parameters();
         }
         return $this->_authParameter;
     }

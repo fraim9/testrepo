@@ -5,41 +5,52 @@ namespace App;
 
 class AuthParameters extends AppModel 
 {
-	protected $table = 'parameters';
+    const DEFAULT_ID = 1;
+    
+	protected $table = 'auth_parameters';
 	
 	protected $fillable = [];
 	
-	protected $connection = 'omnipos_auth';
+	//protected $connection = 'omnipos_auth';
 	
-	protected $_data = null;
+	static protected $_params = null;
 	
-	public function getSecretKey()
+	public static function getParameters()
 	{
-	    $this->_load();
-	    return $this->_data['secretKey'];
-	}
-	
-	public function getPrimary()
-	{
-	    $this->_load();
-	    return $this->_data['primary'];
-	}
-	
-	public function setPrimary($value)
-	{
-	    $row = $this->find(1);
-	    $row->primary = $value;
-	    $row->save();
-	}
-	
-	protected function _load()
-	{
-	    if ($this->_data === null) {
-	        $row = $this->find(1);
-	        $this->_data = [];
-	        $this->_data['secretKey'] = $row ? $row->secret_key : '';
-	        $this->_data['primary'] = $row ? $row->primary : '';
+	    if (self::$_params === null) {
+	        self::$_params = static::query()->find(self::DEFAULT_ID);
 	    }
+	    return self::$_params;
 	}
+
+	public static function authKey()
+	{
+	    return static::getParameters()->auth_key;
+	}
+	
+	public static function authCode()
+	{
+	    return static::getParameters()->auth_code;
+	}
+	
+	public static function apiAuthUrl()
+	{
+	    return static::getParameters()->api_auth_url;
+	}
+	
+	public static function omniposSecretKey()
+	{
+	    return static::getParameters()->omnipos_secret_key;
+	}
+	
+	public static function iposSecretKey()
+	{
+	    return static::getParameters()->ipos_secret_key;
+	}
+	
+	
+	
+	
+	
 	
 }

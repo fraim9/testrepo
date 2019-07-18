@@ -32,7 +32,7 @@ import {dtAdapter} from '../dataTablesAdapter.js';
 
 const Ladda = require('ladda');
 Ladda.bind('.ladda-button', {
-    timeout: 120000
+    timeout: 3600000
 });
 
 

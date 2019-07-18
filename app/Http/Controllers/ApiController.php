@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Exception;
 use App\Exceptions\ApiExceptionFactory as AEF;
 use App\Services\DataExport;
+use App\Services\AuthAPI;
+use App\AuthParameters;
+
+use ReallySimpleJWT\Token;
 
 
 class ApiController extends Controller
@@ -41,9 +45,6 @@ class ApiController extends Controller
         $result->errorMessage = 0;
         $result->errorDetails = '';
         try {
-            // проверка токена
-            $this->_checkToken($request);
-            
             // версия API
             switch ($ver) {
                 case 'v0':
@@ -65,18 +66,24 @@ class ApiController extends Controller
     
     public function api0(Request $request, $method, $result)
     {
-        switch ($method) {
-            case 'authentication':
-                $this->_authentication($request, $result);
-                break;
-            case 'clients':
-                $this->_clients($request, $result);
-                break;
-            case 'amlminis':
-                $this->_amlminis($request, $result);
-                break;
-            default:
-                throw AEF::create(AEF::API_METHOD_UNKNOWN);
+        if ($method == 'authentication') {
+            
+            $this->_authentication($request, $result);
+            
+        } else {
+            // проверка Access токена
+            $this->_checkAccessToken($request);
+            
+            switch ($method) {
+                case 'clients':
+                    $this->_clients($request, $result);
+                    break;
+                case 'amlminis':
+                    $this->_amlminis($request, $result);
+                    break;
+                default:
+                    throw AEF::create(AEF::API_METHOD_UNKNOWN);
+            }
         }
     }
     
@@ -94,11 +101,21 @@ class ApiController extends Controller
         }
         if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
             
+            $authToken = $request->input('authToken');
+            if (!$authToken) {
+                throw AEF::create(AEF::AUTH_TOKEN_EMPTY);
+            }
+            $authKey = AuthParameters::authKey();
             $user = Auth::user();
+            
+            $authAPI = new AuthAPI();
+            $authAPI->validateUserLicense($authToken, $authKey, $user->id);
+            
             $result->userId = $user->id;
             $result->username = $user->email;
             $result->displayName = $user->display_name;
-            $result->employeeId = $user->display_name;
+            $result->employeeId = $user->employee_id;
+            $result->accessToken = $this->_createAccessToken($user->id);
             
             Auth::logout();
             
@@ -191,7 +208,37 @@ class ApiController extends Controller
         
     }
     
-    protected function _checkToken(Request $request)
+    protected function _createAccessToken($userId)
+    {
+        $secret = AuthParameters::omniposSecretKey();
+        $expiration = time() + 36 * 3600;
+        $issuer = 'OmniPOS';
+        $token = Token::create($userId, $secret, $expiration, $issuer);
+        return $token;
+        
+        /*
+        $prt = explode('.', $authToken);
+        //$authData = json_decode(base64_decode($prt[1]));
+        
+        $headerData = new \stdClass();
+        $headerData->alg = "HS256";
+        $headerData->typ = "JWT";
+        
+        $header = json_encode($headerData);
+        
+        $payloadData = new \stdClass();
+        $payloadData->userId = $userId;
+        $payloadData->exp = $authData->exp;
+        $payload = json_encode($payloadData);
+           
+        $unsignedToken = base64_encode($header) . '.' . base64_encode($payload);
+        
+        $secret = AuthParameters::omniposSecretKey();
+        $signature = HMAC-SHA256(unsignedToken, SECRET_KEY)
+        */
+    }
+    
+    protected function _checkAccessToken(Request $request)
     {
         $token = $request->bearerToken();
         
@@ -202,21 +249,26 @@ class ApiController extends Controller
         if (!$this->_tokenValid($token)) {
             throw AEF::create(AEF::API_TOKEN_INVALID);
         }
-        
+        /*
         if (!$this->_tokenExpirationDateValid($token)) {
             throw AEF::create(AEF::API_TOKEN_EXPIRED);
         }
+        */
     }
     
     protected function _tokenValid($token) 
     {
-        return $token == self::TEMP_TOKEN;
+        $secret = AuthParameters::omniposSecretKey();
+        return Token::validate($token, $secret);
+        //return $token == self::TEMP_TOKEN;
     }
     
+    /*
     protected function _tokenExpirationDateValid($token) 
     {
         return true;
     }
+    */
     
     /**
      * @return DataExport

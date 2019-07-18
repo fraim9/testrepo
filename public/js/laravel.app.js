@@ -32097,7 +32097,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var Ladda = __webpack_require__(/*! ladda */ "./node_modules/ladda/js/ladda.js");
 
 Ladda.bind('.ladda-button', {
-  timeout: 120000
+  timeout: 3600000
 }); //require('bootstrap-notify');
 
 /*

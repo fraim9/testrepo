@@ -45,8 +45,6 @@ class UsersController extends BackendController
 	    }
 	    $user->fill($request->all());
 	    
-	    $user->stores()->sync($request->stores);
-	    
         $password = $request->input('password');
         if (strlen($password)) {
             $user->password = Hash::make($password);
@@ -55,6 +53,8 @@ class UsersController extends BackendController
 	    $user->modified_date = date('Y-m-d H:i:s');
 	    $user->modified_by = (int) Auth::id();
 	    $user->save();
+	    
+	    $user->stores()->sync($request->stores);
 	    
 	    return redirect()->route('users.index')->with('success', 'User has been saved');
     }
