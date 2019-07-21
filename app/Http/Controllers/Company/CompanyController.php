@@ -21,28 +21,6 @@ class CompanyController extends BackendController
     
     public function index()
     {
-        $secret = AuthParameters::omniposSecretKey();
-        $userId = 12;
-        //$secret = 'sec!ReT423*&';
-        $expiration = time() + 3600;
-        $issuer = 'localhost';
-        
-        $token = Token::create($userId, $secret, $expiration, $issuer);
-        
-        echo $token. '<br>';
-        
-        echo Token::validate($token, $secret) ? 'validate' : 'not validate';
-        
-        exit;
-        
-        $secret = AuthParameters::omniposSecretKey();
-        $expiration = time() + 36 * 3600;
-        $issuer = 'OmniPOS';
-        echo Token::create(1, $secret, $expiration, $issuer);
-        
-        exit;
-        
-        
         $company = Company::getInfo();
         return view('company.company.index', compact('company'));
     }
