@@ -125,6 +125,11 @@
                 	<span class="nav-main-link-name"><?php echo e(__('Settings')); ?></span>
                 </a>
             </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/authParameters*') ? ' active' : ''); ?>" href="<?php echo e(route('authParameters.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Auth parameters')); ?></span>
+                </a>
+            </li>
         </ul>
     </li>
     

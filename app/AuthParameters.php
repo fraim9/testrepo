@@ -9,9 +9,8 @@ class AuthParameters extends AppModel
     
 	protected $table = 'auth_parameters';
 	
-	protected $fillable = [];
+	protected $fillable = ['auth_key', 'auth_code', 'api_auth_url', 'omnipos_secret_key', 'ipos_secret_key'];
 	
-	//protected $connection = 'omnipos_auth';
 	
 	static protected $_params = null;
 	

@@ -50,6 +50,10 @@ Route::get('/admin/settings/settings', 'Settings\SettingsController@index')->nam
 Route::get('/admin/settings/settings/form/{id}', 'Settings\SettingsController@form')->name('settings.form');
 Route::post('/admin/settings/settings/{id}', 'Settings\SettingsController@store')->name('settings.store');
 
+Route::get('/admin/settings/auth-parameters', 'Settings\AuthParametersController@index')->name('authParameters.index');
+Route::get('/admin/settings/auth-parameters/form', 'Settings\AuthParametersController@form')->name('authParameters.form');
+Route::post('/admin/settings/auth-parameters', 'Settings\AuthParametersController@store')->name('authParameters.store');
+
 
 
 //=== USERS ===
