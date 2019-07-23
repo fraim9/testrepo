@@ -67,6 +67,10 @@ class ApiExceptionFactory
             case self::USER_CREDENTIALS_INVALID: return 'Invalid user credentials';
             case self::AUTH_TOKEN_EMPTY: return 'AUTH Token is empty';
 
+            case self::AUTH_GENERAL: return 'AUTH general error';
+            case self::AUTH_AUTH_FAILED: return 'AUTH failed';
+            case self::AUTH_NO_LICENSE: return 'AUTH no license';
+
             
             
             case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in request';

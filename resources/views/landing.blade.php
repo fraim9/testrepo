@@ -13,8 +13,8 @@
                         Welcome to the starter kit! Build something amazing!
                     </h2>
                     <span class="m-2 d-inline-block invisible" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
-                        <a class="btn btn-success px-4 py-2" href="/dashboard">
-                            <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Enter Dashboard
+                        <a class="btn btn-success px-4 py-2" href="/admin">
+                            <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Enter to Back Office
                         </a>
                     </span>
                 </div>

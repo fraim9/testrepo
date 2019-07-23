@@ -16,6 +16,7 @@ use App\Services\AmlManager;
 use App\AmlReport;
 use App\AmlReportQuestion;
 use App\AmlReportStatus;
+use App\Exceptions\AppException;
 
 
 class ClientsController extends BackendController
@@ -25,6 +26,8 @@ class ClientsController extends BackendController
     
     public function index()
     {
+        //view()->getFinder()->getPaths()
+
         $clients = Client::all();
         return view('crm.clients.index', compact('clients'));
     }

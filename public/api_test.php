@@ -66,7 +66,8 @@ switch ($method) {
 if ($method) {
     $dataString = json_encode($data);   
     
-    $url = 'http://omnipos2.local/api/v0/' . $method;
+    $url = 'http://omnipos2.local/api/v0/files/22';
+    //$url = 'http://omnipos2.local/api/v0/' . $method;
     //$url = 'https://dev.omnipos.cloud/api/v0/' . $method;
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -74,12 +75,19 @@ if ($method) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'charset=UTF-8',
-            'Authorization: Bearer ' . $token,
+            //'Authorization: Bearer ' . $token,
             'Content-Length: ' . strlen($dataString))
             );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //curl_setopt($ch, CURLOPT_HEADER, true); 
     $responseRaw = curl_exec($ch);
+    $headers = curl_getinfo($ch);
     curl_close($ch);
+    
+    echo '<pre>';
+    print_r($headers);
+    echo '</pre>';
+    
     
     $result = json_decode($responseRaw);
     
@@ -87,7 +95,7 @@ if ($method) {
     echo 'Method: ' . $method . '<br>';
     echo 'Token: ' . $token . '<br>';
     echo 'Request data: ' . json_encode($data) . '<br>';
-    echo 'Response raw: ' . $responseRaw . '<br>';
+    echo 'Response raw: <pre>' . $responseRaw . '</pre><br>';
     echo 'Decoded response:';
     
     echo '<pre>';

@@ -7,6 +7,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\AuthAPI;
+use App\Exceptions\AppException;
+
+
 class LoginController extends Controller
 {
     /*
@@ -48,8 +52,17 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        //Auth::logout();
-        //abort(404, 'Нет у вас больше лицензий!');
+        try {
+            $authAPI = new AuthAPI();
+            if ($authAPI->checkWebUser($user->id)) {
+                return redirect()->intended($this->redirectPath());
+            } else {
+                throw new AppException(__('License restriction'), 401);
+            }
+        } catch (\Exception $e) {
+            Auth::logout();
+            throw new AppException($e->getMessage(), $e->getCode());
+        }
     }
     
     

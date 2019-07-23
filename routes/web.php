@@ -132,3 +132,4 @@ Route::get('/admin/file/download/{fileId}', 'FilesController@download')->name('f
 //=== API ===
 
 Route::any('/api/{ver}/{method}', 'ApiController@index');
+Route::any('/api/{ver}/files/{fileId}', 'ApiController@files');

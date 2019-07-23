@@ -19,7 +19,7 @@ class AuthAPI
         $dataString = json_encode($data);
         
         $url = AuthParameters::apiAuthUrl();
-        $url = rtrim($url, '/') . '/authentication';
+        $url = rtrim($url, '/') . '/api/authentication';
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
@@ -74,7 +74,22 @@ class AuthAPI
             case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
             default: throw new ApiException($result->errorMessage, $result->errorCode);
         }
+    }
+    
+    function checkWebUser($userId)
+    {
+        $authKey = AuthParameters::authKey();
+        $authCode = AuthParameters::authCode();
         
+        $authAPI = new AuthAPI();
+        $result = $authAPI->authentication($authKey, $authCode);
+        if ($result->errorCode == 0) {
+            $result2 = $authAPI->validateUserLicense($result->authToken, $authKey, $userId);
+            if ($result2 == 1) {
+                return true;
+            }
+        }
+        return false;
     }
     
     

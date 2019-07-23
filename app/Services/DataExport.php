@@ -7,6 +7,7 @@ use App\Amlmini;
 
 class DataExport 
 {
+    const DATETIME_FORMAT = 'Y-m-d\TH:i:s';
     
     public function getClient($id)
     {
@@ -70,7 +71,7 @@ class DataExport
         $obj->voiceOptIn = ($client->voice_opt_in == 1);
         $obj->emailOptIn = ($client->email_opt_in == 1);
         $obj->msgOptIn = ($client->msg_opt_in == 1);
-        $obj->consentFile = $client->consent_file;
+        $obj->consentFileId = $client->consent_file_id;
         $obj->employeeId = $client->employee_id;
         $obj->employeeCode = $this->_relVal($client->employee, 'code');
         $obj->responsibleId = $client->responsible_id;
@@ -81,9 +82,9 @@ class DataExport
         $obj->createdStoreCode = $this->_relVal($client->createdStore, 'code');
         $obj->attachedStoreId = $client->attached_store_id;
         $obj->attachedStoreCode = $this->_relVal($client->attachedStore, 'code');
-        $obj->createdDate = $client->created_date;
+        $obj->createdDate = $this->_datetime($client->created_date);
         $obj->createdBy = $client->created_by;
-        $obj->modifiedDate = $client->modified_date;
+        $obj->modifiedDate = $this->_datetime($client->modified_date);
         $obj->modifiedBy = $client->modified_by;
         
         return $obj;
@@ -154,9 +155,9 @@ class DataExport
         $obj->permissionStayTo = $amlmini->permission_stay_to;
         $obj->questionnaire = strlen($amlmini->questionnaire) ? json_decode($amlmini->questionnaire) : '';
         $obj->questionnaireFile = $amlmini->questionnaire_file;
-        $obj->createdDate = $amlmini->created_date;
+        $obj->createdDate = $this->_datetime($amlmini->created_date);
         $obj->createdBy = $amlmini->created_by;
-        $obj->modifiedDate = $amlmini->modified_date;
+        $obj->modifiedDate = $this->_datetime($amlmini->modified_date);
         $obj->modifiedBy = $amlmini->modified_by;
         return $obj;
     }
@@ -165,6 +166,12 @@ class DataExport
     protected function _relVal($object, $field)
     {
         return $object ? $object->{$field} : null;
+    }
+    
+    protected function _datetime($atom)
+    {
+        $date = new \DateTime($atom);
+        return $date->format(self::DATETIME_FORMAT);
     }
     
 }

@@ -12,13 +12,13 @@ use App\Services\DataExport;
 use App\Services\AuthAPI;
 use App\AuthParameters;
 
+use App\Services\Files as FileService;
+
 use ReallySimpleJWT\Token;
 
 
 class ApiController extends Controller
 {
-    const TEMP_TOKEN = '1cecc8fb-fb47-4c8a-af3d-d34c1ead8c4f';
-    
     protected $_dataService = null;
     
     /**
@@ -31,11 +31,6 @@ class ApiController extends Controller
         //$this->middleware('auth');
     //}
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request, $ver, $method)
     {
         $result = new \stdClass();
@@ -53,20 +48,49 @@ class ApiController extends Controller
                 default:
                     throw AEF::create(AEF::API_VERSION_UNKNOWN);
             }
-            
+            $status = 200;
         } catch (Exception $e) {
             $result->errorCode = $e->getCode();
             $result->errorMessage = $e->getMessage();
             $result->errorDetails = AEF::getDetails();
+            $status = 500;
         }
         
         $result->callId = 0;
-        echo json_encode($result);
+        
+        return response(json_encode($result), $status)
+              ->header('Content-Type', 'application/json; charset=utf-8');
+    }
+
+    public function files(Request $request, $ver, $fileId)
+    {
+        // версия API
+        switch ($ver) {
+            case 'v0':
+                return $this->files0($request, $fileId);
+            default:
+                throw AEF::create(AEF::API_VERSION_UNKNOWN);
+        }
+    }
+    
+    public function files0(Request $request, $fileId)
+    {
+        $fullFilename = FileService::getFullName($fileId);
+        
+        if (!$fullFilename || !is_readable($fullFilename)) {
+            return response('', 404);
+        }
+        
+        return response()->download($fullFilename, pathinfo($fullFilename, PATHINFO_BASENAME));
     }
     
     public function api0(Request $request, $method, $result)
     {
-        if ($method == 'authentication') {
+        if ($method == 'test') {
+            
+            $this->_test($request, $result, 0);
+            
+        } else if ($method == 'authentication') {
             
             $this->_authentication($request, $result);
             
@@ -87,6 +111,13 @@ class ApiController extends Controller
         }
     }
     
+    
+    
+    protected function _test(Request $request, $result, $version)
+    {
+        $result->name = 'OmniPOS API';
+        $result->version = $version;
+    }
     
     
     protected function _authentication(Request $request, $result)
