@@ -24,10 +24,10 @@ class Client extends FormRequest
     public function rules()
     {
         return [
-                'code' => 'required|string|max:32',
+                'code' => 'nullable|string|max:32',
                 
                 'first_name' => 'required|string|max:50',
-                'middle_name' => 'required|string|max:50',
+                'middle_name' => 'nullable|string|max:50',
                 'last_name' => 'required|string|max:50',
                 'gender' => 'required|string|size:1',
                 

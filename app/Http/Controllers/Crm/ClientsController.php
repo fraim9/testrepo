@@ -80,7 +80,9 @@ class ClientsController extends BackendController
             $client->created_by = Auth::id();
             $client->created_date = date('Y-m-d H:i:s');
 	    }
-	    $client->fill($request->all());
+	    $data = $request->all();
+	    $data['discount'] = intval($data['discount']);
+	    $client->fill($data);
 
 	    $client->name = implode(' ', [$client->last_name, $client->first_name, $client->middle_name]);
 	    

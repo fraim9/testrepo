@@ -45,6 +45,7 @@
 		        					__('День рождения') => $bdText,
 		        					__('Место рождения') => $client->birth_place,
 		        					__('Примечание') => $client->comment,
+		        					__('Discount') => $client->discount . '%',
 		        				],
 		        				__('Адрес') => [
 		        					__('Страна') => $client->country->name,

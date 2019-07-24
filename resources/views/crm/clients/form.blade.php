@@ -24,7 +24,6 @@
 							@include('helpers.formText', [
 								'name' => 'code', 
 								'label' => 'External ID',
-								'required' => true,
 								'value' => $client->code ?? ''
 							])
 								
