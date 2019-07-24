@@ -66,6 +66,9 @@ class AuthAPI
         $responseRaw = curl_exec($ch);
         curl_close($ch);
         
+        if (!$responseRaw) {
+            throw AEF::create(AEF::AUTH_TOKEN_INVALID);
+        }
         $result = json_decode($responseRaw);
         switch ($result->errorCode) {
             case 0: return true;

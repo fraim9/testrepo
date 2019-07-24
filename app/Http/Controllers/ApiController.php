@@ -69,7 +69,7 @@ class ApiController extends Controller
             case 'v0':
                 return $this->files0($request, $fileId);
             default:
-                throw AEF::create(AEF::API_VERSION_UNKNOWN);
+                return response('Unknown API version', 404);
         }
     }
     

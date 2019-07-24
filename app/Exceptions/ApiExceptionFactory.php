@@ -28,6 +28,7 @@ class ApiExceptionFactory
     const AUTH_GENERAL              = 302010;
     const AUTH_AUTH_FAILED          = 302020;
     const AUTH_NO_LICENSE           = 302030;
+    const AUTH_TOKEN_INVALID        = 302040;
     
     // 400000 - Ошибки при получении данных
     const ITEM_NOT_FOUND            = 400010;
@@ -70,6 +71,7 @@ class ApiExceptionFactory
             case self::AUTH_GENERAL: return 'AUTH general error';
             case self::AUTH_AUTH_FAILED: return 'AUTH failed';
             case self::AUTH_NO_LICENSE: return 'AUTH no license';
+            case self::AUTH_TOKEN_INVALID: return 'AUTH invalid token';
 
             
             
