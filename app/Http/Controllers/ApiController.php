@@ -54,7 +54,14 @@ class ApiController extends Controller
             $result->errorCode = $e->getCode();
             $result->errorMessage = $e->getMessage();
             $result->errorDetails = AEF::getDetails();
-            $status = 500;
+            switch ($e->getCode()) {
+                case AEF::USER_LOGIN_EMPTY:
+                case AEF::USER_PASSWORD_EMPTY:
+                case AEF::USER_CREDENTIALS_INVALID:
+                    $status = 401;
+                default:
+                    $status = 500;
+            }
         }
         
         $result->callId = 0;
