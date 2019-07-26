@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use App\Exceptions\ApiExceptionFactory as AEF;
+use App\Exceptions\ApiException;
 use App\Services\DataExport;
 use App\Services\AuthAPI;
 use App\AuthParameters;
@@ -75,10 +76,17 @@ class ApiController extends Controller
     
     public function files0(Request $request, $fileId)
     {
+        try {
+            // проверка Access токена
+            $this->_checkAccessToken($request);
+        } catch (ApiException $e) {
+            return response($e->getMessage(), 401);
+        }
+        
         $fullFilename = FileService::getFullName($fileId);
         
         if (!$fullFilename || !is_readable($fullFilename)) {
-            return response('', 404);
+            return response('File not found!', 404);
         }
         
         return response()->download($fullFilename, pathinfo($fullFilename, PATHINFO_BASENAME));
