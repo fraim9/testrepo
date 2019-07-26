@@ -8,7 +8,7 @@ class Client extends AppModel
 	protected $table = 'client';
 	
 	protected $fillable = [
-	        'code', 'first_name', 'middle_name', 'last_name',
+	        'code', 'first_name', 'middle_name', 'last_name', 'first_name_lat', 'last_name_lat',
 	        'gender', 'comment', 'phone', 'email', 'bd_day', 'bd_month', 'bd_year', 'birth_place',
 	        'time_zone_id', 'country_id', 'postcode', 'city', 'address', 'citizenship_id', 'passport_series',
 	        'passport_number', 'passport_issued_date', 'passport_issued_by', 'passport_subdivision_code', 'inn',

@@ -23,7 +23,7 @@ $readonly = $readonly ?? false;
 @endphp
 
 <div class="form-group row">
-    <label for="iso2" class="{{ $labelClass }} col-form-label text-md-right">{{ __($label) }}</label>
+    <label for="iso2" class="{{ $labelClass }} col-form-label text-md-right">{!! __($label) . ($required ? ' <span class="required-input-marker">*</span>' : '') !!}</label>
 
     <div class="{{ $elementClass }}">
         <textarea id="{{ $name }}" type="text" class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}" 

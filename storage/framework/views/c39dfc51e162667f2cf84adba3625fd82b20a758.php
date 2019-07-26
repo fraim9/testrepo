@@ -23,7 +23,7 @@ $readonly = $readonly ?? false;
 ?>
 
 <div class="form-group row">
-    <label for="iso2" class="<?php echo e($labelClass); ?> col-form-label text-md-right"><?php echo e(__($label)); ?></label>
+    <label for="iso2" class="<?php echo e($labelClass); ?> col-form-label text-md-right"><?php echo __($label) . ($required ? ' <span class="required-input-marker">*</span>' : ''); ?></label>
 
     <div class="<?php echo e($elementClass); ?>">
         <textarea id="<?php echo e($name); ?>" type="text" class="form-control<?php echo e($errors->has($name) ? ' is-invalid' : ''); ?>" 

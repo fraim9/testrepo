@@ -59,7 +59,6 @@
 		        					__('Адрес регистрации') => $client->registration_address,
 		        				],
 		        				__('Соглашения') => [
-		        					__('Рассылка') => $client->subscribe ? $yes : $no,
 		        					__('на почту') => $client->postal_opt_in ? $yes : $no,
 		        					__('по телефону') => $client->voice_opt_in ? $yes : $no,
 		        					__('по e-mail') => $client->email_opt_in ? $yes : $no,

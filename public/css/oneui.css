@@ -25657,6 +25657,10 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border: 0 !important;
 }
 
+.required-input-marker {
+  color: #ccc;
+}
+
 body {
   background-color: #e2e2e2 !important;
   font-size: 0.9rem;

@@ -29,6 +29,10 @@ class Client extends FormRequest
                 'first_name' => 'required|string|max:50',
                 'middle_name' => 'nullable|string|max:50',
                 'last_name' => 'required|string|max:50',
+               
+                'first_name_lat' => 'required|string|max:50',
+                'last_name_lat' => 'required|string|max:50',
+                
                 'gender' => 'required|string|size:1',
                 
                 'comment' => 'nullable|string|max:500',
@@ -41,8 +45,8 @@ class Client extends FormRequest
                 'bd_year' => 'nullable|int|between:1900,' . date('Y'),
                 'birth_place' => 'nullable|string|max:150',
                 
-                'time_zone_id' => 'nullable|int',
-                'country_id' => 'nullable|int',
+                'time_zone_id' => 'required|int',
+                'country_id' => 'required|int',
                 'postcode' => 'nullable|string|max:30',
                 'city' => 'nullable|string|max:40',
                 'address' => 'nullable|string|max:255',

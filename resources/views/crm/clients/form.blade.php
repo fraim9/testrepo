@@ -49,6 +49,20 @@
 								'value' => $client->middle_name ?? ''
 							])
 							
+							@include('helpers.formText', [
+								'name' => 'last_name_lat', 
+								'label' => 'Last name (Lat)', 
+								'required' => true,
+								'value' => $client->last_name_lat ?? ''
+							])
+							
+							@include('helpers.formText', [
+								'name' => 'first_name_lat', 
+								'label' => 'First name (Lat)', 
+								'required' => true,
+								'value' => $client->first_name_lat ?? ''
+							])
+							
 							@include('helpers.formSelect', [
 								'name' => 'gender', 
 								'label' => 'Gender', 
@@ -131,6 +145,7 @@
 								'name' => 'time_zone_id', 
 								'label' => 'Time zone', 
 								'value' => $client->time_zone_id ?? '',
+								'required' => true,
 								'options' => $timeZones
 							])
 							
@@ -138,6 +153,7 @@
 								'name' => 'country_id', 
 								'label' => 'Country', 
 								'value' => $client->country_id ?? '',
+								'required' => true,
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
 							
@@ -232,11 +248,6 @@
 							
 							<hr>
 							
-							@include('helpers.formCheckbox', [
-								'name' => 'subscribe', 
-								'label' => 'Subscribe',
-								'value' => $client->subscribe ?? ''
-							])
 							@include('helpers.formCheckbox', [
 								'name' => 'postal_opt_in', 
 								'label' => 'Postal opt in',
