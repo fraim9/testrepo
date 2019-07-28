@@ -16,8 +16,7 @@ use App\Services\AmlManager;
 use App\AmlReport;
 use App\AmlReportQuestion;
 use App\AmlReportStatus;
-use App\Exceptions\AppException;
-
+use App\Company;
 
 class ClientsController extends BackendController
 {
@@ -29,6 +28,17 @@ class ClientsController extends BackendController
         //view()->getFinder()->getPaths()
 
         $clients = Client::all();
+        if ($clients) {
+            foreach  ($clients as $client) {
+                $amlMini = AmlMini::where('client_id', '=', $client->id)->orderBy('created_date', 'desc')->first();
+                if ($amlMini) {
+                    $manager = new AmlManager();
+                    $amlMini->report = $manager->getReport($amlMini);
+                }
+                $client->amlMini = $amlMini ?? null;
+            }
+        }
+        
         return view('crm.clients.index', compact('clients'));
     }
 
@@ -68,7 +78,10 @@ class ClientsController extends BackendController
         $timeZones = $timeZoneModel->asOptions();
         $employees = Employee::orderBy('name')->where('active', '=', 1)->get();
         $stores = Store::orderBy('name')->get();
-        return view('crm.clients.form', compact('client', 'countries', 'timeZones', 'employees', 'stores'));
+        $companyInfo = Company::getInfo();
+        $currentUser = Auth::user();
+        return view('crm.clients.form', compact('client', 'countries', 'timeZones', 
+                'employees', 'stores', 'companyInfo', 'currentUser'));
     }
     
     public function store(ClientRequest $request, $id)

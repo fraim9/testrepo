@@ -144,7 +144,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'time_zone_id', 
 								'label' => 'Time zone', 
-								'value' => $client->time_zone_id ?? '',
+								'value' => $client->time_zone_id ?? ($companyInfo->time_zone_id ?? ''),
 								'required' => true,
 								'options' => $timeZones
 							])
@@ -152,7 +152,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'country_id', 
 								'label' => 'Country', 
-								'value' => $client->country_id ?? '',
+								'value' => $client->country_id ?? ($companyInfo->country_id ?? ''),
 								'required' => true,
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
@@ -182,7 +182,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'citizenship_id', 
 								'label' => 'Citizenship', 
-								'value' => $client->citizenship_id ?? '',
+								'value' => $client->citizenship_id ?? ($companyInfo->country_id ?? ''),
 								'options' => array_column($countries->toArray(), 'name', 'id')
 							])
 							
@@ -273,7 +273,7 @@
 
 							@include('helpers.formCheckbox', [
 								'name' => 'agreement_signed', 
-								'label' => 'Agreement signed',
+								'label' => 'Consent signed',
 								'value' => $client->agreement_signed ?? ''
 							])
 							
@@ -292,7 +292,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'created_employee_id', 
 								'label' => 'Created employee', 
-								'value' => $client->created_employee_id ?? '',
+								'value' => $client->created_employee_id ?? ($currentUser->employee_id ?? ''),
 								'options' => array_column($employees->toArray(), 'name', 'id'),
 								'emptyValue' => true,
 							])
@@ -300,7 +300,7 @@
 							@include('helpers.formSelect', [
 								'name' => 'responsible_id', 
 								'label' => 'Responsible employee', 
-								'value' => $client->responsible_id ?? '',
+								'value' => $client->responsible_id ?? ($currentUser->employee_id ?? ''),
 								'options' => array_column($employees->toArray(), 'name', 'id'),
 								'emptyValue' => true,
 							])

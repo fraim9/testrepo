@@ -63,7 +63,7 @@
 		        					__('по телефону') => $client->voice_opt_in ? $yes : $no,
 		        					__('по e-mail') => $client->email_opt_in ? $yes : $no,
 		        					__('по SMS') => $client->msg_opt_in ? $yes : $no,
-		        					__('Соглашение подписано') => $client->agreement_signed ? $yes : $no,
+		        					__('Consent signed') => $client->agreement_signed ? $yes : $no,
 		        					__('Файл соглашения (PDF)') => $fileLink,
 		        				],
 		        				__('Привязки') => [
@@ -98,10 +98,18 @@
         				@endforeach
 		        		<br>
 		        		<hr>
-		        			
-		        		<a href="{{ route('clients.form', $client->id) }}" 
-		        			class="btn btn-sm btn-primary">{{ __('Редактировать информацию по клиенту') }}</a>
 		        		
+						<div class="row">
+    						<div class="col-6">
+        		        		<a href="{{ route('clients.form', $client->id) }}" 
+        		        			class="btn btn-sm btn-primary">{{ __('Редактировать информацию по клиенту') }}</a>
+    						</div>
+    						<div class="col-6 text-right">
+        		        		<a href="{{ route('clients.delete', $client->id) }}" 
+        		        			class="btn btn-sm btn-dark" onclick="return confirm('{{ __('Remove this client?') }}');"
+        		        			>{{ __('Remove') }}</a>
+    						</div>
+						</div>
 		        		<br><br>
 		        		
 		        	</div>

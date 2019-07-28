@@ -21,31 +21,61 @@
 		        	<thead>
 		        		<tr>
 		        			<th>{{ __('ID') }}</th>
-		        			<th>{{ __('External ID') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
 		        			<th>{{ __('Phone') }}</th>
-		        			<th>{{ __('Action') }}</th>
+		        			<th class="text-center"><i class="fa fa-phone-square"></i></th>
+		        			<th class="text-center"><i class="fa fa-envelope"></i></th>
+		        			<th class="text-center"><i class="fa fa-comment-alt"></i></th>
+		        			<th class="text-center"><i class="fa fa-home"></i></th>
+		        			<th class="text-center"><i class="fa fa-clipboard-list"></i></th>
+		        			<th class="text-center">Mini</th>
+		        			<th class="text-center">AML</th>
 		        		</tr>
 		        	</thead>
 		        	<tbody>
 			        	@foreach ($clients as $client)
 			        		<tr>
 			        			<td>{{ $client->id }}</td>
-			        			<td>{{ $client->code }}</td>
 			        			<td><a href="{{ route('clients.info', $client->id) }}">{{ $client->name }}</a></td>
 			        			<td>{{ $client->email }}</td>
 			        			<td>{{ $client->phone }}</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('clients.form', $client->id), 
-											'title' => 'Edit client'])
-										@include('helpers.btnDelete', [
-											'url' => route('clients.delete', $client->id), 
-											'title' => 'Remove client',
-											'confirm' => 'Remove client?'])
-									</div>
+			        			<td class="text-center {{ $client->voice_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-phone-square"></i></td>
+			        			<td class="text-center {{ $client->email_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-envelope"></i></td>
+			        			<td class="text-center {{ $client->msg_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-comment-alt"></i></td>
+			        			<td class="text-center {{ $client->postal_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-home"></i></td>
+			        			<td class="text-center text-light-gray">
+			        				@if ($client->agreement_signed && $client->consent_file_id)
+			        					<a href="{{ route('file.view', $client->consent_file_id) }}"
+			        						><i class="fa fa-eye"></i></a>
+			        					<a href="{{ route('file.download', $client->consent_file_id) }}"
+			        						><i class="fa fa-download"></i></a>
+			        				@else
+			        					---
+			        				@endif
+			        			</td>
+			        			<td class="text-center text-light-gray">
+									@if ($client->amlMini)
+			        					<a href="{{ route('file.view', $client->amlMini->questionnaire_file_id) }}"
+			        						><i class="fa fa-eye"></i></a>
+			        					<a href="{{ route('file.download', $client->amlMini->questionnaire_file_id) }}"
+			        						><i class="fa fa-download"></i></a>
+			        				@else
+			        					---
+			        				@endif
+								</td>
+			        			<td class="text-center text-light-gray">
+									@if ($client->amlMini)
+			        					@if ($client->amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
+    										<a href="{{ route('clients.amlReportView', $client->amlMini->report->id) }}" 
+    											><i class="fa fa-eye"></i></a>
+										@else
+    										<a href="{{ route('clients.amlReport', $client->amlMini->report->id) }}" 
+    											><i class="fa fa-edit"></i></a>
+										@endif
+			        				@else
+			        					---
+			        				@endif
 								</td>
 			        		</tr>
 						@endforeach
@@ -77,7 +107,7 @@
         	// Init full DataTable
             jQuery('.js-dataTable').dataTable({
             	'columnDefs': [
-					{ "width": "80px", targets: [ 4 ] }
+					{ "width": "40px", "sortable":false, targets: [ 4, 5, 6, 7, 8, 9 ] }
 				]
             });
 
