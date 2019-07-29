@@ -42,7 +42,7 @@
     							])
     							
     							<hr>
-    							<h6>Yandex</h6>
+    							<h6>S3 object storage</h6>
     							
     							@include('helpers.formText', [
     								'name' => 'doc[objectStorage][server]', 
