@@ -72,7 +72,7 @@ class DataExport
         $obj->emailOptIn = ($client->email_opt_in == 1);
         $obj->msgOptIn = ($client->msg_opt_in == 1);
         $obj->consentFileId = $client->consent_file_id;
-        $obj->consentSigned = ($client->consentSigned == 1);
+        $obj->consentSigned = ($client->consent_signed == 1);
         $obj->employeeId = $client->employee_id;
         $obj->employeeCode = $this->_relVal($client->employee, 'code');
         $obj->responsibleId = $client->responsible_id;
