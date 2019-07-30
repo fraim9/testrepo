@@ -58,12 +58,14 @@
 		        					__('ИНН') => $client->inn,
 		        					__('Адрес регистрации') => $client->registration_address,
 		        				],
-		        				__('Соглашения') => [
+		        				__('Opt-Ins') => [
 		        					__('на почту') => $client->postal_opt_in ? $yes : $no,
 		        					__('по телефону') => $client->voice_opt_in ? $yes : $no,
 		        					__('по e-mail') => $client->email_opt_in ? $yes : $no,
 		        					__('по SMS') => $client->msg_opt_in ? $yes : $no,
-		        					__('Consent signed') => $client->agreement_signed ? $yes : $no,
+		        				],
+		        				__('Consent') => [
+		        					__('Consent signed') => $client->consent_signed ? $yes : $no,
 		        					__('Файл соглашения (PDF)') => $fileLink,
 		        				],
 		        				__('Привязки') => [

@@ -45,7 +45,7 @@
 			        			<td class="text-center {{ $client->msg_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-comment-alt"></i></td>
 			        			<td class="text-center {{ $client->postal_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-home"></i></td>
 			        			<td class="text-center text-light-gray">
-			        				@if ($client->agreement_signed && $client->consent_file_id)
+			        				@if ($client->consent_file_id)
 			        					<a href="{{ route('file.view', $client->consent_file_id) }}"
 			        						><i class="fa fa-eye"></i></a>
 			        					<a href="{{ route('file.download', $client->consent_file_id) }}"

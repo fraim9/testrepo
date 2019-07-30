@@ -65,14 +65,13 @@ class Client extends FormRequest
                 'discount' => 'nullable|int',
                 'discount_auto_calc' => 'boolean',
 
-                'subscribe' => 'boolean',
                 'postal_opt_in' => 'boolean',
                 'voice_opt_in' => 'boolean',
                 'email_opt_in' => 'boolean',
                 'msg_opt_in' => 'boolean',
                 
                 //'consent_file' => '',
-                'agreement_signed' => 'boolean',
+                'consent_signed' => 'boolean',
                 
                 'employee_id' => 'nullable|int',
                 

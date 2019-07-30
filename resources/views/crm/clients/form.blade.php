@@ -272,9 +272,9 @@
 							<hr>
 
 							@include('helpers.formCheckbox', [
-								'name' => 'agreement_signed', 
+								'name' => 'consent_signed', 
 								'label' => 'Consent signed',
-								'value' => $client->agreement_signed ?? ''
+								'value' => $client->consent_signed ?? ''
 							])
 							
 							<hr>
