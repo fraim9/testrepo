@@ -4,6 +4,8 @@ stages:
 deploy_to_dev:
   image: alpine:latest
   stage: deploy 
+  only:
+    - master
   script:
     - apk add --update openssh-client rsync
     - chmod 600 $ssh_dev_omnipos_key
@@ -11,5 +13,16 @@ deploy_to_dev:
     - rsync -az -e "ssh -i $ssh_dev_omnipos_key -o StrictHostKeyChecking=no" --rsync-path="mkdir -p /home/omnipos-backoffice/release && rsync"  . build@dev.omnipos.cloud:/home/omnipos-backoffice/release
     - ssh -i $ssh_dev_omnipos_key -o StrictHostKeyChecking=no build@dev.omnipos.cloud 'cd /home/omnipos-backoffice/release/ && mv .env.prod .env && composer install && sudo systemctl restart php7.3-fpm'
 
+deploy_to_demo:
+  image: alpine:latest
+  stage: deploy
+  only: 
+    - release-prd
+  script:
+    - apk add --update openssh-client rsync
+    - chmod 600 $ssh_demo_key
+    - ssh -i $ssh_demo_key -o StrictHostKeyChecking=no build@demo.omnipos.cloud 'mv /home/omnipos-backoffice/release /home/omnipos-backoffice/old || mkdir -p /home/omnipos-backoffice/release'
+    - rsync -az -e "ssh -i $ssh_demo_key -o StrictHostKeyChecking=no" --rsync-path="mkdir -p /home/omnipos-backoffice/release && rsync"  . build@demo.omnipos.cloud:/home/omnipos-backoffice/release
+    - ssh -i $ssh_demo_key -o StrictHostKeyChecking=no build@demo.omnipos.cloud 'cd /home/omnipos-backoffice/release/ && mv .env.prod .env && composer install && sudo systemctl restart php7.3-fpm'
 
 
