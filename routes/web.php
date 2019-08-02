@@ -54,6 +54,7 @@ Route::get('/admin/settings/auth-parameters', 'Settings\AuthParametersController
 Route::get('/admin/settings/auth-parameters/form', 'Settings\AuthParametersController@form')->name('authParameters.form');
 Route::post('/admin/settings/auth-parameters', 'Settings\AuthParametersController@store')->name('authParameters.store');
 
+Route::get('/admin/settings/license-info', 'Settings\LicenseInfoController@index')->name('licenseInfo.index');
 
 
 //=== USERS ===

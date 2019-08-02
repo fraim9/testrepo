@@ -128,8 +128,13 @@
                 </a>
             </li>
             <li class="nav-main-item">
-            	<a class="nav-main-link{{ request()->is('*/settings/authParameters*') ? ' active' : '' }}" href="{{ route('authParameters.index') }}">
+            	<a class="nav-main-link{{ request()->is('*/settings/auth-parameters*') ? ' active' : '' }}" href="{{ route('authParameters.index') }}">
                 	<span class="nav-main-link-name">{{ __('Auth parameters') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/settings/license-info*') ? ' active' : '' }}" href="{{ route('licenseInfo.index') }}">
+                	<span class="nav-main-link-name">{{ __('License Info') }}</span>
                 </a>
             </li>
         </ul>

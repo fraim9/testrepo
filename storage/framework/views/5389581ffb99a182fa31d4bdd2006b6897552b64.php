@@ -126,8 +126,13 @@
                 </a>
             </li>
             <li class="nav-main-item">
-            	<a class="nav-main-link<?php echo e(request()->is('*/settings/authParameters*') ? ' active' : ''); ?>" href="<?php echo e(route('authParameters.index')); ?>">
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/auth-parameters*') ? ' active' : ''); ?>" href="<?php echo e(route('authParameters.index')); ?>">
                 	<span class="nav-main-link-name"><?php echo e(__('Auth parameters')); ?></span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/license-info*') ? ' active' : ''); ?>" href="<?php echo e(route('licenseInfo.index')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('License Info')); ?></span>
                 </a>
             </li>
         </ul>

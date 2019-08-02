@@ -10,7 +10,7 @@ use App\Exceptions\ApiException;
 class AuthAPI
 {
     
-    function authentication($authKey, $authCode)
+    public function authentication($authKey, $authCode)
     {
         $data = [
                 'authKey' => $authKey,
@@ -43,7 +43,7 @@ class AuthAPI
     }
     
     
-    function validateUserLicense($authToken, $authKey, $userId)
+    public function validateUserLicense($authToken, $authKey, $userId)
     {
         $data = [
                 'authKey' => $authKey,
@@ -79,7 +79,7 @@ class AuthAPI
         }
     }
     
-    function checkWebUser($userId)
+    public function checkWebUser($userId)
     {
         $authKey = AuthParameters::authKey();
         $authCode = AuthParameters::authCode();
@@ -94,6 +94,47 @@ class AuthAPI
         }
         return false;
     }
+    
+    public function getLicenseInfo()
+    {
+        $authKey = AuthParameters::authKey();
+        $authCode = AuthParameters::authCode();
+        
+        $authAPI = new AuthAPI();
+        $result = $authAPI->authentication($authKey, $authCode);
+        if ($result->errorCode == 0) {
+        
+            $url = AuthParameters::apiAuthUrl();
+            $url = rtrim($url, '/') . '/api/licenseInfo';
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            //curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'charset=UTF-8',
+                    'Authorization: Bearer ' . $result->authToken,
+                    'Content-Length: 0')
+                    );
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $responseRaw = curl_exec($ch);
+            curl_close($ch);
+            
+            if (!$responseRaw) {
+                throw AEF::create(AEF::AUTH_TOKEN_INVALID);
+            }
+            $result = json_decode($responseRaw);
+            switch ($result->errorCode) {
+                case 0: return $result;
+                case 1: throw AEF::create(AEF::AUTH_GENERAL);
+                case 2: throw AEF::create(AEF::AUTH_AUTH_FAILED);
+                case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
+                default: throw new ApiException($result->errorMessage, $result->errorCode);
+            }
+            
+        }
+    }
+    
+    
     
     
     
