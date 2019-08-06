@@ -50,17 +50,17 @@ class User extends Authenticatable
 	
 	public function group()
 	{
-	    return $this->belongsTo('App\UserGroup');
+	    return $this->belongsTo('App\UserGroup')->withDefault(['name' => '---']);
 	}
 	
 	public function employee()
 	{
-	    return $this->belongsTo('App\Employee');
+	    return $this->belongsTo('App\Employee')->withDefault();
 	}
 	
 	public function role()
 	{
-	    return $this->belongsTo('App\AclRole');
+	    return $this->belongsTo('App\AclRole')->withDefault(['name' => '---']);
 	}
 	
 	public function stores()

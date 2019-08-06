@@ -36,11 +36,25 @@
 
 
 
-
 .no-border {
 	border:0 !important;
 }
 
 .required-input-marker {
 	color: #ccc;
+}
+
+img {
+	max-width: 100%;
+}
+
+.dt-buttons .btn {
+	color: #575757;
+    background-color: #fff;
+    border-color: #e1e1e1;
+	height: calc(1.8em + 0.75rem + 2px);
+    padding: 0.375rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.8;
 }

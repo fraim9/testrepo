@@ -25665,6 +25665,21 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   color: #ccc;
 }
 
+img {
+  max-width: 100%;
+}
+
+.dt-buttons .btn {
+  color: #575757;
+  background-color: #fff;
+  border-color: #e1e1e1;
+  height: calc(1.8em + 0.75rem + 2px);
+  padding: 0.375rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
 body {
   background-color: #e2e2e2 !important;
   font-size: 0.9rem;
@@ -25720,4 +25735,15 @@ ul.compact {
 
 .table .table tr::first-child td {
   border-top: 0 !important;
+}
+
+.table-filter th {
+  padding: 0.1rem 0.2rem;
+  background-color: #ebebeb;
+}
+
+.table-filter .form-control {
+  height: 2rem;
+  padding: 0.375rem 0.4rem;
+  font-size: 0.8rem;
 }

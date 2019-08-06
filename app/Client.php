@@ -20,42 +20,42 @@ class Client extends AppModel
 	
 	public function country()
 	{
-	    return $this->belongsTo('App\Country');
+	    return $this->belongsTo('App\Country')->withDefault();
 	}
 	
 	public function citizenship()
 	{
-	    return $this->belongsTo('App\Country');
+	    return $this->belongsTo('App\Country')->withDefault();
 	}
 	
 	public function timeZone()
 	{
-	    return $this->belongsTo('App\TimeZone', 'time_zone_id');
+	    return $this->belongsTo('App\TimeZone', 'time_zone_id')->withDefault();
 	}
 	
 	public function employee()
 	{
-	    return $this->belongsTo('App\Employee');
+	    return $this->belongsTo('App\Employee')->withDefault();
 	}
 	
 	public function responsible()
 	{
-	    return $this->belongsTo('App\Employee');
+	    return $this->belongsTo('App\Employee')->withDefault();
 	}
 	
 	public function createdEmployee()
 	{
-	    return $this->belongsTo('App\Employee', 'created_employee_id');
+	    return $this->belongsTo('App\Employee', 'created_employee_id')->withDefault();
 	}
 	
 	public function createdStore()
 	{
-	    return $this->belongsTo('App\Store', 'created_store_id');
+	    return $this->belongsTo('App\Store', 'created_store_id')->withDefault();
 	}
 	
 	public function attachedStore()
 	{
-	    return $this->belongsTo('App\Store', 'attached_store_id');
+	    return $this->belongsTo('App\Store', 'attached_store_id')->withDefault();
 	}
 	
 	/*

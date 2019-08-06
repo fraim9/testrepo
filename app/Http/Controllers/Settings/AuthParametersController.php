@@ -16,7 +16,16 @@ class AuthParametersController extends BackendController
     public function index()
     {
         $parameters = AuthParameters::getParameters();
-        return view('settings.authParameters.index', compact('parameters'));
+        
+        // {"authKey": "CLT-DEV","authCode": "PSeJcfdSQfzmBrWtV6u7"}
+        $forToken = new \stdClass();
+        $forToken->authKey = $parameters->auth_key;
+        $forToken->authCode = $parameters->auth_code;
+        $strToken = json_encode($forToken);
+        $token = str_random(3) . base64_encode($strToken);
+        
+        return view('settings.authParameters.index', compact('parameters', 'token'));
+        
     }
 
     

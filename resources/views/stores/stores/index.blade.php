@@ -82,7 +82,7 @@
             jQuery('.js-dataTable').dataTable({
             	'columnDefs': [
 					{ "width": "80px", targets: [ 4 ] }
-				]
+				],
             });
 
         });

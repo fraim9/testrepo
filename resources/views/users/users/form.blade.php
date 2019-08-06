@@ -7,6 +7,16 @@
 	        <div class="col-md-10">
 	        
 	        	<div class="block">
+	        	
+	        		@if ($token)
+	        		
+	        		<div class="row justify-content-center">
+	        			<div class="col-md-4 col-sm-6">
+			        		<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}">
+	        			</div>
+	        		</div>
+	        		@endif
+	        	
 					<form method="post" action="{{ route('users.store', $user ? $user->id : 0) }}">
 						@csrf
     	        		<div class="block-header block-header-default">
@@ -19,13 +29,6 @@
 								'label' => 'Username', 
 								'required' => true,
 								'value' => $user->username ?? ''
-							])
-								
-							@include('helpers.formText', [
-								'name' => 'password', 
-								'label' => 'Password', 
-								'description' => 'Here you can set a new password', 
-								'value' => ''
 							])
 								
 							@include('helpers.formText', [
@@ -82,8 +85,8 @@
 							<hr>
 							
 							<div class="form-group row">
-								<div class="col-md-4">
-									<label>{{ __('Stores') }}</label>
+								<div class="col-md-4 text-md-right text-md-right">
+									<label class="col-form-label">{{ __('Stores') }}</label>
 								</div>
 								<div class="col-md-8">
 									@if ($stores)
@@ -99,9 +102,25 @@
 							
 							</div>
 							
+							<hr>
+							<h6>{{ __('Set new password') }}</h6>
+							
+							@include('helpers.formText', [
+								'name' => 'password', 
+								'label' => 'Password', 
+								'description' => 'Here you can set a new password', 
+								'value' => ''
+							])
+							
+							@include('helpers.formCheckbox', [
+								'name' => 'qrcode', 
+								'label' => 'Generate QR Code', 
+								'value' => false,
+							])
+								
     					</div>
     					
-    					@include('helpers.formButtons')
+    					@include('helpers.formButtons', array('deleteUrl' => route('users.delete', $user->id)))
 						
 					</form>
 				</div>

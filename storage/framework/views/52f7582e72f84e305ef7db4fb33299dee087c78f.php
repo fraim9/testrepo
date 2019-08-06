@@ -83,7 +83,7 @@
             jQuery('.js-dataTable').dataTable({
             	'columnDefs': [
 					{ "width": "80px", targets: [ 4 ] }
-				]
+				],
             });
 
         });
@@ -92,4 +92,4 @@
 <?php $__env->stopSection(); ?>
 
 
-<?php echo $__env->make('layouts.backend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layouts.backend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/stores/stores/index.blade.php ENDPATH**/ ?>

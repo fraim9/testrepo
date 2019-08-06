@@ -31987,6 +31987,9 @@ var dataTablesAdapter = function dataTablesAdapter() {
     }); // Override a few defaults
 
     jQuery.extend(true, jQuery.fn.dataTable.defaults, {
+      processing: true,
+      colReorder: true,
+      orderCellsTop: true,
       pageLength: 25,
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       autoWidth: false,
@@ -32008,7 +32011,15 @@ var dataTablesAdapter = function dataTablesAdapter() {
           next: '<i class="fa fa-angle-right"></i>',
           last: '<i class="fa fa-angle-double-right"></i>'
         }
-      }
+      },
+      buttons: [{
+        extend: 'print',
+        text: '<i class="si si-printer"></i>'
+      }, {
+        extend: 'colvis',
+        text: '<i class="si si-eye mr-1"></i>'
+      }],
+      dom: "<'row'<'col-sm-12 col-md-1'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
     });
   });
 };
