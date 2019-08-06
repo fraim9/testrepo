@@ -57,8 +57,10 @@
         		        		<br><br>
 		        			</div>
 		        			<div class="col-md-4">
-		        				
+		        				{{--
 		        				<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}">
+		        				--}}
+		        				<img src="data:image/png;base64,{!! DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15) !!}">
 		        				
 		        			</div>
 		        		</div>

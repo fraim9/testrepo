@@ -7,6 +7,7 @@ use App\Http\Controllers\BackendController;
 use App\Http\Requests\AuthParameters as AuthParametersRequest;
 
 use App\AuthParameters;
+use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 
 
 class AuthParametersController extends BackendController
@@ -23,6 +24,8 @@ class AuthParametersController extends BackendController
         $forToken->authCode = $parameters->auth_code;
         $strToken = json_encode($forToken);
         $token = str_random(3) . base64_encode($strToken);
+        
+        //DNS2D::getBarcodePNG($token, 'DATAMATRIX', 1000, 100);
         
         return view('settings.authParameters.index', compact('parameters', 'token'));
         

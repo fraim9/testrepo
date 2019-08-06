@@ -10,7 +10,10 @@
 	        		
 	        		<div class="row justify-content-center">
 	        			<div class="col-md-4 col-sm-6">
-			        		<img src="data:image/png;base64,<?php echo base64_encode(QrCode::format('png')->size('1000')->generate($token)); ?>">
+	        				
+			        		<div class="p-4">
+				        		<img src="data:image/png;base64,<?php echo DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15); ?>">
+			        		</div>
 	        			</div>
 	        		</div>
 	        		<?php endif; ?>
