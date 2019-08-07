@@ -72,6 +72,9 @@ class ApiController extends Controller
                         
                         $status = 401;
                         break;
+                    case AEF::AUTH_GENERAL:
+                        $status = 500;
+                        break;
                     default:
                         $status = 400;
                 }
