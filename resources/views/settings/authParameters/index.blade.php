@@ -56,14 +56,20 @@
         		        		
         		        		<br><br>
 		        			</div>
-		        			<div class="col-md-4">
-		        				{{--
-		        				<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}">
-		        				--}}
-		        				<img src="data:image/png;base64,{!! DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15) !!}">
+		        			<div class="col-md-4 text-center">
 		        				
+    		        			<div class="p-5">
+			        				<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}" width="150" height="150">
+    			        		</div>
+		        				
+    		        			<div class="p-5">
+    				        		<img src="data:image/png;base64,{!! DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15) !!}" width="150" height="150">
+    			        		</div>
+
 		        			</div>
 		        		</div>
+		        		
+		        		<div class="text-center p-5" style="color:#fff;">{{ $token }}</div>
 		        		
 		        	</div>
 	        	</div>
