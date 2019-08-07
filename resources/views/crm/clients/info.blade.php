@@ -108,8 +108,8 @@
     						</div>
     						<div class="col-6 text-right">
         		        		<a href="{{ route('clients.delete', $client->id) }}" 
-        		        			class="btn btn-sm btn-dark" onclick="return confirm('{{ __('Remove this client?') }}');"
-        		        			>{{ __('Remove') }}</a>
+        		        			class="btn btn-sm btn-outline-dark" onclick="return confirm('{{ __('Delete this client?') }}');"
+        		        			>{{ __('Delete') }}</a>
     						</div>
 						</div>
 		        		<br><br>

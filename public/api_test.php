@@ -29,6 +29,7 @@ if (!isset($_SESSION['test_api_access_token']) || isset($_GET['clean_token'])) {
     
     $result = json_decode($responseRaw);
     
+    echo 'URL: ' . $url . '<br>';
     echo 'HTTP Code: ' . $headers['http_code'] . '<br>';
     echo '<pre>';
     print_r($result);
@@ -61,12 +62,9 @@ if (!isset($_SESSION['test_api_access_token']) || isset($_GET['clean_token'])) {
     $headers = curl_getinfo($ch);
     curl_close($ch);
     
-    echo '<pre>';
-    print_r($responseRaw);
-    echo '</pre>';
-    
     $result = json_decode($responseRaw);
     
+    echo 'URL: ' . $url . '<br>';
     echo 'HTTP Code: ' . $headers['http_code'] . '<br>';
     echo '<pre>';
     print_r($result);
@@ -110,7 +108,7 @@ if ($method) {
     $dataString = json_encode($data);   
     
     //$url = 'http://omnipos2.local/api/v0/files/22';
-    $url = 'http://omnipos2.local/api/v0/' . $method;
+    $url = $baseUrl . '/api/v0/' . $method;
     //$url = 'https://dev.omnipos.cloud/api/v0/' . $method;
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -129,6 +127,7 @@ if ($method) {
     
     $result = json_decode($responseRaw);
     
+    echo 'URL: ' . $url . '<br>';
     echo 'Method: ' . $method . '<br>';
     echo 'HTTP Code: ' . $headers['http_code'] . '<br>';
     echo '<pre>';
