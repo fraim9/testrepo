@@ -7,15 +7,12 @@
 	        	<div class="block">
 	        	
 	        		<?php if($token): ?>
-	        		
-	        		<div class="row justify-content-center">
-	        			<div class="col-md-4 col-sm-6">
-	        				
-			        		<div class="p-4">
-				        		<img src="data:image/png;base64,<?php echo DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15); ?>">
-			        		</div>
-	        			</div>
-	        		</div>
+    	        		<div class="row justify-content-center">
+    	        			<div class="col-md-4 col-sm-6 p-5">
+   			        			<img src="data:image/png;base64,<?php echo base64_encode(QrCode::format('png')->size('1000')->generate($token)); ?>" width="200" height="200">
+    	        			</div>
+    	        		</div>
+    	        		<div class="text-center" style="color:#fff;"><?php echo e($token); ?></div>
 	        		<?php endif; ?>
 	        	
 					<form method="post" action="<?php echo e(route('users.store', $user ? $user->id : 0)); ?>">
@@ -115,7 +112,7 @@
 							
 							<?php echo $__env->make('helpers.formCheckbox', [
 								'name' => 'qrcode', 
-								'label' => 'Generate QR Code', 
+								'label' => 'Generate DataMatrix Code', 
 								'value' => false,
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 								

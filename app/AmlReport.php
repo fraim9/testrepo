@@ -9,7 +9,8 @@ class AmlReport extends AppModel
 	
 	protected $fillable = [
 	        'mini_quest_id', 'store_id', 'initiator_id', 'responsible_id',
-	        'client_id', 'citizenship_id', 'passport_series', 'passport_number', 'passport_issued_date',
+	        'client_id', 'first_name', 'middle_name', 'last_name', 'birth_date', 
+	        'citizenship_id', 'passport_series', 'passport_number', 'passport_issued_date',
 	        'passport_issued_by', 'passport_subdivision_code',
 	        'inn', 'registration_address', 'residence_address',
 	        'migration_series', 'migration_number', 'migration_stay_from', 'migration_stay_to',

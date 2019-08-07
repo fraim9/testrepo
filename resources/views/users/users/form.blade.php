@@ -11,10 +11,7 @@
 	        		@if ($token)
     	        		<div class="row justify-content-center">
     	        			<div class="col-md-4 col-sm-6 p-5">
-   			        			<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}" width="150" height="150">
-    	        			</div>
-    	        			<div class="col-md-4 col-sm-6 p-5">
-   				        		<img src="data:image/png;base64,{!! DNS2D::getBarcodePNG($token, 'DATAMATRIX', 15, 15) !!}" width="150" height="150">
+   			        			<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}" width="200" height="200">
     	        			</div>
     	        		</div>
     	        		<div class="text-center" style="color:#fff;">{{ $token }}</div>
@@ -117,7 +114,7 @@
 							
 							@include('helpers.formCheckbox', [
 								'name' => 'qrcode', 
-								'label' => 'Generate DataMatrix Code', 
+								'label' => 'Generate QR Code', 
 								'value' => false,
 							])
 								

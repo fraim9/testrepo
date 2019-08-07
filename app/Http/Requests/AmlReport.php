@@ -25,7 +25,7 @@ class AmlReport extends FormRequest
     {
         return [
                 'first_name' => 'required|string|max:50',
-                'middle_name' => 'required|string|max:50',
+                'middle_name' => 'nullable|string|max:50',
                 'last_name' => 'required|string|max:50',
                
                 'birth_date' => 'required|date',
