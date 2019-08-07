@@ -56,16 +56,30 @@ class ApiController extends Controller
             $result->errorCode = $e->getCode();
             $result->errorMessage = $e->getMessage();
             $result->errorDetails = AEF::getDetails();
-            switch ($e->getCode()) {
-                case AEF::USER_LOGIN_EMPTY:
-                case AEF::USER_PASSWORD_EMPTY:
-                case AEF::USER_CREDENTIALS_INVALID:
-                    $status = 401;
-                default:
-                    $status = 500;
+            
+            if ($e instanceof ApiException) {
+                switch ($e->getCode()) {
+                    case AEF::USER_LOGIN_EMPTY:
+                    case AEF::USER_PASSWORD_EMPTY:
+                    case AEF::USER_CREDENTIALS_INVALID:
+                        
+                    case AEF::AUTH_AUTH_FAILED:
+                    case AEF::AUTH_NO_LICENSE:
+                    case AEF::AUTH_TOKEN_INVALID:
+                        
+                    case AEF::ACCESS_TOKEN_EMPTY:
+                    case AEF::ACCESS_TOKEN_INVALID:
+                        
+                        $status = 401;
+                        break;
+                    default:
+                        $status = 400;
+                }
+            } else {
+                $status = 500;
             }
         }
-        
+
         $result->callId = 0;
         
         return response(json_encode($result), $status)
@@ -147,12 +161,13 @@ class ApiController extends Controller
         if (!$password) {
             throw AEF::create(AEF::USER_PASSWORD_EMPTY);
         }
+        $authToken = $request->input('authToken');
+        if (!$authToken) {
+            throw AEF::create(AEF::AUTH_TOKEN_EMPTY);
+        }
+        
         if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
             
-            $authToken = $request->input('authToken');
-            if (!$authToken) {
-                throw AEF::create(AEF::AUTH_TOKEN_EMPTY);
-            }
             $authKey = AuthParameters::authKey();
             $user = Auth::user();
             
@@ -291,11 +306,11 @@ class ApiController extends Controller
         $token = $request->bearerToken();
         
         if (!strlen($token)) {
-            throw AEF::create(AEF::API_TOKEN_EMPTY);
+            throw AEF::create(AEF::ACCESS_TOKEN_EMPTY);
         }
         
         if (!$this->_tokenValid($token)) {
-            throw AEF::create(AEF::API_TOKEN_INVALID);
+            throw AEF::create(AEF::ACCESS_TOKEN_INVALID);
         }
         /*
         if (!$this->_tokenExpirationDateValid($token)) {

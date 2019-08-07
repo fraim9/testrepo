@@ -112,7 +112,7 @@
 							
 							<?php echo $__env->make('helpers.formCheckbox', [
 								'name' => 'qrcode', 
-								'label' => 'Generate DataMatrix Code', 
+								'label' => 'Generate QR Code', 
 								'value' => false,
 							], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 								

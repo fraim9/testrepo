@@ -122,11 +122,24 @@
                 	<span class="nav-main-link-name">{{ __('Load XML files') }}</span>
                 </a>
             </li>
+            {{--
             <li class="nav-main-item">
             	<a class="nav-main-link{{ request()->is('*/settings/settings*') ? ' active' : '' }}" href="{{ route('settings.index') }}">
                 	<span class="nav-main-link-name">{{ __('Settings') }}</span>
                 </a>
             </li>
+            --}}
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/settings/form/iPOS*') ? ' active' : '' }}" href="{{ route('settings.form', 'iPOS') }}">
+                	<span class="nav-main-link-name">{{ __('iPOS') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/settings/form/Storage*') ? ' active' : '' }}" href="{{ route('settings.form', 'Storage') }}">
+                	<span class="nav-main-link-name">{{ __('Storage') }}</span>
+                </a>
+            </li>
+            
             <li class="nav-main-item">
             	<a class="nav-main-link{{ request()->is('*/settings/auth-parameters*') ? ' active' : '' }}" href="{{ route('authParameters.index') }}">
                 	<span class="nav-main-link-name">{{ __('Auth parameters') }}</span>

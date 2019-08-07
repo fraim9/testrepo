@@ -30,16 +30,10 @@ class AuthAPI
                 );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $responseRaw = curl_exec($ch);
+        $headers = curl_getinfo($ch);
         curl_close($ch);
         
-        $result = json_decode($responseRaw);
-        switch ($result->errorCode) {
-            case 0: return $result;
-            case 1: throw AEF::create(AEF::AUTH_GENERAL);
-            case 2: throw AEF::create(AEF::AUTH_AUTH_FAILED);
-            case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
-            default: throw new ApiException($result->errorMessage, $result->errorCode);
-        }
+        return $this->_responseProcessing($responseRaw, $headers);
     }
     
     
@@ -64,19 +58,11 @@ class AuthAPI
                 );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $responseRaw = curl_exec($ch);
+        $headers = curl_getinfo($ch);
         curl_close($ch);
         
-        if (!$responseRaw) {
-            throw AEF::create(AEF::AUTH_TOKEN_INVALID);
-        }
-        $result = json_decode($responseRaw);
-        switch ($result->errorCode) {
-            case 0: return true;
-            case 1: throw AEF::create(AEF::AUTH_GENERAL);
-            case 2: throw AEF::create(AEF::AUTH_AUTH_FAILED);
-            case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
-            default: throw new ApiException($result->errorMessage, $result->errorCode);
-        }
+        $result = $this->_responseProcessing($responseRaw, $headers);
+        return ($result->errorCode == 0);
     }
     
     public function checkWebUser($userId)
@@ -117,21 +103,31 @@ class AuthAPI
                     );
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $responseRaw = curl_exec($ch);
+            $headers = curl_getinfo($ch);
             curl_close($ch);
             
-            if (!$responseRaw) {
-                throw AEF::create(AEF::AUTH_TOKEN_INVALID);
-            }
+            return $this->_responseProcessing($responseRaw, $headers);
+        }
+    }
+    
+    protected function _responseProcessing($responseRaw, $headers)
+    {
+        if ($headers['http_code'] == 200) {
             $result = json_decode($responseRaw);
             switch ($result->errorCode) {
+                
                 case 0: return $result;
+                
                 case 1: throw AEF::create(AEF::AUTH_GENERAL);
                 case 2: throw AEF::create(AEF::AUTH_AUTH_FAILED);
                 case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
-                default: throw new ApiException($result->errorMessage, $result->errorCode);
+                default: throw new ApiException($result->errorMessage . ' [remote]', $result->errorCode);
             }
-            
+        } else if ($headers['http_code'] == 401) {
+            throw AEF::create(AEF::AUTH_TOKEN_INVALID);
         }
+        
+        throw AEF::create(AEF::AUTH_GENERAL);
     }
     
     

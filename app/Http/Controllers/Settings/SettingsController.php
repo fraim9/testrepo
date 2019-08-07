@@ -34,7 +34,8 @@ class SettingsController extends BackendController
         $settings->fill($request->all());
         $settings->save();
 	    
-	    return redirect()->route('settings.index')->with('success', 'Settings has been saved');
+	    //return redirect()->route('settings.index')->with('success', 'Settings has been saved');
+        return redirect()->route('settings.form', $settings->_id)->with('success', 'Settings has been saved');
     }
     
     

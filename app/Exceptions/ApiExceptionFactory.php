@@ -10,9 +10,8 @@ class ApiExceptionFactory
     const API_VERSION_UNKNOWN       = 100010;
     const API_METHOD_UNKNOWN        = 100020;
     
-    const API_TOKEN_EMPTY           = 101010;
-    const API_TOKEN_INVALID         = 101020;
-    const API_TOKEN_EXPIRED         = 101030;
+    const ACCESS_TOKEN_EMPTY        = 101010;
+    const ACCESS_TOKEN_INVALID      = 101020;
     
     // 200000 - Ошибки авторизации приложений
     
@@ -59,9 +58,8 @@ class ApiExceptionFactory
         switch ($code) {
             case self::API_VERSION_UNKNOWN: return 'Unknown version of API';
             case self::API_METHOD_UNKNOWN: return 'Unknown method of API';
-            case self::API_TOKEN_EMPTY: return 'ACCESS Token is empty';
-            case self::API_TOKEN_INVALID: return 'ACCESS Token is invalid';
-            case self::API_TOKEN_EXPIRED: return 'ACCESS Token expired';
+            case self::ACCESS_TOKEN_EMPTY: return 'ACCESS Token is empty';
+            case self::ACCESS_TOKEN_INVALID: return 'ACCESS Token is invalid';
 
             case self::USER_LOGIN_EMPTY: return 'User login is empty';
             case self::USER_PASSWORD_EMPTY: return 'User password is empty';

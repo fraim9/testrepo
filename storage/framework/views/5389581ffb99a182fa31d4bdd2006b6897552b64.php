@@ -120,11 +120,18 @@
                 	<span class="nav-main-link-name"><?php echo e(__('Load XML files')); ?></span>
                 </a>
             </li>
+            
             <li class="nav-main-item">
-            	<a class="nav-main-link<?php echo e(request()->is('*/settings/settings*') ? ' active' : ''); ?>" href="<?php echo e(route('settings.index')); ?>">
-                	<span class="nav-main-link-name"><?php echo e(__('Settings')); ?></span>
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/form/iPOS*') ? ' active' : ''); ?>" href="<?php echo e(route('settings.form', 'iPOS')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('iPOS')); ?></span>
                 </a>
             </li>
+            <li class="nav-main-item">
+            	<a class="nav-main-link<?php echo e(request()->is('*/settings/form/Storage*') ? ' active' : ''); ?>" href="<?php echo e(route('settings.form', 'Storage')); ?>">
+                	<span class="nav-main-link-name"><?php echo e(__('Storage')); ?></span>
+                </a>
+            </li>
+            
             <li class="nav-main-item">
             	<a class="nav-main-link<?php echo e(request()->is('*/settings/auth-parameters*') ? ' active' : ''); ?>" href="<?php echo e(route('authParameters.index')); ?>">
                 	<span class="nav-main-link-name"><?php echo e(__('Auth parameters')); ?></span>
@@ -138,4 +145,4 @@
         </ul>
     </li>
     
-</ul>
+</ul><?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/layouts/backendMainMenu.blade.php ENDPATH**/ ?>
