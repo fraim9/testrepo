@@ -28,8 +28,6 @@ class LoadFilesController extends BackendController
             $data[$actionCode] = $userActions->find($actionCode);
         }
         
-        //$cities = City::orderBy('name')->get();
-        
     	return view('settings.loadFiles.index', compact('data'));
     }
 
