@@ -140,6 +140,7 @@
 
                     <!-- Options -->
                     <div>
+                    	{{--
                         <!-- Color Variations -->
                         <div class="dropdown d-inline-block ml-3">
                             <a class="text-dual font-size-sm" id="sidebar-themes-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
@@ -200,7 +201,8 @@
                             </div>
                         </div>
                         <!-- END Themes -->
-
+						--}}
+						
                         <!-- Close Sidebar, Visible only on mobile screens -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                         <a class="d-lg-none text-dual ml-3" data-toggle="layout" data-action="sidebar_close" href="javascript:void(0)">
