@@ -25723,6 +25723,14 @@ body {
   font-size: 0.9rem;
 }
 
+.logo-backend {
+  width: 128px;
+}
+
+.logo-front-fp {
+  width: 410px;
+}
+
 ul.compact {
   margin: 0;
   padding: 0 0 0 1.1rem;

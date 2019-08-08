@@ -24,7 +24,7 @@
         <link rel="stylesheet" id="css-main" href="<?php echo e(mix('/css/oneui.css')); ?>">
 
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
-        <!-- <link rel="stylesheet" id="css-theme" href="<?php echo e(mix('/css/themes/amethyst.css')); ?>"> -->
+        <link rel="stylesheet" id="css-theme" href="<?php echo e(mix('/css/themes/city.css')); ?>">
         <?php echo $__env->yieldContent('css_after'); ?>
 
         <!-- Scripts -->
@@ -88,3 +88,4 @@
         <?php echo $__env->yieldContent('js_after'); ?>
     </body>
 </html>
+<?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/layouts/simple.blade.php ENDPATH**/ ?>

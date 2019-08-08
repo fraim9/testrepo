@@ -129,12 +129,7 @@
                 <!-- Side Header -->
                 <div class="content-header bg-white-5">
                     <!-- Logo -->
-                    <a class="font-w600 text-dual" href="/">
-                        <i class="fa fa-circle-notch text-primary"></i>
-                        <span class="smini-hide">
-                            <span class="font-w700 font-size-h5">mni</span> <span class="font-w400">POS</span>
-                        </span>
-                    </a>
+                    <img src="<?php echo e(asset('media/logo.png')); ?>" class="logo-backend">
                     <!-- END Logo -->
 
                     <!-- Options -->
@@ -430,3 +425,4 @@
         
     </body>
 </html>
+<?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/layouts/backend.blade.php ENDPATH**/ ?>
