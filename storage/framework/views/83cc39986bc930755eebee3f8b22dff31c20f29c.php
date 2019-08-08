@@ -118,7 +118,7 @@
 								
     					</div>
     					
-    					<?php echo $__env->make('helpers.formButtons', array('deleteUrl' => route('users.delete', $user->id)), \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    					<?php echo $__env->make('helpers.formButtons', array('deleteUrl' => $user ? route('users.delete', $user->id) : false), \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 						
 					</form>
 				</div>

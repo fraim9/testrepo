@@ -121,7 +121,7 @@ class AuthAPI
                 case 1: throw AEF::create(AEF::AUTH_GENERAL);
                 case 2: throw AEF::create(AEF::AUTH_AUTH_FAILED);
                 case 3: throw AEF::create(AEF::AUTH_NO_LICENSE);
-                default: throw new ApiException($result->errorMessage . ' [remote]', $result->errorCode);
+                default: throw new ApiException($result->errorMessage, $result->errorCode);
             }
         } else if ($headers['http_code'] == 401) {
             throw AEF::create(AEF::AUTH_TOKEN_INVALID);

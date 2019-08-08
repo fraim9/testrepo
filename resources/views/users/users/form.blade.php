@@ -120,7 +120,7 @@
 								
     					</div>
     					
-    					@include('helpers.formButtons', array('deleteUrl' => route('users.delete', $user->id)))
+    					@include('helpers.formButtons', array('deleteUrl' => $user ? route('users.delete', $user->id) : false))
 						
 					</form>
 				</div>
