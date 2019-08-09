@@ -11,7 +11,7 @@
     
     <li class="nav-main-item{{ request()->is('admin/crm*') ? ' open' : '' }}">
         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
-            <i class="nav-main-link-icon fas fa-building"></i>
+            <i class="nav-main-link-icon si si-magic-wand"></i>
             <span class="nav-main-link-name">CRM</span>
         </a>
         <ul class="nav-main-submenu">
@@ -47,7 +47,7 @@
     </li>
     <li class="nav-main-item{{ request()->is('admin/store*') ? ' open' : '' }}">
         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
-            <i class="nav-main-link-icon fas fa-building"></i>
+            <i class="nav-main-link-icon fa fa-store-alt"></i>
             <span class="nav-main-link-name">Stores</span>
         </a>
         <ul class="nav-main-submenu">

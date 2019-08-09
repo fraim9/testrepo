@@ -12,7 +12,7 @@
 					                
 					                <div class="form-group row mb-5">
 			                            <div class="col-sm-7 offset-sm-3">
-			                                <img src="<?php echo e(asset('media/logo.png')); ?>">
+			                                <img src="<?php echo e(asset('media/logo_dark.png')); ?>">
 			                            </div>
 			                        </div>
 									

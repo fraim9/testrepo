@@ -14,7 +14,7 @@
 					                
 					                <div class="form-group row mb-5">
 			                            <div class="col-sm-7 offset-sm-3">
-			                                <img src="{{ asset('media/logo.png') }}">
+			                                <img src="{{ asset('media/logo_dark.png') }}">
 			                            </div>
 			                        </div>
 									

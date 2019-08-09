@@ -7,7 +7,7 @@
             <div class="hero-inner">
                 <div class="content content-full text-center">
                     <div class="mb-5 invisible" data-toggle="appear" data-class="animated fadeInDown">
-                        <img src="{{ asset('media/logo.png') }}" class="logo-front-fp">
+                        <img src="{{ asset('media/logo_dark.png') }}" class="logo-front-fp">
                     </div>
                     <span class="mt-4 d-inline-block invisible" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
                         <a class="btn btn-primary px-4 py-2" href="/admin">
