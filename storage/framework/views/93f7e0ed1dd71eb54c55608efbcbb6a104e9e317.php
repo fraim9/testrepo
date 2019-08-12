@@ -44,4 +44,4 @@
 
 		});
 	</script>
-<?php $__env->stopPush(); ?>
+<?php $__env->stopPush(); ?><?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/helpers/notification.blade.php ENDPATH**/ ?>
