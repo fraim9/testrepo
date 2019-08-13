@@ -123,6 +123,8 @@ Route::get('/admin/crm/clients/info/{id}', 'Crm\ClientsController@info')->name('
 Route::get('/admin/crm/clients/amlReportView/{id}', 'Crm\ClientsController@amlReportView')->name('clients.amlReportView');
 Route::get('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReport')->name('clients.amlReport');
 Route::post('/admin/crm/clients/amlReport/{id}', 'Crm\ClientsController@amlReportStore')->name('clients.amlReportStore');
+Route::get('/admin/crm/clients/data', 'Crm\ClientsController@data')->name('clients.data');
+Route::get('/admin/crm/clients/filter', 'Crm\ClientsController@filter')->name('clients.filter');
 
 
 

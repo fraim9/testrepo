@@ -59,7 +59,32 @@ class dataTablesAdapter
 		});
         
 	}
+	
+	init(obj, filterUrl, tableOptions)
+	{
+		// Init full DataTable
+        var oTable = obj.dataTable(tableOptions);
 
+        var timerId = null;
+        obj.find('thead tr input, thead tr select').on( 'keyup change clear', function () {
+			var control = $(this);
+			clearTimeout(timerId);
+			timerId = setTimeout(function() {
+					var data = {};
+					data[control.attr('name')] = control.val();
+                	axios.get(filterUrl, {
+                			params: data
+                		})
+                		.then(function (response) {
+                			oTable.fnDraw();
+                		})
+                		.catch(function (error) {
+                	  		console.log(error);
+                		});
+				}, 500);
+        });
+	}
+	
 	
 }
 

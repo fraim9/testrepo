@@ -1,2 +1,0 @@
-<a href="<?php echo e($url); ?>" class="btn btn-sm btn-light" title="<?php echo e(__($title)); ?>"
-	onclick="return confirm('<?php echo e(__($confirm)); ?>');"><i class="fa fa-fw fa-times"></i></a><?php /**PATH /Users/roman/WebServers/clt-omnipos2/resources/views/helpers/btnDelete.blade.php ENDPATH**/ ?>

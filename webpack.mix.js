@@ -25,7 +25,7 @@ const mix = require('laravel-mix');
     .js('resources/assets/js/oneui/app.js', 'public/js/oneui.app.js')
 
     /* Tools */
-    .browserSync('localhost:8000')
+    //.browserSync('localhost:8000')
     .disableNotifications()
 
     /* Options */

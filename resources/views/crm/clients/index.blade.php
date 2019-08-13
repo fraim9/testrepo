@@ -17,69 +17,59 @@
     <div class="content">
         <div class="block">
         	<div class="block-content">
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+		        <table id="clientsTable" class="table table-bordered table-hover table-vcenter js-dataTable">
 		        	<thead>
 		        		<tr>
 		        			<th>{{ __('ID') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
 		        			<th>{{ __('Phone') }}</th>
-		        			<th class="text-center"><i class="fa fa-phone-square"></i></th>
-		        			<th class="text-center"><i class="fa fa-envelope"></i></th>
-		        			<th class="text-center"><i class="fa fa-comment-alt"></i></th>
-		        			<th class="text-center"><i class="fa fa-home"></i></th>
-		        			<th class="text-center"><i class="fa fa-clipboard-list"></i></th>
+		        			<th class="text-center text-small">{{ __('Phone Opt-In') }}</th>
+		        			<th class="text-center text-small">{{ __('Email Opt-In') }}</th>
+		        			<th class="text-center text-small">{{ __('Msg Opt-In') }}</th>
+		        			<th class="text-center text-small">{{ __('Postal Opt-In') }}</th>
+		        			<th class="text-center text-small">{{ __('Consent File') }}</th>
 		        			<th class="text-center">Mini</th>
 		        			<th class="text-center">AML</th>
 		        		</tr>
+		        		<tr class="table-filter">
+		        			<th><input type="text" class="form-control" name="fId" value="{{ $filter->fId }}"></th>
+		        			<th><input type="text" class="form-control" name="fName" value="{{ $filter->fName }}"></th>
+		        			<th><input type="text" class="form-control" name="fEmail" value="{{ $filter->fEmail }}"></th>
+		        			<th><input type="text" class="form-control" name="fPhone" value="{{ $filter->fPhone }}"></th>
+		        			<th>
+		        				<select class="form-control form-control-sm" name="fVoiceOptIn">
+                                	<option value="">{{ __('-- all --') }}</option>
+									<option value="1" {{ (1 == $filter->fVoiceOptIn) ? 'selected' : '' }}>{{ __('selected') }}</option>
+									<option value="2" {{ (2 == $filter->fVoiceOptIn) ? 'selected' : '' }}>{{ __('not selected') }}</option>
+                                </select>
+		        			</th>
+		        			<th>
+		        				<select class="form-control form-control-sm" name="fEmailOptIn">
+                                	<option value="">{{ __('-- all --') }}</option>
+									<option value="1" {{ (1 == $filter->fEmailOptIn) ? 'selected' : '' }}>{{ __('selected') }}</option>
+									<option value="2" {{ (2 == $filter->fEmailOptIn) ? 'selected' : '' }}>{{ __('not selected') }}</option>
+                                </select>
+		        			</th>
+		        			<th>
+		        				<select class="form-control form-control-sm" name="fMsgOptIn">
+                                	<option value="">{{ __('-- all --') }}</option>
+									<option value="1" {{ (1 == $filter->fMsgOptIn) ? 'selected' : '' }}>{{ __('selected') }}</option>
+									<option value="2" {{ (2 == $filter->fMsgOptIn) ? 'selected' : '' }}>{{ __('not selected') }}</option>
+                                </select>
+		        			</th>
+		        			<th>
+		        				<select class="form-control form-control-sm" name="fPostalOptIn">
+                                	<option value="">{{ __('-- all --') }}</option>
+									<option value="1" {{ (1 == $filter->fPostalOptIn) ? 'selected' : '' }}>{{ __('selected') }}</option>
+									<option value="2" {{ (2 == $filter->fPostalOptIn) ? 'selected' : '' }}>{{ __('not selected') }}</option>
+                                </select>
+		        			</th>
+		        			<th></th>
+		        			<th></th>
+		        			<th></th>
+		        		</tr>
 		        	</thead>
-		        	<tbody>
-			        	@foreach ($clients as $client)
-			        		<tr>
-			        			<td>{{ $client->id }}</td>
-			        			<td><a href="{{ route('clients.info', $client->id) }}">{{ $client->name }}</a></td>
-			        			<td>{{ $client->email }}</td>
-			        			<td>{{ $client->phone }}</td>
-			        			<td class="text-center {{ $client->voice_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-phone-square"></i></td>
-			        			<td class="text-center {{ $client->email_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-envelope"></i></td>
-			        			<td class="text-center {{ $client->msg_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-comment-alt"></i></td>
-			        			<td class="text-center {{ $client->postal_opt_in ? 'text-success' : 'text-light-gray' }}"><i class="fa fa-home"></i></td>
-			        			<td class="text-center text-light-gray">
-			        				@if ($client->consent_file_id)
-			        					<a href="{{ route('file.view', $client->consent_file_id) }}"
-			        						><i class="fa fa-eye"></i></a>
-			        					<a href="{{ route('file.download', $client->consent_file_id) }}"
-			        						><i class="fa fa-download"></i></a>
-			        				@else
-			        					---
-			        				@endif
-			        			</td>
-			        			<td class="text-center text-light-gray">
-									@if ($client->amlMini)
-			        					<a href="{{ route('file.view', $client->amlMini->questionnaire_file_id) }}"
-			        						><i class="fa fa-eye"></i></a>
-			        					<a href="{{ route('file.download', $client->amlMini->questionnaire_file_id) }}"
-			        						><i class="fa fa-download"></i></a>
-			        				@else
-			        					---
-			        				@endif
-								</td>
-			        			<td class="text-center text-light-gray">
-									@if ($client->amlMini)
-			        					@if ($client->amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED)
-    										<a href="{{ route('clients.amlReportView', $client->amlMini->report->id) }}" 
-    											><i class="fa fa-eye"></i></a>
-										@else
-    										<a href="{{ route('clients.amlReport', $client->amlMini->report->id) }}" 
-    											><i class="fa fa-edit"></i></a>
-										@endif
-			        				@else
-			        					---
-			        				@endif
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
 		        </table>
         
         	</div>
@@ -93,26 +83,47 @@
 
 
 @section('css_after')
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
+
+	@include('helpers.datatables.includeCSS')
+	
 @endsection
 
-@section('js_after')
-	<script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-    
+@section('js_after')
+	
+	@include('helpers.datatables.includeJS')
+	
     <script>
         jQuery(function(){
 
-        	// Init full DataTable
-            jQuery('.js-dataTable').dataTable({
-            	'columnDefs': [
-					{ "width": "40px", "sortable":false, targets: [ 4, 5, 6, 7, 8, 9 ] }
-				]
-            });
-
+        	dtAdapter.init(
+                	jQuery('#clientsTable'), 
+                	'{!! route('clients.filter') !!}',
+                	{
+                		serverSide: true,
+                		ajax: '{!! route('clients.data') !!}',
+                        columns: [
+                            { data: 'id', name: 'id' },
+                            { data: 'name', name: 'name' },
+                            { data: 'email', name: 'email' },
+                            { data: 'phone', name: 'phone' },
+                            { data: 'voice_opt_in', name: 'voice_opt_in' },
+                            { data: 'email_opt_in', name: 'email_opt_in' },
+                            { data: 'msg_opt_in', name: 'msg_opt_in' },
+                            { data: 'postal_opt_in', name: 'postal_opt_in' },
+                            { data: 'consent_file_id', name: 'consent_file_id' },
+                            { data: 'mini', name: 'mini' },
+                            { data: 'aml', name: 'aml' },
+                        ],
+                    	columnDefs: [
+                    		{ "width": "40px", "sortable":false, targets: [ 4, 5, 6, 7, 8, 9 ] },
+        				],
+            		}
+            );
         });
     </script>
     
 @endsection
+
+
 

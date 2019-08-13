@@ -29,6 +29,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 import {dtAdapter} from '../dataTablesAdapter.js';
+window.dtAdapter = dtAdapter;
 
 const Ladda = require('ladda');
 Ladda.bind('.ladda-button', {

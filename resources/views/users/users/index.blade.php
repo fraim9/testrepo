@@ -17,8 +17,8 @@
     <div class="content">
         <div class="block">
         	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        		
+		        <table id="usersTable" class="table table-bordered table-hover table-vcenter js-dataTable">
 		        	<thead>
 		        		<tr>
 		        			<th data-class-name="text-center">{{ __('A') }}</th>
@@ -82,67 +82,39 @@
 
 
 @section('css_after')
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
 
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/ColReorder-1.5.0/css/colReorder.dataTables.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/ColReorder-1.5.0/css/colReorder.bootstrap4.min.css') }}">
-	
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/Buttons-1.5.6/css/buttons.bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/Buttons-1.5.6/css/buttons.bootstrap4.min.css') }}">
+	@include('helpers.datatables.includeCSS')
 	
 @endsection
 
+
 @section('js_after')
-	<script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-    <script src="{{ asset('js/plugins/datatables/ColReorder-1.5.0/js/dataTables.colReorder.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/ColReorder-1.5.0/js/colReorder.bootstrap4.min.js') }}"></script>
-
-    <script src="{{ asset('js/plugins/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/Buttons-1.5.6/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/Buttons-1.5.6/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/Buttons-1.5.6/js/buttons.print.min.js') }}"></script>
-
+	
+	@include('helpers.datatables.includeJS')
+	
     <script>
         jQuery(function(){
 
-        	// Init full DataTable
-            var oTable = jQuery('.js-dataTable').dataTable({
-                serverSide: true,
-                ajax: '{!! route('users.data') !!}',
-                columns: [
-                    { data: 'active', name: 'active' },
-                    { data: 'display_name', name: 'display_name' },
-                    { data: 'email', name: 'email' },
-                    { data: 'group_id', name: 'group_id' },
-                    { data: 'role_id', name: 'role_id' },
-                    { data: 'email_subscribe', name: 'email_subscribe' },
-                    { data: 'created_date', name: 'created_date' },
-                ],
-            	columnDefs: [
-					{ "width": "40px", targets: [ 0, 5 ] },
-				],
-            });
-
-        	var timerId = null;
-            $('.js-dataTable thead tr input,select').on( 'keyup change clear', function () {
-				var control = $(this);
-				clearTimeout(timerId);
-				timerId = setTimeout(function() {
-						var data = {};
-						data[control.attr('name')] = control.val();
-	                	axios.get('{!! route('users.filter') !!}', {
-	                			params: data
-	                		})
-	                		.then(function (response) {
-	                			oTable.fnDraw();
-	                		})
-	                		.catch(function (error) {
-	                	  		console.log(error);
-	                		});
-					}, 500);
-            });
+        	dtAdapter.init(
+                	jQuery('.js-dataTable'), 
+                	'{!! route('users.filter') !!}',
+                	{
+                		serverSide: true,
+                		ajax: '{!! route('users.data') !!}',
+                        columns: [
+                            { data: 'active', name: 'active' },
+                            { data: 'display_name', name: 'display_name' },
+                            { data: 'email', name: 'email' },
+                            { data: 'group_id', name: 'group_id' },
+                            { data: 'role_id', name: 'role_id' },
+                            { data: 'email_subscribe', name: 'email_subscribe' },
+                            { data: 'created_date', name: 'created_date' },
+                        ],
+                    	columnDefs: [
+        					{ "width": "40px", targets: [ 0, 5 ] },
+        				],
+            		}
+            );
 
         });
     </script>

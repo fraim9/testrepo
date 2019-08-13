@@ -31972,57 +31972,91 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dtAdapter", function() { return dtAdapter; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * 
  */
-var dataTablesAdapter = function dataTablesAdapter() {
-  _classCallCheck(this, dataTablesAdapter);
+var dataTablesAdapter =
+/*#__PURE__*/
+function () {
+  function dataTablesAdapter() {
+    _classCallCheck(this, dataTablesAdapter);
 
-  jQuery(function () {
-    // Override a few default classes
-    jQuery.extend(jQuery.fn.dataTable.ext.classes, {
-      sWrapper: "dataTables_wrapper dt-bootstrap4",
-      sFilterInput: "form-control form-control-sm",
-      sLengthSelect: "form-control form-control-sm"
-    }); // Override a few defaults
+    jQuery(function () {
+      // Override a few default classes
+      jQuery.extend(jQuery.fn.dataTable.ext.classes, {
+        sWrapper: "dataTables_wrapper dt-bootstrap4",
+        sFilterInput: "form-control form-control-sm",
+        sLengthSelect: "form-control form-control-sm"
+      }); // Override a few defaults
 
-    jQuery.extend(true, jQuery.fn.dataTable.defaults, {
-      processing: true,
-      colReorder: true,
-      orderCellsTop: true,
-      pageLength: 25,
-      lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
-      autoWidth: false,
-      stateSave: true,
-      stateSaveCallback: function stateSaveCallback(settings, data) {
-        localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
-      },
-      stateLoadCallback: function stateLoadCallback(settings) {
-        return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
-      },
-      language: {
-        lengthMenu: "_MENU_",
-        search: "_INPUT_",
-        searchPlaceholder: "Search..",
-        info: "Page <strong>_PAGE_</strong> of <strong>_PAGES_</strong>",
-        paginate: {
-          first: '<i class="fa fa-angle-double-left"></i>',
-          previous: '<i class="fa fa-angle-left"></i>',
-          next: '<i class="fa fa-angle-right"></i>',
-          last: '<i class="fa fa-angle-double-right"></i>'
-        }
-      },
-      buttons: [{
-        extend: 'print',
-        text: '<i class="si si-printer"></i>'
-      }, {
-        extend: 'colvis',
-        text: '<i class="si si-eye mr-1"></i>'
-      }],
-      dom: "<'row'<'col-sm-12 col-md-1'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+      jQuery.extend(true, jQuery.fn.dataTable.defaults, {
+        processing: true,
+        colReorder: true,
+        orderCellsTop: true,
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+        autoWidth: false,
+        stateSave: true,
+        stateSaveCallback: function stateSaveCallback(settings, data) {
+          localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+        },
+        stateLoadCallback: function stateLoadCallback(settings) {
+          return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+        },
+        language: {
+          lengthMenu: "_MENU_",
+          search: "_INPUT_",
+          searchPlaceholder: "Search..",
+          info: "Page <strong>_PAGE_</strong> of <strong>_PAGES_</strong>",
+          paginate: {
+            first: '<i class="fa fa-angle-double-left"></i>',
+            previous: '<i class="fa fa-angle-left"></i>',
+            next: '<i class="fa fa-angle-right"></i>',
+            last: '<i class="fa fa-angle-double-right"></i>'
+          }
+        },
+        buttons: [{
+          extend: 'print',
+          text: '<i class="si si-printer"></i>'
+        }, {
+          extend: 'colvis',
+          text: '<i class="si si-eye mr-1"></i>'
+        }],
+        dom: "<'row'<'col-sm-12 col-md-1'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+      });
     });
-  });
-};
+  }
+
+  _createClass(dataTablesAdapter, [{
+    key: "init",
+    value: function init(obj, filterUrl, tableOptions) {
+      // Init full DataTable
+      var oTable = obj.dataTable(tableOptions);
+      var timerId = null;
+      obj.find('thead tr input, thead tr select').on('keyup change clear', function () {
+        var control = $(this);
+        clearTimeout(timerId);
+        timerId = setTimeout(function () {
+          var data = {};
+          data[control.attr('name')] = control.val();
+          axios.get(filterUrl, {
+            params: data
+          }).then(function (response) {
+            oTable.fnDraw();
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }, 500);
+      });
+    }
+  }]);
+
+  return dataTablesAdapter;
+}();
 
 var dtAdapter = new dataTablesAdapter();
 
@@ -32104,6 +32138,7 @@ try {
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+window.dtAdapter = _dataTablesAdapter_js__WEBPACK_IMPORTED_MODULE_0__["dtAdapter"];
 
 var Ladda = __webpack_require__(/*! ladda */ "./node_modules/ladda/js/ladda.js");
 

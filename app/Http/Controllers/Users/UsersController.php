@@ -13,19 +13,28 @@ use App\UserGroup;
 use App\Employee;
 use App\AclRole;
 use App\Store;
+use App\Http\Controllers\Filter;
 
 class UsersController extends BackendController
 {
+    use Filter; 
+    
+    
     protected $_aclResource = 'users';
     
-    protected $_filterFields = [
-            'fActive',
-            'fDisplayName',
-            'fEmail',
-            'fUserGroupId',
-            'fRoleId',
-            'fEmailSubscribe',
-    ];
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->_setFilterFields([
+                'fActive',
+                'fDisplayName',
+                'fEmail',
+                'fUserGroupId',
+                'fRoleId',
+                'fEmailSubscribe',
+        ]);
+    }
     
     public function index(Request $request)
     {
@@ -156,7 +165,7 @@ class UsersController extends BackendController
                 }
                 
                 $search = $request->get('search');
-                if ($search['value']) {
+                if (strlen(trim($search['value']))) {
                     $query->where(function ($query) use ($search) {
                         $query->orWhere('username', 'like', "%" . $search['value'] . "%")
                             ->orWhere('display_name', 'like', "%" . $search['value'] . "%")
@@ -166,30 +175,6 @@ class UsersController extends BackendController
             })
             ->toJson();
             
-    }
-    
-    public function filter(Request $request)
-    {
-        $filter = $this->_getFilter($request);
-        foreach ($this->_filterFields as $filterField) {
-            if ($request->has($filterField)) {
-                $filter->{$filterField} = $request->get($filterField);
-            }
-        }
-        $request->session()->put('usersFilter', $filter);
-    }
-    
-    protected function _getFilter(Request $request)
-    {
-        if ($request->session()->has('usersFilter')) {
-            $filter = $request->session()->get('usersFilter');
-        } else {
-            $filter = new \stdClass();
-            foreach ($this->_filterFields as $filterField) {
-                $filter->{$filterField} = '';
-            }
-        }
-        return $filter;
     }
     
 }
