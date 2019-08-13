@@ -37,10 +37,10 @@
 									<option value="2" {{ (2 == $filter->fActive) ? 'selected' : '' }}>{{ __('not selected') }}</option>
                                 </select>
 		        			</th>
-		        			<th><input type="text" class="form-control" name="fDisplayName" id="display_name_search" value="{{ $filter->fDisplayName }}"></th>
-		        			<th><input type="text" class="form-control" name="fEmail" id="email_search" value="{{ $filter->fEmail }}"></th>
+		        			<th><input type="search" class="form-control" name="fDisplayName" id="display_name_search" value="{{ $filter->fDisplayName }}"></th>
+		        			<th><input type="search" class="form-control" name="fEmail" id="email_search" value="{{ $filter->fEmail }}"></th>
 		        			<th>
-								<select id="fUserGroupId" type="text" class="form-control" name="fUserGroupId">
+								<select class="form-control" name="fUserGroupId">
                                 	<option value="">{{ __('-- all --') }}</option>
                                     @if ($roles)
                                     	@foreach ($userGroups as $userGroup)
@@ -50,7 +50,7 @@
                                 </select>
 							</th>
 		        			<th>
-		        				<select id="fRoleId" type="text" class="form-control" name="fRoleId">
+		        				<select class="form-control" name="fRoleId">
                                 	<option value="">{{ __('-- all --') }}</option>
                                     @if ($roles)
                                     	@foreach ($roles as $role)
@@ -60,7 +60,7 @@
                                 </select>
 							</th>
 		        			<th>
-		        				<select id="fEmailSubscribe" type="text" class="form-control" name="fEmailSubscribe">
+		        				<select class="form-control" name="fEmailSubscribe">
                                 	<option value="">{{ __('-- all --') }}</option>
 									<option value="1" {{ (1 == $filter->fEmailSubscribe) ? 'selected' : '' }}>{{ __('selected') }}</option>
 									<option value="2" {{ (2 == $filter->fEmailSubscribe) ? 'selected' : '' }}>{{ __('not selected') }}</option>

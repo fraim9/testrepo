@@ -30,7 +30,7 @@ trait Filter
             $obj = $request->session()->get($key);
         }
         foreach ($this->_filterFields as $field) {
-            $filter->{$field} = ($obj && $obj->{$field}) ? $obj->{$field} : '';
+            $filter->{$field} = ($obj && isset($obj->{$field})) ? $obj->{$field} : '';
         }
         return $filter;
     }

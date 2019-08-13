@@ -37,10 +37,15 @@ class ClientsController extends BackendController
                 'fName',
                 'fEmail',
                 'fPhone',
+                'fCountry',
+                'fCity',
                 'fVoiceOptIn',
                 'fEmailOptIn',
                 'fMsgOptIn',
                 'fPostalOptIn',
+                'fConsentSigned',
+                'fResponsible',
+                'fStore',
         ]);
     }
     
@@ -63,7 +68,12 @@ class ClientsController extends BackendController
         compact('clients')
         */
         $filter = $this->_getFilter($request);
-        return view('crm.clients.index', compact('filter'));
+        
+        $countries = Country::orderBy('name')->get();
+        $stores = Store::orderBy('name')->get();
+        $employees = Employee::orderBy('name')->get();
+        
+        return view('crm.clients.index', compact('filter', 'countries', 'stores', 'employees'));
     }
 
     
@@ -197,8 +207,8 @@ class ClientsController extends BackendController
         
         return DataTables::of($model)
         ->escapeColumns([])
-        ->only(['id','name', 'email', 'phone', 'voice_opt_in', 'email_opt_in', 'msg_opt_in', 
-                'postal_opt_in', 'consent_file_id', 'mini', 'aml'])
+        ->only(['id','name', 'email', 'phone', 'birthday', 'country', 'city', 'voice_opt_in', 'email_opt_in', 'msg_opt_in', 
+                'postal_opt_in', 'consent_signed', 'consent_file_id', 'mini', 'aml', 'responsible', 'store'])
         ->editColumn('id', function($client) {
             return $client->id; //view('helpers.viewBool', array('value' => $client->active));
         })
@@ -215,6 +225,15 @@ class ClientsController extends BackendController
             return view('helpers.viewPhone', array(
                     'value' => $client->phone));
         })
+        ->editColumn('birthday', function($client) {
+            return $client->bd_day . '/' . $client->bd_month . '/' . $client->bd_year;
+        })
+        ->editColumn('country', function($client) {
+            return $client->country->name;
+        })
+        ->editColumn('city', function($client) {
+            return $client->city;
+        })
         ->editColumn('voice_opt_in', function($client) {
             return '<div class="text-center '. ($client->voice_opt_in ? 'text-success' : 'text-light-gray') . '"><i class="fa fa-phone-square"></i></div>';
         })
@@ -227,6 +246,9 @@ class ClientsController extends BackendController
         ->editColumn('postal_opt_in', function($client) {
             return '<div class="text-center '. ($client->postal_opt_in ? 'text-success' : 'text-light-gray') . '"><i class="fa fa-home"></i></div>';
         })
+        ->editColumn('consent_signed', function($client) {
+            return view('helpers.viewBool', array('value' => $client->consent_signed));
+        })
         ->editColumn('consent_file_id', function($client) {
             $html = '<div class="text-center">';
             if ($client->consent_file_id) {
@@ -238,7 +260,7 @@ class ClientsController extends BackendController
             $html .= '</div>';
             return $html;
         })
-        ->addColumn('mini', function($client) {
+        ->editColumn('mini', function($client) {
             $amlMini = AmlMini::where('client_id', '=', $client->id)->orderBy('created_date', 'desc')->first();
             if ($amlMini) {
                 $manager = new AmlManager();
@@ -256,7 +278,7 @@ class ClientsController extends BackendController
             $html .= '</div>';
             return $html;
         })
-        ->addColumn('aml', function($client) {
+        ->editColumn('aml', function($client) {
             $html = '<div class="text-center">';
             if ($client->amlMini) {
                 if ($client->amlMini->report->status()->id == \App\AmlReportStatus::COMPLETED) {
@@ -269,6 +291,12 @@ class ClientsController extends BackendController
             }
             $html .= '</div>';
             return $html;
+        })
+        ->editColumn('responsible', function($client) {
+            return $client->responsible->name;
+        })
+        ->editColumn('store', function($client) {
+            return $client->attachedStore->name;
         })
         ->filter(function ($query) use ($filter, $request) {
             if ($filter->fId) {
@@ -283,6 +311,12 @@ class ClientsController extends BackendController
             if ($filter->fPhone) {
                 $query->where('phone', 'like', "%" . $filter->fPhone . "%");
             }
+            if ($filter->fCountry) {
+                $query->where('country_id', $filter->fCountry);
+            }
+            if ($filter->fCity) {
+                $query->where('city', 'like', "%" . $filter->fCity . "%");
+            }
             if ($filter->fVoiceOptIn) {
                 $query->where('voice_opt_in', '=', ($filter->fVoiceOptIn == 1) ? '1': '0');
             }
@@ -294,6 +328,12 @@ class ClientsController extends BackendController
             }
             if ($filter->fPostalOptIn) {
                 $query->where('postal_opt_in', '=', ($filter->fPostalOptIn == 1) ? '1': '0');
+            }
+            if ($filter->fResponsible) {
+                $query->where('responsible_id', '=', $filter->fResponsible);
+            }
+            if ($filter->fStore) {
+                $query->where('attached_store_id', '=', $filter->fStore);
             }
             
             $search = $request->get('search');

@@ -64,9 +64,19 @@ class dataTablesAdapter
 	{
 		// Init full DataTable
         var oTable = obj.dataTable(tableOptions);
-
-        var timerId = null;
-        obj.find('thead tr input, thead tr select').on( 'keyup change clear', function () {
+        var $this = this;
+        obj.on( 'column-visibility.dt', function ( e, settings, column, state ) {
+        	$this.initFilter(obj, oTable, filterUrl);
+        });
+        this.initFilter(obj, oTable, filterUrl);
+	}
+	
+	initFilter(obj, oTable, filterUrl)
+	{
+		console.log('initFilter');
+		
+		var timerId = null;
+        obj.find('thead tr input, thead tr select').off().on( 'keyup keypress cut paste change input clear', function () {
 			var control = $(this);
 			clearTimeout(timerId);
 			timerId = setTimeout(function() {

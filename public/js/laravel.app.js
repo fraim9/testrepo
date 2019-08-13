@@ -32036,8 +32036,18 @@ function () {
     value: function init(obj, filterUrl, tableOptions) {
       // Init full DataTable
       var oTable = obj.dataTable(tableOptions);
+      var $this = this;
+      obj.on('column-visibility.dt', function (e, settings, column, state) {
+        $this.initFilter(obj, oTable, filterUrl);
+      });
+      this.initFilter(obj, oTable, filterUrl);
+    }
+  }, {
+    key: "initFilter",
+    value: function initFilter(obj, oTable, filterUrl) {
+      console.log('initFilter');
       var timerId = null;
-      obj.find('thead tr input, thead tr select').on('keyup change clear', function () {
+      obj.find('thead tr input, thead tr select').off().on('keyup keypress cut paste change input clear', function () {
         var control = $(this);
         clearTimeout(timerId);
         timerId = setTimeout(function () {
@@ -32124,8 +32134,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 try {
    window.Popper = require('popper.js').default;
    window.$ = window.jQuery = require('jquery');
-
-   require('bootstrap');
+    require('bootstrap');
 } catch (e) {}
 */
 
