@@ -48,14 +48,15 @@ class dataTablesAdapter
 	            buttons: [
 					{
 			            extend: 'print',
-			            text: '<i class="si si-printer"></i>'
+			            text: '<i class="si si-printer"></i>',
+			            className: 'd-none d-sm-inline-block',
 			        },
 			        {
 			            extend: 'colvis',
 			            text: '<i class="si si-eye mr-1"></i>'
 			        },
 			    ],
-			    dom:"<'row'<'col-sm-12 col-md-1'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			    dom:"<'row'<'col-6 col-sm-2'l><'col-6 col-md-5 text-sm-left text-right'B><'col-12 col-sm-5'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 	        });
 		});
         

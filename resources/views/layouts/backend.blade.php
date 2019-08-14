@@ -249,7 +249,7 @@
                             <i class="si si-grid"></i>
                         </button>
                         <!-- END Apps Modal -->
-						--}}
+						
 						
                         <!-- Open Search Section (visible on smaller screens) -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
@@ -259,7 +259,7 @@
                         <!-- END Open Search Section -->
 
                         <!-- Search Form (visible on larger screens) -->
-                        {{--
+                        
                         <form class="d-none d-sm-inline-block" action="/dashboard" method="POST">
                             @csrf
                             <div class="input-group input-group-sm">
@@ -285,6 +285,7 @@
                                 <img class="rounded" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="Header Avatar" style="width: 18px;">
                                 --}}
                                 <span class="d-none d-sm-inline-block ml-1">{{ $user ? $user->display_name : '---' }}</span>
+                                <i class="fa fa-user d-inline-block d-sm-none"></i>
                                 <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
@@ -436,6 +437,7 @@
                 <!-- END Header Content -->
 
                 <!-- Header Search -->
+                {{--
                 <div id="page-header-search" class="overlay-header bg-white">
                     <div class="content-header">
                         <form class="w-100" action="/dashboard" method="POST">
@@ -452,6 +454,7 @@
                         </form>
                    </div>
                 </div>
+                --}}
                 <!-- END Header Search -->
 
                 <!-- Header Loader -->

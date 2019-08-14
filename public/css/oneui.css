@@ -25789,3 +25789,45 @@ div.dt-button-collection.dropdown-menu .dt-button.active:after {
   left: 1rem;
   font-size: 0.6rem;
 }
+
+@media screen and (max-width: 767px) {
+  div.dataTables_wrapper div.dataTables_length,
+div.dataTables_wrapper div.dataTables_filter,
+div.dataTables_wrapper div.dataTables_info,
+div.dataTables_wrapper div.dataTables_paginate {
+    text-align: inherit !important;
+  }
+
+  div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0 !important;
+  }
+
+  div.dt-buttons {
+    width: auto !important;
+  }
+
+  div.dataTables_wrapper div.dataTables_filter label {
+    width: auto;
+    display: block;
+  }
+
+  div.dataTables_wrapper div.dataTables_filter input {
+    width: 100% !important;
+  }
+
+  .content {
+    padding: 0.3rem 0.3rem 1px;
+  }
+
+  .block-header {
+    padding: 0.5rem 0.7rem;
+  }
+
+  .block-content {
+    padding: 1rem 0.7rem 1px;
+  }
+
+  .block-footer {
+    padding: 0.5rem 0.7rem;
+  }
+}
