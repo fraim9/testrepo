@@ -298,6 +298,9 @@ class ClientsController extends BackendController
         ->editColumn('store', function($client) {
             return $client->attachedStore->name;
         })
+        
+        ->orderColumn('birthday', 'CONCAT(bd_year, bd_month, bd_day) $1')
+        
         ->filter(function ($query) use ($filter, $request) {
             if ($filter->fId) {
                 $query->where('id', 'like', "%" . $filter->fId . "%");

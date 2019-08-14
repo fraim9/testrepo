@@ -168,6 +168,7 @@
                         ],
                     	columnDefs: [
                     		{ "width": "40px", "sortable":false, targets: [ 7, 8, 9, 10, 11, 12, 13, 14 ] },
+                    		{ "sortable":false, targets: [ 5, 15, 16 ] },
                     		{ "visible": false, targets: [ 4, 5, 6, 11, 15, 16 ] },
         				],
             		}

@@ -21,6 +21,7 @@ class dataTablesAdapter
 	        jQuery.extend(true, jQuery.fn.dataTable.defaults, {
 	        	processing: true,
 	        	colReorder: true,
+	        	scrollX: true,
                 orderCellsTop: true,
 	        	pageLength: 25,
                 lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -73,10 +74,11 @@ class dataTablesAdapter
 	
 	initFilter(obj, oTable, filterUrl)
 	{
-		console.log('initFilter');
+		// из-за scrollX: true таблица разделяется на две таблицы - шапка отдельно и тело отдельно
+		var elements = obj.parents('.dataTables_scroll').find('.dataTables_scrollHead input, .dataTables_scrollHead select');
 		
 		var timerId = null;
-        obj.find('thead tr input, thead tr select').off().on( 'keyup keypress cut paste change input clear', function () {
+		elements.off().on( 'keyup keypress cut paste change input clear', function () {
 			var control = $(this);
 			clearTimeout(timerId);
 			timerId = setTimeout(function() {
