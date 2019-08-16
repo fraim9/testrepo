@@ -77,6 +77,9 @@ Route::get('/admin/user-acl-roles/form/{id}', 'Users\RolesController@form')->nam
 Route::post('/admin/user-acl-roles/{id}', 'Users\RolesController@store')->name('aclRoles.store');
 Route::get('/admin/user-acl-roles/{id}/delete', 'Users\RolesController@delete')->name('aclRoles.delete');
 
+Route::get('/admin/user-sessions', 'Users\UserSessionsController@index')->name('userSessions.index');
+Route::get('/admin/user-sessions/data', 'Users\UserSessionsController@data')->name('userSessions.data');
+Route::get('/admin/user-sessions/filter', 'Users\UserSessionsController@filter')->name('userSessions.filter');
 
 //=== STORES ===
 

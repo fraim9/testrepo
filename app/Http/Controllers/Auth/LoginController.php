@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\AuthAPI;
 use App\Exceptions\AppException;
 
+use App\UserSession;
+use App\UserSessionTypes;
+
 
 class LoginController extends Controller
 {
@@ -55,6 +58,9 @@ class LoginController extends Controller
         try {
             $authAPI = new AuthAPI();
             if ($authAPI->checkWebUser($user->id)) {
+                
+                UserSession::add($user->id, 0, env('HTTP_USER_AGENT'));
+                
                 return redirect()->intended($this->redirectPath());
             } else {
                 throw new AppException(__('License restriction'), 401);

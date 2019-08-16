@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\QueryException;
+
 
 class BackendController extends Controller
 {
@@ -36,8 +38,30 @@ class BackendController extends Controller
                 abort(403);
             }
         }
-        
-        return call_user_func_array([$this, $method], $parameters);
+        try {
+            
+            return call_user_func_array([$this, $method], $parameters);
+            
+        } catch (\Exception $e) {
+            
+            if ($method == 'delete') {
+                return $this->deleteErrorHandler($e);
+            }
+            
+            throw $e;
+        }
     }
 
+    public function deleteErrorHandler(\Exception $e)
+    {
+        if ($e instanceof QueryException) {
+            if ($e->getCode() == 23000) {
+                return redirect()->back()
+                    ->with('error', __('Deletion failed because there is related data'));
+            }
+        }
+        
+        throw $e;
+    }
+    
 }

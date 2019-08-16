@@ -19,7 +19,7 @@
         	  One.helpers("notify", {
             	  type: "info", 
             	  icon: "fa fa-info-circle mr-1", 
-            	  message: "{{ session()->get('success') }}",
+            	  message: "{{ session()->get('info') }}",
             	  delay: 2000,
               });
           @endif
@@ -28,7 +28,7 @@
         	  One.helpers("notify", {
             	  type: "warning", 
             	  icon: "fa fa-exclamation mr-1", 
-            	  message: "{{ session()->get('success') }}",
+            	  message: "{{ session()->get('warning') }}",
             	  delay: 2000,
               });
           @endif
@@ -37,7 +37,7 @@
         	  One.helpers("notify", {
             	  type: "danger", 
             	  icon: "fa fa-exclamation mr-1", 
-            	  message: "{{ session()->get('success') }}",
+            	  message: "{{ session()->get('error') }}",
             	  delay: 2000,
               });
           @endif

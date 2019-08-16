@@ -16,6 +16,8 @@ use App\AuthParameters;
 use App\Services\Files as FileService;
 
 use ReallySimpleJWT\Token;
+use App\UserSession;
+use App\UserSessionTypes;
 
 
 class ApiController extends Controller
@@ -182,6 +184,14 @@ class ApiController extends Controller
             $result->displayName = $user->display_name;
             $result->employeeId = $user->employee_id;
             $result->accessToken = $this->_createAccessToken($user->id);
+            $result->appName = $request->input('appName');
+            
+            UserSession::add(
+                    $user->id, 
+                    UserSessionTypes::API, 
+                    $request->input('appName'),
+                    $request->input('appVersion'),
+                    $request->input('deviceName'));
             
             Auth::logout();
             

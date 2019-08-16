@@ -36,9 +36,9 @@ class UsersController extends BackendController
         ]);
     }
     
-    public function index(Request $request)
+    public function index()
     {
-        $filter = $this->_getFilter($request);
+        $filter = $this->_getFilter();
         $userGroups = UserGroup::orderBy('name')->get();
         $roles = AclRole::orderBy('name')->get();
         

@@ -89,6 +89,11 @@
                 	<span class="nav-main-link-name">{{ __('ACL roles') }}</span>
                 </a>
             </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link{{ request()->is('*/user-sessions*') ? ' active' : '' }}" href="{{ route('userSessions.index') }}">
+                	<span class="nav-main-link-name">{{ __('Sessions') }}</span>
+                </a>
+            </li>
         </ul>
     </li>
     <li class="nav-main-item{{ request()->is('admin/settings*') ? ' open' : '' }}">

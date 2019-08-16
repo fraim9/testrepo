@@ -18,16 +18,16 @@ trait Filter
             }
         }
         $key = $this->_key();
-        $request->session()->put($key, $filter);
+        session()->put($key, $filter);
     }
     
-    protected function _getFilter(Request $request)
+    protected function _getFilter()
     {
         $key = $this->_key();
         $filter = new \stdClass();
         $obj = null;
-        if ($request->session()->has($key)) {
-            $obj = $request->session()->get($key);
+        if (session()->has($key)) {
+            $obj = session()->get($key);
         }
         foreach ($this->_filterFields as $field) {
             $filter->{$field} = ($obj && isset($obj->{$field})) ? $obj->{$field} : '';

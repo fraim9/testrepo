@@ -46,11 +46,17 @@ class DivisionsController extends BackendController
     
     public function delete($id)
     {
-        $division = Division::find($id);
-        $division->delete();
-    	
-    	return redirect()->route('divisions.index')
-    	   ->with('success', 'Divisions has been deleted Successfully');
+        try {
+            
+            $division = Division::find($id);
+            $division->delete();
+        	
+        	return redirect()->route('divisions.index')
+        	   ->with('success', 'Divisions has been deleted Successfully');
+        	   
+        } catch (\Exception $e) {
+            return $this->deleteErrorHandler($e);
+        }
     }
     
 }

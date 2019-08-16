@@ -20,6 +20,7 @@ use App\AmlReportStatus;
 use App\Company;
 use App\Http\Controllers\Filter;
 use Yajra\Datatables\Datatables;
+use App\Exceptions\AppException;
 
 
 class ClientsController extends BackendController
@@ -79,6 +80,7 @@ class ClientsController extends BackendController
     
     public function info($id)
     {
+        
         $client = $id ? Client::find($id) : null;
         
         if (!$client) {
@@ -147,7 +149,7 @@ class ClientsController extends BackendController
     {
         $client = Client::find($id);
         $client->delete();
-    	
+        
     	return redirect()->route('clients.index')
     	   ->with('success', 'Client has been deleted Successfully');
     }

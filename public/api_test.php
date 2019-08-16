@@ -36,14 +36,17 @@ if (!isset($_SESSION['test_api_access_token']) || isset($_GET['clean_token'])) {
     echo '</pre>';
     
     $authToken = $result->authToken;
-    $baseUrl = $result->apiBaseUrl;
-    //$baseUrl = 'http://omnipos2.local/';
+    //$baseUrl = $result->apiBaseUrl;
+    $baseUrl = 'http://omnipos2.local/';
     
     //===== АВТОРИЗАЦИЯ ПОЛЬЗОВАТЕЛЯ И ПОЛУЧЕНИЕ ACCESS TOKEN ===========================
     
     $data['login'] = 'romano@romano.ru';
     $data['password'] = '12345678';
     $data['authToken'] = $authToken;
+    $data['appName'] = 'TestAPI Mad Bot';
+    $data['appVersion'] = '2.' . date('s');
+    $data['deviceName'] = 'MACBOOK AIR - ' . date('Y-m-d H:i:s');
     $dataString = json_encode($data);
     
     $url = $baseUrl . '/api/v0/authentication';
