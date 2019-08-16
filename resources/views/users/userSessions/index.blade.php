@@ -29,7 +29,7 @@
                                 	<option value="">{{ __('-- all --') }}</option>
                                     @if ($types)
                                     	@foreach ($types as $type)
-                                    		<option value="{{ $type->id + 1 }}" {{ ($type->id == $filter->fType) ? 'selected' : '' }}>{{ $type->name }}</option>
+                                    		<option value="{{ $type->id + 1 }}" {{ (($type->id + 1) == $filter->fType) ? 'selected' : '' }}>{{ $type->name }}</option>
                                     	@endforeach
                                     @endif
                                 </select>
