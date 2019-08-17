@@ -76,11 +76,13 @@ if (!isset($_SESSION['test_api_access_token']) || isset($_GET['clean_token'])) {
     if ($result->errorCode == 0) {
         $accessToken = $result->accessToken;
         $_SESSION['test_api_access_token'] = $accessToken;
+        $_SESSION['test_api_base_url'] = $baseUrl;
     }
     
 } else {
     
     $accessToken = $_SESSION['test_api_access_token'];
+    $baseUrl = $_SESSION['test_api_base_url'];
     
 }
 
@@ -97,6 +99,60 @@ switch ($method) {
         $data['pageSize'] = '2';
         break;
     case 'amlminis':
+        //$data['modifiedFrom'] = '2019-06-30T01:00:00';
+        //$data['onlyCount'] = '1';
+        //$data['id'] = '7';
+        //$data['page'] = '1';
+        //$data['pageSize'] = '2';
+        break;
+    case 'productSections':
+        
+        $data = [
+                [
+                        'id' => '',
+                        'code' => 'A001',
+                        'parentId' => '',
+                        'parentCode' => '',
+                        'name' => 'Одежда',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'A002',
+                        'parentId' => '',
+                        'parentCode' => 'A001',
+                        'name' => 'Костюмы',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'A003',
+                        'parentId' => '',
+                        'parentCode' => 'A001',
+                        'name' => 'Платья',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'B001',
+                        'parentId' => '',
+                        'parentCode' => '',
+                        'name' => 'Косметика',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'B002',
+                        'parentId' => '',
+                        'parentCode' => 'B001',
+                        'name' => 'Макияж',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'B003',
+                        'parentId' => '',
+                        'parentCode' => 'B001',
+                        'name' => 'Уход за кожей лица',
+                ],
+                
+        ];
+        
         //$data['modifiedFrom'] = '2019-06-30T01:00:00';
         //$data['onlyCount'] = '1';
         //$data['id'] = '7';
@@ -127,6 +183,10 @@ if ($method) {
     $responseRaw = curl_exec($ch);
     $headers = curl_getinfo($ch);
     curl_close($ch);
+    
+    echo '<pre>';
+    print_r($responseRaw);
+    echo '</pre>';
     
     $result = json_decode($responseRaw);
     
