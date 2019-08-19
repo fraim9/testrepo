@@ -18156,6 +18156,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
@@ -18189,9 +18193,15 @@ function (_Template) {
    *
    */
   function App() {
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
+
+    _this._stateInit();
+
+    return _this;
   }
   /*
    *  Here you can override or extend any function you want from Template class
@@ -18216,12 +18226,14 @@ function (_Template) {
    * EXAMPLE #2 - Extending default functionality with additional code
    *
    */
-  //  _uiInit() {
-  //      // Call original function
-  //      super._uiInit();
-  //
-  //      // Your extra JS code afterwards
-  //  }
+
+  /*
+  _uiInit() {
+  // Call original function
+  super._uiInit();
+  		
+  }
+  */
 
   /*
    * EXAMPLE #3 - Replacing default functionality by writing your own code
@@ -18232,13 +18244,82 @@ function (_Template) {
   //  }
 
 
+  _createClass(App, [{
+    key: "_stateInit",
+    value: function _stateInit() {
+      var app = this;
+      var _lPage = this._lPage;
+
+      this._lPage.on('classChanged', function (e) {
+        // 
+        var state = _lPage.hasClass('sidebar-mini') ? 'on' : 'off';
+
+        var oldState = app._getDataToStorage('sidebar_mini_state');
+
+        if (state != oldState) {
+          jQuery(window).trigger('sidebarMiniStateChanged', state);
+        }
+
+        app._setDataToStorage('sidebar_mini_state', state);
+
+        console.log(state);
+      });
+
+      $('body').addClass('no-transition');
+
+      this._restoreSidebarMiniState();
+
+      setTimeout(function () {
+        $('body').removeClass('no-transition');
+      }, 300);
+    }
+  }, {
+    key: "_restoreSidebarMiniState",
+    value: function _restoreSidebarMiniState() {
+      if (this._getDataToStorage('sidebar_mini_state') == 'on') {
+        this._lPage.addClass('sidebar-mini');
+      } else {
+        this._lPage.removeClass('sidebar-mini');
+      }
+    }
+  }, {
+    key: "_setDataToStorage",
+    value: function _setDataToStorage(key, value) {
+      if (localStorage) {
+        return localStorage.setItem(key, JSON.stringify(value));
+      }
+    }
+  }, {
+    key: "_getDataToStorage",
+    value: function _getDataToStorage(key) {
+      if (localStorage) {
+        return JSON.parse(localStorage.getItem(key));
+      }
+    }
+  }]);
+
   return App;
 }(_modules_template__WEBPACK_IMPORTED_MODULE_3__["default"]); // Once everything is loaded
 
 
 
 jQuery(function () {
-  // Create a new instance of App
+  var originalAddClassMethod = jQuery.fn.addClass;
+  var originalRemoveClassMethod = jQuery.fn.removeClass;
+
+  jQuery.fn.addClass = function () {
+    var result = originalAddClassMethod.apply(this, arguments);
+    jQuery(this).trigger('classChanged', arguments);
+    return result;
+  };
+
+  jQuery.fn.removeClass = function () {
+    var result = originalRemoveClassMethod.apply(this, arguments);
+    jQuery(this).trigger('classChanged', arguments);
+    return result;
+  }; // Create a new instance of App
+
+
   window.One = new App();
 });
 

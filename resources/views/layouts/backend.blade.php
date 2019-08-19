@@ -136,6 +136,7 @@
                 <div class="content-header bg-white-5">
                     <!-- Logo -->
                     <img src="{{ asset('media/logo_light.png') }}" class="logo-backend">
+                    <img src="{{ asset('media/logo_mini.png') }}" class="logo-backend-mini">
                     <!-- END Logo -->
 
                     <!-- Options -->

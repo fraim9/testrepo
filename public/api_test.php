@@ -106,13 +106,13 @@ switch ($method) {
         //$data['pageSize'] = '2';
         break;
     case 'productSections':
-        
+
         $data = [
                 [
                         'id' => '',
                         'code' => 'A001',
                         'parentId' => '',
-                        'parentCode' => '',
+                        'parentCode' => '0',
                         'name' => 'Одежда',
                 ],
                 [
@@ -133,7 +133,7 @@ switch ($method) {
                         'id' => '',
                         'code' => 'B001',
                         'parentId' => '',
-                        'parentCode' => '',
+                        'parentCode' => '0',
                         'name' => 'Косметика',
                 ],
                 [
@@ -152,12 +152,6 @@ switch ($method) {
                 ],
                 
         ];
-        
-        //$data['modifiedFrom'] = '2019-06-30T01:00:00';
-        //$data['onlyCount'] = '1';
-        //$data['id'] = '7';
-        //$data['page'] = '1';
-        //$data['pageSize'] = '2';
         break;
 }
 

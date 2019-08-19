@@ -66,6 +66,20 @@ body {
 .logo-backend {
 	width: 110px;
 }
+.sidebar-mini .logo-backend {
+	display:none;
+}
+
+
+.logo-backend-mini {
+	display:none;
+	width: 20px;
+}
+.sidebar-mini .logo-backend-mini {
+	display:inline-block;
+}
+
+
 .logo-front-fp {
 	width: 410px;
 }
@@ -119,6 +133,10 @@ div.dt-button-collection.dropdown-menu .dt-button.active:after {
     top: 0.55rem;
     left: 1rem;
     font-size: 0.6rem;
+}
+
+.no-transition, .no-transition * {
+	transition: none !important;
 }
 
 

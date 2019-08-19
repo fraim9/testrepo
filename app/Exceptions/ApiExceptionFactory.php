@@ -12,6 +12,8 @@ class ApiExceptionFactory
     
     const ACCESS_TOKEN_EMPTY        = 101010;
     const ACCESS_TOKEN_INVALID      = 101020;
+
+    const SYSTEM_ERROR              = 109999;
     
     // 200000 - Ошибки авторизации приложений
     
@@ -37,6 +39,9 @@ class ApiExceptionFactory
 
     // 600000 - Ошибки формата данных
     const INVALID_REQUEST_PARAMETERS = 600010;
+    const DATA_NOT_FOUND = 600020;
+    const DATA_TOO_MUCH = 600030;
+    const DATA_VALIDATION_ERROR = 600040;
     
     
     static protected $_details = '';
@@ -74,6 +79,7 @@ class ApiExceptionFactory
             
             
             case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in request';
+            case self::DATA_VALIDATION_ERROR: return 'Data validation error';
             
             
             default: return 'Unknown error';

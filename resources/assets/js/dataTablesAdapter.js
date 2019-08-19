@@ -71,6 +71,18 @@ class dataTablesAdapter
         	$this.initFilter(obj, oTable, filterUrl);
         });
         this.initFilter(obj, oTable, filterUrl);
+        
+        var resizeTimerId = null;
+        window.addEventListener('resize', function(){
+        	clearTimeout(resizeTimerId);
+        	resizeTimerId = setTimeout(function(){
+        		oTable.fnDraw();
+        	}, 500);
+        });
+        
+        jQuery(window).on('sidebarMiniStateChanged', function(state) {
+        	oTable.fnDraw();
+        });
 	}
 	
 	initFilter(obj, oTable, filterUrl)

@@ -10,6 +10,7 @@ use Exception;
 use App\Exceptions\ApiExceptionFactory as AEF;
 use App\Exceptions\ApiException;
 use App\Services\DataExport;
+use App\Services\DataImport;
 use App\Services\AuthAPI;
 use App\AuthParameters;
 
@@ -24,6 +25,7 @@ class ApiController extends Controller
 {
     protected $_dataService = null;
     
+    protected $_currentUserId = null;
     /**
      * Create a new controller instance.
      *
@@ -55,7 +57,7 @@ class ApiController extends Controller
             }
             $status = 200;
         } catch (Exception $e) {
-            $result->errorCode = $e->getCode();
+            $result->errorCode = $e->getCode() ?: AEF::SYSTEM_ERROR;
             $result->errorMessage = $e->getMessage();
             $result->errorDetails = AEF::getDetails();
             
@@ -141,6 +143,11 @@ class ApiController extends Controller
                 case 'amlminis':
                     $this->_amlminis($request, $result);
                     break;
+
+                case 'productSections':
+                    $this->_productSections($request, $result);
+                    break;
+                    
                 default:
                     throw AEF::create(AEF::API_METHOD_UNKNOWN);
             }
@@ -284,6 +291,16 @@ class ApiController extends Controller
         
     }
     
+    
+    protected function _productSections(Request $request, $result)
+    {
+        $service = new DataImport($this->_currentUserId);
+        $result->ids = $service->productSections($request->all());
+    }
+    
+    
+    
+    
     protected function _createAccessToken($userId)
     {
         $secret = AuthParameters::omniposSecretKey();
@@ -291,27 +308,6 @@ class ApiController extends Controller
         $issuer = 'OmniPOS';
         $token = Token::create($userId, $secret, $expiration, $issuer);
         return $token;
-        
-        /*
-        $prt = explode('.', $authToken);
-        //$authData = json_decode(base64_decode($prt[1]));
-        
-        $headerData = new \stdClass();
-        $headerData->alg = "HS256";
-        $headerData->typ = "JWT";
-        
-        $header = json_encode($headerData);
-        
-        $payloadData = new \stdClass();
-        $payloadData->userId = $userId;
-        $payloadData->exp = $authData->exp;
-        $payload = json_encode($payloadData);
-           
-        $unsignedToken = base64_encode($header) . '.' . base64_encode($payload);
-        
-        $secret = AuthParameters::omniposSecretKey();
-        $signature = HMAC-SHA256(unsignedToken, SECRET_KEY)
-        */
     }
     
     protected function _checkAccessToken(Request $request)
@@ -322,9 +318,15 @@ class ApiController extends Controller
             throw AEF::create(AEF::ACCESS_TOKEN_EMPTY);
         }
         
-        if (!$this->_tokenValid($token)) {
+        
+        $secret = AuthParameters::omniposSecretKey();
+        if (!Token::validate($token, $secret)) {
             throw AEF::create(AEF::ACCESS_TOKEN_INVALID);
         }
+        
+        $payload = Token::getPayload($token, $secret);
+        $this->_currentUserId = $payload['user_id'];
+        
         /*
         if (!$this->_tokenExpirationDateValid($token)) {
             throw AEF::create(AEF::API_TOKEN_EXPIRED);
