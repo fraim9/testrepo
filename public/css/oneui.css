@@ -25208,6 +25208,11 @@ ul.compact {
   display: block;
 }
 
+.table th, .table td {
+  padding: 0.4rem 0.3rem;
+  font-size: 0.85rem;
+}
+
 .table .table tr::first-child td {
   border-top: 0 !important;
 }
