@@ -20,7 +20,7 @@
 		        <table id="clientsTable" class="table table-bordered table-hover table-vcenter js-dataTable">
 		        	<thead>
 		        		<tr>
-		        			<th>{{ __('ID') }}</th>
+		        			<th data-class-name="text-center">{{ __('ID') }}</th>
 		        			<th>{{ __('Name') }}</th>
 		        			<th>{{ __('E-mail') }}</th>
 		        			<th>{{ __('Phone') }}</th>
@@ -168,6 +168,7 @@
                         ],
                     	columnDefs: [
                     		{ "width": "40px", "sortable":false, targets: [ 7, 8, 9, 10, 11, 12, 13, 14 ] },
+                    		{ "width": "40px", targets: [ 0 ] },
                     		{ "sortable":false, targets: [ 5, 15, 16 ] },
                     		{ "visible": false, targets: [ 4, 5, 6, 11, 15, 16 ] },
         				],
