@@ -92,13 +92,17 @@ $data = [];
 $method = isset($_GET['m']) ? $_GET['m'] : false;
 
 switch ($method) {
-    case 'clients':
+    case 'pull-clients':
+        $method = 'clients';
+        $httpMethod = 'GET';
         $data['modifiedFrom'] = '2019-06-30T01:00:00';
         //$data['onlyCount'] = '1';
         $data['page'] = '1';
         $data['pageSize'] = '2';
         break;
     case 'amlminis':
+        $httpMethod = 'GET';
+        
         //$data['modifiedFrom'] = '2019-06-30T01:00:00';
         //$data['onlyCount'] = '1';
         //$data['id'] = '7';
@@ -106,7 +110,8 @@ switch ($method) {
         //$data['pageSize'] = '2';
         break;
     case 'productSections':
-
+        $httpMethod = 'POST';
+        
         $data = [
                 [
                         'id' => '',
@@ -153,6 +158,101 @@ switch ($method) {
                 
         ];
         break;
+    case 'push-client':
+        $method = 'clients';
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                    'id' => '',
+                    'code' => '789',
+                    'firstName' => 'Махмет',
+                    'middleName' => 'Мерзлуевич',
+                    'lastName' => 'Абрикосов',
+                    'firstNameLat' => '',
+                    'lastNameLat' => '',
+                    'gender' => 'm',
+                    'comment' => 'странный клиент',
+                    'phone' => '+79051234567',
+                    'email' => 'abricos.cocos@mail.com',
+                    
+                    'bdDay' => '21',
+                    'bdMonth' => '10',
+                    'bdYear' => '1988',
+                    'birthPlace' => 'Узбекистан аул кабул',
+                    
+                    'timeZoneId' => '',
+                    'timeZoneCode' => 'West Asia Standard Time',
+                    
+                    'countryCode' => 'UZB',
+                    
+                    'postcode' => '123456',
+                    'city' => 'Самарканд',
+                    'address' => 'улица Кабул-абуба 88',
+                    
+                    'citizenshipCode' => 'RUS',
+                    'passportSeries' => '0304',
+                    'passportNumber' => '123456',
+                    'passportIssuedDate' => '2002-12-02',
+                    'passportIssuedBy' => '',
+                    'passportSubdivisionCode' => '',
+                    'inn' => '1234567890',
+                    'registrationAddress' => '',
+                    
+                    
+                    'postalOptIn' => true,
+                    'voiceOptIn' => true,
+                    'emailOptIn' => true,
+                    'msgOptIn' => true,
+                    'consentSigned' => true,
+                    
+                    'employeeId' => '',
+                    'employeeCode' => '',
+                    
+                    'responsibleId' => '',
+                    'responsibleCode' => '',
+                    
+                    'createdEmployeeId' => '',
+                    'createdEmployeeCode' => '',
+                    
+                    'createdStoreId' => '',
+                    'createdStoreCode' => 'GUM',
+                    
+                    'attachedStoreId' => '',
+                    'attachedStoreCode' => 'GUM',
+                ],
+        ];
+        break;
+    case 'warehouses': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'id' => '',
+                        'code' => 'WW01',
+                        'name' => 'Склад №1',
+                        'storeId' => '0',
+                        'storeCode' => 'GUM',
+                ],
+                [
+                        'id' => '',
+                        'code' => 'WW02',
+                        'name' => 'Склад №2',
+                        'storeId' => '0',
+                        'storeCode' => 'GUM',
+                ],
+        ];
+        break;
+    case 'stock': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        
+                ],
+                
+        ];
+        break;
 }
 
 
@@ -164,7 +264,7 @@ if ($method) {
     $url = $baseUrl . '/api/v0/' . $method;
     //$url = 'https://dev.omnipos.cloud/api/v0/' . $method;
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $httpMethod);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',

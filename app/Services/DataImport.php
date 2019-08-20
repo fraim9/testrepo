@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 use App\ProductSection;
 use Illuminate\Support\Facades\Validator;
 use App\Client;
+use App\TimeZone;
+use App\Country;
+use App\Employee;
+use App\Store;
+use App\Warehouse;
+use App\ItemBarcode;
+use App\ItemSerial;
+use App\ItemStock;
 
 class DataImport 
 {
@@ -162,21 +170,178 @@ class DataImport
                 $client->created_date = date('Y-m-d H:i:s');
             }
             
-            
             $client->code = $row['code'];
-            $client->parent_id = $parent ? $parent->id : 0;
-            $client->name = $row['name'];
             
+            $client->first_name = $row['firstName'];
+            $client->middle_name = $row['middleName'];
+            $client->last_name = $row['lastName'];
+            $client->name = trim(implode(' ', [$client->last_name, $client->first_name, $client->middle_name]));
+            $client->first_name_lat = $row['firstNameLat'];
+            $client->last_name_lat = $row['lastNameLat'];
             
+            $client->gender = $row['gender'];
+            $client->comment = $row['comment'];
             
+            $client->phone = $row['phone'];
+            $client->email = $row['email'];
             
+            $client->bd_day = $row['bdDay'];
+            $client->bd_month = $row['bdMonth'];
+            $client->bd_year = $row['bdYear'];
+            $client->birth_place = $row['birthPlace'];
+            
+            $client->time_zone_id = $this->_getTimeZoneId($row['timeZoneId'], $row['timeZoneCode']);
+            $client->country_id = $this->_getCountryIdByIso3($row['countryCode']);
+            $client->postcode = $row['postcode'];
+            $client->city = $row['city'];
+            $client->address = $row['address'];
+
+            $client->citizenship_id = $this->_getCountryIdByIso3($row['citizenshipCode']);
+            $client->passport_series = $row['passportSeries'];
+            $client->passport_number = $row['passportNumber'];
+            $client->passport_issued_date = $row['passportIssuedDate'];
+            $client->passport_issued_by = $row['passportIssuedBy'];
+            $client->passport_subdivision_code = $row['passportSubdivisionCode'];
+            $client->registration_address = $row['registrationAddress'];
+            $client->inn = $row['inn'];
+            
+            $client->discount = 0;
+            $client->discount_auto_calc = 0;
+            
+            $client->postal_opt_in = $row['postalOptIn'];
+            $client->voice_opt_in = $row['voiceOptIn'];
+            $client->email_opt_in = $row['emailOptIn'];
+            $client->msg_opt_in = $row['msgOptIn'];
+            $client->consent_signed = $row['consentSigned'];
+            
+            $client->employee_id = $this->_getEmployeeId($row['employeeId'], $row['employeeCode']);
+            $client->responsible_id = $this->_getEmployeeId($row['responsibleId'], $row['responsibleCode']);
+            $client->created_employee_id = $this->_getEmployeeId($row['createdEmployeeId'], $row['createdEmployeeCode']);
+                        
+            $client->created_store_id = $this->_getStoreId($row['createdStoreId'], $row['createdStoreCode']);
+            $client->attached_store_id = $this->_getStoreId($row['attachedStoreId'], $row['attachedStoreCode']);
             
             $client->modified_by = $this->_userId;
             $client->modified_date = date('Y-m-d H:i:s');
             $client->save();
             
-            
             $ids[] = ['id' => $client->id, 'code' => $client->code];
+        }
+        
+        return $ids;
+    }
+    
+    
+    public function warehouses($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'name' => 'nullable|string|max:150',
+                    'storeId' => 'nullable|integer',
+                    'storeCode' => 'nullable|string|max:32',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $warehouse = null;
+            if ($row['id']) {
+                $warehouse = Warehouse::find($row['id']);
+            } else {
+                $warehouse = Warehouse::whereCode($row['code'])->first();
+            }
+            if (!$warehouse) {
+                $warehouse = new Warehouse();
+                $warehouse->created_by = $this->_userId;
+                $warehouse->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $warehouse->code = $row['code'];
+            $warehouse->name = $row['name'];
+            $warehouse->store_id = $this->_getStoreId($row['storeId'], $row['storeCode']);
+            
+            $warehouse->modified_by = $this->_userId;
+            $warehouse->modified_date = date('Y-m-d H:i:s');
+            $warehouse->save();
+            
+            $ids[] = ['id' => $warehouse->id, 'code' => $warehouse->code];
+        }
+        
+        return $ids;
+    }
+    
+    public function stock($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'warehouseId' => 'nullable|integer',
+                    'warehouseCode' => 'required|string|max:32',
+                    'barcode' => 'required|string|max:150',
+                    'serialNumber' => 'nullable|string|max:32',
+                    'physicalQty' => 'required|integer',
+                    'availableQty' => 'required|integer',
+                    'reservedQty' => 'required|integer',
+                    'transferQty' => 'required|integer',
+                    'deliveryQty' => 'required|integer',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $warehouseId = $this->_getWarehouseId($row['warehouseId'], $row['warehouseCode']);
+            if (!$warehouseId) {
+                throw AEF::create(AEF::WAREHOUSE_NOT_FOUND, json_encode(['id' => $row['warehouseId'], 'code' => $row['warehouseCode']]));
+            }
+            
+            $barcode = ItemBarcode::find($row['barcode']);
+            if (!$barcode) {
+                throw AEF::create(AEF::BARCODE_NOT_FOUND, $row['barcode']);
+            }
+            
+            $serialNumber = ItemSerial::whereItemId($barcode->item_id)
+                                        ->whereSerial($row['serialNumber'])->getFirst();
+            
+            $stock = ItemStock::whereWarehouseId($warehouseId)
+                                ->whereItemId($barcode->item_id)
+                                ->whereSerialId($serialNumber ? $serialNumber->id : 0);
+            
+            
+            if (!$stock) {
+                $stock = new Warehouse();
+                $stock->warehouse_id = $warehouseId;
+                $stock->item_id = $barcode->item_id;
+                $stock->serial_id = $serialNumber ? $serialNumber->id : 0;
+                $stock->created_by = $this->_userId;
+                $stock->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $stock->physical_qty = $row['physicalQty'];
+            $stock->available_qty = $row['availableQty'];
+            $stock->reserved_qty = $row['reservedQty'];
+            $stock->transfer_qty = $row['transferQty'];
+            $stock->delivery_qty = $row['deliveryQty'];
+            
+            $stock->modified_by = $this->_userId;
+            $stock->modified_date = date('Y-m-d H:i:s');
+            $stock->save();
+            
+            $ids[] = ['id' => $stock->id, 'code' => $stock->code];
         }
         
         return $ids;
@@ -197,6 +362,70 @@ class DataImport
         }
     }
     
-
+    protected function _getStoreId($id, $code)
+    {
+        $store = null;
+        if ($id) {
+            $store = Store::find($id);
+        } else if ($code) {
+            $store = Store::whereCode($code)->first();
+        }
+        return $store ? $store->id : null;
+    }
+    
+    protected function _getEmployeeId($id, $code)
+    {
+        $employee = null;
+        if ($id) {
+            $employee = Employee::find($id);
+        } else if ($code) {
+            $employee = Employee::whereCode($code)->first();
+        }
+        return $employee ? $employee->id : null;
+    }
+    
+    protected function _getClientId($id, $code)
+    {
+        $client = null;
+        if ($id) {
+            $client = Client::find($id);
+        } else if ($code) {
+            $client = Client::whereCode($code)->first();
+        }
+        return $client ? $client->id : null;
+    }
+    
+    protected function _getCountryIdByIso3($iso3Code)
+    {
+        $country = null;
+        if ($iso3Code) {
+            $country = Country::whereIso3($iso3Code)->first();
+        }
+        return $country ? $country->id : null;
+    }
+    
+    protected function _getTimeZoneId($id, $code)
+    {
+        $timeZone = null;
+        if ($id) {
+            $timeZone = TimeZone::find($id);
+        } else if ($code) {
+            $timeZone = TimeZone::whereCode($code)->first();
+        }
+        return $timeZone ? $timeZone->id : null;
+    }
+    
+    protected function _getWarehouseId($id, $code)
+    {
+        $warehouse = null;
+        if ($id) {
+            $warehouse = Warehouse::find($id);
+        } else if ($code) {
+            $warehouse = Warehouse::whereCode($code)->first();
+        }
+        return $warehouse ? $warehouse->id : null;
+    }
+    
+    
     
 }

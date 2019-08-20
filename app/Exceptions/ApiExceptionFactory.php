@@ -9,6 +9,7 @@ class ApiExceptionFactory
     // 100000 - Ошибки общего уровня
     const API_VERSION_UNKNOWN       = 100010;
     const API_METHOD_UNKNOWN        = 100020;
+    const HTTP_METHOD_UNKNOWN       = 100030;
     
     const ACCESS_TOKEN_EMPTY        = 101010;
     const ACCESS_TOKEN_INVALID      = 101020;
@@ -35,7 +36,11 @@ class ApiExceptionFactory
     const ITEM_NOT_FOUND            = 400010;
 
     // 500000 - Ошибки при передаче данных
-    //const ITEM_NOT_FOUND = 500010;
+    const CLIENT_NOT_FOUND          = 501010;
+    const EMPLOYEE_NOT_FOUND        = 501020;
+    const STORE_NOT_FOUND           = 501030;
+    const WAREHOUSE_NOT_FOUND       = 501040;
+    const BARCODE_NOT_FOUND         = 501050;
 
     // 600000 - Ошибки формата данных
     const INVALID_REQUEST_PARAMETERS = 600010;

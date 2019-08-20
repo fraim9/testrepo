@@ -23,7 +23,8 @@ use App\UserSessionTypes;
 
 class ApiController extends Controller
 {
-    protected $_dataService = null;
+    protected $_exportService = null;
+    protected $_importService = null;
     
     protected $_currentUserId = null;
     /**
@@ -136,20 +137,37 @@ class ApiController extends Controller
             // проверка Access токена
             $this->_checkAccessToken($request);
             
-            switch ($method) {
-                case 'clients':
-                    $this->_clients($request, $result);
-                    break;
-                case 'amlminis':
-                    $this->_amlminis($request, $result);
-                    break;
-
-                case 'productSections':
-                    $this->_productSections($request, $result);
-                    break;
-                    
-                default:
-                    throw AEF::create(AEF::API_METHOD_UNKNOWN);
+            if ($request->isMethod('GET')) {
+                switch ($method) {
+                    case 'clients':
+                        $this->_pullClients($request, $result);
+                        break;
+                    case 'amlminis':
+                        $this->_pullAmlminis($request, $result);
+                        break;
+                }
+            } else if ($request->isMethod('POST')) {
+                switch ($method) {
+                    case 'productSections':
+                        $this->_pushProductSections($request, $result);
+                        break;
+                        
+                    case 'warehouses':
+                        $this->_pushWarehouses($request, $result);
+                        break;
+                    case 'stock':
+                        $this->_pushStock($request, $result);
+                        break;
+                        
+                    case 'clients':
+                        $this->_pushClients($request, $result);
+                        break;
+                        
+                    default:
+                        throw AEF::create(AEF::API_METHOD_UNKNOWN);
+                }
+            } else {
+                throw AEF::create(AEF::HTTP_METHOD_UNKNOWN, $request->method());
             }
         }
     }
@@ -207,7 +225,7 @@ class ApiController extends Controller
         }
     }
     
-    protected function _clients(Request $request, $result)
+    protected function _pullClients(Request $request, $result)
     {
         $validator = Validator::make($request->all(), [
                 'page' => 'nullable|integer',
@@ -231,7 +249,7 @@ class ApiController extends Controller
         $result->clients = [];
         
         if ($id) {
-            $client = $this->_getDataService()->getClient($id);
+            $client = $this->_getExportService()->getClient($id);
             if ($client) {
                 $result->clients[] = $client;
                 $result->count = 1;
@@ -240,15 +258,15 @@ class ApiController extends Controller
             }
         } else if ($onlyCount) {
             $result->clients = null;
-            $result->count = $this->_getDataService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
+            $result->count = $this->_getExportService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
         } else {
-            $result->clients = $this->_getDataService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
+            $result->clients = $this->_getExportService()->getClients($modifiedFrom, $onlyCount, $page, $pageSize);
             $result->count = count($result->clients);
         }
         
     }
     
-    protected function _amlminis(Request $request, $result)
+    protected function _pullAmlminis(Request $request, $result)
     {
         $validator = Validator::make($request->all(), [
                 'page' => 'nullable|integer',
@@ -274,7 +292,7 @@ class ApiController extends Controller
         $result->clients = [];
         
         if ($id) {
-            $amlmini = $this->_getDataService()->getAmlmini($id);
+            $amlmini = $this->_getExportService()->getAmlmini($id);
             if ($amlmini) {
                 $result->amlminis[] = $amlmini;
                 $result->count = 1;
@@ -283,21 +301,34 @@ class ApiController extends Controller
             }
         } else if ($onlyCount) {
             $result->amlminis = null;
-            $result->count = $this->_getDataService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
+            $result->count = $this->_getExportService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
         } else {
-            $result->amlminis = $this->_getDataService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
+            $result->amlminis = $this->_getExportService()->getAmlminis($modifiedFrom, $clientId, $onlyCount, $page, $pageSize);
             $result->count = count($result->amlminis);
         }
         
     }
     
     
-    protected function _productSections(Request $request, $result)
+    protected function _pushProductSections(Request $request, $result)
     {
-        $service = new DataImport($this->_currentUserId);
-        $result->ids = $service->productSections($request->all());
+        $result->ids = $this->_getImportService()->productSections($request->all());
     }
     
+    protected function _pushClients(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->clients($request->all());
+    }
+    
+    protected function _pushWarehouses(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->warehouses($request->all());
+    }
+    
+    protected function _pushStock(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->stock($request->all());
+    }
     
     
     
@@ -351,12 +382,23 @@ class ApiController extends Controller
     /**
      * @return DataExport
      */
-    protected function _getDataService()
+    protected function _getExportService()
     {
-        if ($this->_dataService === null) {
-            $this->_dataService = new DataExport();
+        if ($this->_exportService === null) {
+            $this->_exportService = new DataExport();
         }
-        return $this->_dataService;
+        return $this->_exportService;
+    }
+    
+    /**
+     * @return DataImport
+     */
+    protected function _getImportService()
+    {
+        if ($this->_importService === null) {
+            $this->_importService = new DataImport($this->_currentUserId);
+        }
+        return $this->_importService;
     }
     
 }

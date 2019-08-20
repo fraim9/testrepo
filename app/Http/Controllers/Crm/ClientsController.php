@@ -136,7 +136,7 @@ class ClientsController extends BackendController
 	    $data['discount'] = intval($data['discount']);
 	    $client->fill($data);
 
-	    $client->name = implode(' ', [$client->last_name, $client->first_name, $client->middle_name]);
+	    $client->name = trim(implode(' ', [$client->last_name, $client->first_name, $client->middle_name]));
 	    
 	    $client->modified_date = date('Y-m-d H:i:s');
 	    $client->modified_by = Auth::id();
