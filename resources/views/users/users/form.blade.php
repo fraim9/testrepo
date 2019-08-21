@@ -1,11 +1,11 @@
 @extends('layouts.backend')
 
 @section('content')
-<div class="content content-full">
+<div class="container">
 	    <div class="row justify-content-center">
-	        <div class="col-md-10">
+	        <div class="col-md-10 px-0">
 	        
-	        	<div class="block">
+	        	<div class="block my-md-3 my-sm-2 my-0">
 	        	
 	        		@if ($token)
     	        		<div class="row justify-content-center">

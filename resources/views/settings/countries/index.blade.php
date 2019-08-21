@@ -15,7 +15,7 @@
 
     <!-- Page Content -->
     <div class="content">
-        <div class="block">
+        <div class="block mb-0">
         	<div class="block-content">
         	
 		        <table class="table table-bordered table-hover table-vcenter js-dataTable">

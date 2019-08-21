@@ -25,6 +25,15 @@ body {
 .block-footer {
     padding: 0.625rem 1.25rem;
 }
+.block-content {
+    padding: 14px;
+}
+
+#page-header .content-header {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
 
 .col-form-label {
     font-size: 0.9rem !important;
@@ -146,6 +155,26 @@ div.dt-button-collection.dropdown-menu .dt-button.active:after {
 	transition: none !important;
 }
 
+.content {
+    /*padding: 0;
+    padding: 0.3rem 0.3rem 1px;*/
+}
+
+#page-footer {
+	background-color: #f3f3f3 !important;
+}
+
+.content.content-full {
+	background-color: #fff;
+	padding: 1rem 14px;
+}
+
+@media (min-width: 768px) {
+	#page-header .content-header {
+	    padding-left: 14px !important;
+	    padding-right: 14px !important;
+	}
+}
 
 @media screen and (max-width: 767px) {
 	
@@ -178,17 +207,14 @@ div.dt-button-collection.dropdown-menu .dt-button.active:after {
 	}
 	
 	
-	.content {
-	    padding: 0.3rem 0.3rem 1px;
-	}
 	.block-header {
-	    padding: 0.5rem 0.7rem;
+	    padding: 0.5rem 14px;
 	}
 	.block-content {
-	    padding: 1rem 0.7rem 1px;
+	    padding: 14px;
 	}
 	.block-footer {
-	    padding: 0.5rem 0.7rem;
+	    padding: 0.5rem 14px;
 	}
 }
 	

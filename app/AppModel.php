@@ -32,12 +32,12 @@ class AppModel extends Model
     
     public function createdBy()
     {
-        return $this->belongsTo('App\User', 'created_by');
+        return $this->belongsTo('App\User', 'created_by')->withDefault(['display_name' => '---']);
     }
     
     public function modifiedBy()
     {
-        return $this->belongsTo('App\User', 'modified_by');
+        return $this->belongsTo('App\User', 'modified_by')->withDefault(['display_name' => '---']);
     }
     
 }
