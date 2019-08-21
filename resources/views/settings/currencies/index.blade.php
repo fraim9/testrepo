@@ -14,43 +14,37 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('Code') }}</th>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('Symbol') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($currencies as $currency)
-			        		<tr>
-			        			<td>{{ $currency->code }}</td>
-			        			<td>{{ $currency->name }}</td>
-			        			<td>{{ $currency->symbol }}</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('currencies.form', $currency->code), 
-											'title' => 'Edit currency'])
-										@include('helpers.btnDelete', [
-											'url' => route('currencies.delete', $currency->code), 
-											'title' => 'Remove currency',
-											'confirm' => 'Remove currency?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+    <div class="content content-full">
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('Code') }}</th>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('Symbol') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($currencies as $currency)
+	        		<tr>
+	        			<td>{{ $currency->code }}</td>
+	        			<td>{{ $currency->name }}</td>
+	        			<td>{{ $currency->symbol }}</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('currencies.form', $currency->code), 
+									'title' => 'Edit currency'])
+								@include('helpers.btnDelete', [
+									'url' => route('currencies.delete', $currency->code), 
+									'title' => 'Remove currency',
+									'confirm' => 'Remove currency?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

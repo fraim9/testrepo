@@ -8,11 +8,10 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <div class="block">
+    <div class="container">
+    	<div class="row justify-content-center">
+        	<div class="col-md-10 px-0">
+        		<div class="block my-md-3 my-sm-2 my-0">
 		        	<div class="block-content">
 		        		@php
 			        		$datetimeFormat = 'd M Y H:i:s';

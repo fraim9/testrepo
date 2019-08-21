@@ -14,43 +14,38 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
+    <div class="content content-full">
         	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('External ID') }}</th>
-		        			<th>{{ __('Country') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($cities as $city)
-			        		<tr>
-			        			<td>{{ $city->name }}</td>
-			        			<td>{{ $city->code }}</td>
-			        			<td>{{ $city->country->name }}</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('cities.form', $city->id), 
-											'title' => 'Edit city'])
-										@include('helpers.btnDelete', [
-											'url' => route('cities.delete', $city->id), 
-											'title' => 'Remove city',
-											'confirm' => 'Remove city?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('External ID') }}</th>
+        			<th>{{ __('Country') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($cities as $city)
+	        		<tr>
+	        			<td>{{ $city->name }}</td>
+	        			<td>{{ $city->code }}</td>
+	        			<td>{{ $city->country->name }}</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('cities.form', $city->id), 
+									'title' => 'Edit city'])
+								@include('helpers.btnDelete', [
+									'url' => route('cities.delete', $city->id), 
+									'title' => 'Remove city',
+									'confirm' => 'Remove city?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

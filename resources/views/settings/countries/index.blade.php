@@ -14,51 +14,45 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block mb-0">
-        	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('ISO 2') }}</th>
-		        			<th>{{ __('ISO 3') }}</th>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('Calling code') }}</th>
-		        			<th>{{ __('AML Risk') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($countries as $country)
-			        		<tr>
-			        			<td>{{ $country->iso2 }}</td>
-			        			<td>{{ $country->iso3 }}</td>
-			        			<td>{{ $country->name }}</td>
-			        			<td>{{ $country->calling_code }}</td>
-			        			<td class="text-center">@if ($country->aml_risk)
-			        				<i class="fa fa-exclamation-triangle text-warning"></i>
-			        			@else
-			        				---
-			        			@endif</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('countries.form', $country->id), 
-											'title' => 'Edit country'])
-										@include('helpers.btnDelete', [
-											'url' => route('countries.delete', $country->id), 
-											'title' => 'Remove country',
-											'confirm' => 'Remove country?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+    <div class="content content-full">
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('ISO 2') }}</th>
+        			<th>{{ __('ISO 3') }}</th>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('Calling code') }}</th>
+        			<th>{{ __('AML Risk') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($countries as $country)
+	        		<tr>
+	        			<td>{{ $country->iso2 }}</td>
+	        			<td>{{ $country->iso3 }}</td>
+	        			<td>{{ $country->name }}</td>
+	        			<td>{{ $country->calling_code }}</td>
+	        			<td class="text-center">@if ($country->aml_risk)
+	        				<i class="fa fa-exclamation-triangle text-warning"></i>
+	        			@else
+	        				---
+	        			@endif</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('countries.form', $country->id), 
+									'title' => 'Edit country'])
+								@include('helpers.btnDelete', [
+									'url' => route('countries.delete', $country->id), 
+									'title' => 'Remove country',
+									'confirm' => 'Remove country?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

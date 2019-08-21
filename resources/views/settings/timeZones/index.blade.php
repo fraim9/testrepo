@@ -14,43 +14,37 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('Code') }}</th>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('Offset') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($zones as $zone)
-			        		<tr>
-			        			<td>{{ $zone->code }}</td>
-			        			<td>{{ $zone->name }}</td>
-			        			<td>{{ $zone->offset }}</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('timeZones.form', $zone->id), 
-											'title' => 'Edit time zone'])
-										@include('helpers.btnDelete', [
-											'url' => route('timeZones.delete', $zone->id), 
-											'title' => 'Remove time zone',
-											'confirm' => 'Remove time zone?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+    <div class="content content-full">
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('Code') }}</th>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('Offset') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($zones as $zone)
+	        		<tr>
+	        			<td>{{ $zone->code }}</td>
+	        			<td>{{ $zone->name }}</td>
+	        			<td>{{ $zone->offset }}</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('timeZones.form', $zone->id), 
+									'title' => 'Edit time zone'])
+								@include('helpers.btnDelete', [
+									'url' => route('timeZones.delete', $zone->id), 
+									'title' => 'Remove time zone',
+									'confirm' => 'Remove time zone?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

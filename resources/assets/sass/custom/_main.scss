@@ -71,6 +71,19 @@ body {
     letter-spacing: normal;
 }
 
+table.dataTable thead .sorting:before, 
+table.dataTable thead .sorting:after, 
+table.dataTable thead .sorting_asc:before, 
+table.dataTable thead .sorting_asc:after, 
+table.dataTable thead .sorting_desc:before, 
+table.dataTable thead .sorting_desc:after, 
+table.dataTable thead .sorting_asc_disabled:before, 
+table.dataTable thead .sorting_asc_disabled:after, 
+table.dataTable thead .sorting_desc_disabled:before, 
+table.dataTable thead .sorting_desc_disabled:after {
+    bottom: 0.35em !important;
+}
+
 
 .logo-backend {
 	width: 110px;
@@ -215,6 +228,11 @@ div.dt-button-collection.dropdown-menu .dt-button.active:after {
 	}
 	.block-footer {
 	    padding: 0.5rem 14px;
+	}
+	
+	.py-xs-0 {
+		padding-left:0;
+		padding-right:0;
 	}
 }
 	

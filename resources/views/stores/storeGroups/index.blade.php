@@ -14,50 +14,44 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('iPos settings') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($groups as $group)
-			        		<tr>
-			        			<td>{{ $group->name }}</td>
-			        			<td>
-			        				<ul class="text-small compact">
-									@foreach ($iposFeatures as $iposFeature)
-										<li>
-											<span class="">{{ __($iposFeature->name) }}</span>:
-											@include('helpers.viewBool', ['value' => (isset($group->ipos_settings[$iposFeature->id]) && $group->ipos_settings[$iposFeature->id])])
-										</li>
-									@endforeach
-									</ul>
-								</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('storeGroups.form', $group->id), 
-											'title' => 'Edit group'])
-										@include('helpers.btnDelete', [
-											'url' => route('storeGroups.delete', $group->id), 
-											'title' => 'Remove group',
-											'confirm' => 'Remove group?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+    <div class="content content-full">
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('iPos settings') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($groups as $group)
+	        		<tr>
+	        			<td>{{ $group->name }}</td>
+	        			<td>
+	        				<ul class="text-small compact">
+							@foreach ($iposFeatures as $iposFeature)
+								<li>
+									<span class="">{{ __($iposFeature->name) }}</span>:
+									@include('helpers.viewBool', ['value' => (isset($group->ipos_settings[$iposFeature->id]) && $group->ipos_settings[$iposFeature->id])])
+								</li>
+							@endforeach
+							</ul>
+						</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('storeGroups.form', $group->id), 
+									'title' => 'Edit group'])
+								@include('helpers.btnDelete', [
+									'url' => route('storeGroups.delete', $group->id), 
+									'title' => 'Remove group',
+									'confirm' => 'Remove group?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

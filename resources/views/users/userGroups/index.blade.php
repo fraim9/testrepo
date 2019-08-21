@@ -14,49 +14,43 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('iPos rights') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($groups as $group)
-			        		<tr>
-			        			<td>{{ $group->name }}</td>
-			        			<td>
-			        				<ul class="text-small compact">
-									@foreach ($userRights as $userRight)
-										<li>
-											<span class="">{{ __($userRight->name) }}</span>:
-											<span class="text-info">{{ isset($group->ipos_rights[$userRight->id]) ? ($userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---') : '---' }}</span>
-										</li>
-									@endforeach
-									</ul>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('userGroups.form', $group->id), 
-											'title' => 'Edit group'])
-										@include('helpers.btnDelete', [
-											'url' => route('userGroups.delete', $group->id), 
-											'title' => 'Remove group',
-											'confirm' => 'Remove group?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+    <div class="content content-full">
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('iPos rights') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($groups as $group)
+	        		<tr>
+	        			<td>{{ $group->name }}</td>
+	        			<td>
+	        				<ul class="text-small compact">
+							@foreach ($userRights as $userRight)
+								<li>
+									<span class="">{{ __($userRight->name) }}</span>:
+									<span class="text-info">{{ isset($group->ipos_rights[$userRight->id]) ? ($userRightValues[$userRight->id][$group->ipos_rights[$userRight->id]] ?? '---') : '---' }}</span>
+								</li>
+							@endforeach
+							</ul>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('userGroups.form', $group->id), 
+									'title' => 'Edit group'])
+								@include('helpers.btnDelete', [
+									'url' => route('userGroups.delete', $group->id), 
+									'title' => 'Remove group',
+									'confirm' => 'Remove group?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->

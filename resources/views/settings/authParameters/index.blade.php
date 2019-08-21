@@ -8,14 +8,13 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
-        	
-		        <div class="block">
-		        	<div class="block-content">
-		        		<div class="row">
-		        			<div class="col-md-8">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 px-0">
+            	<div class="block my-md-3 my-sm-2 my-0">
+    	        	<div class="block-content">
+    	        		<div class="row">
+    	        			<div class="col-md-8">
         		        		@php
         			        		$datetimeFormat = 'd M Y H:i:s';
         		        			$data = [
@@ -48,26 +47,23 @@
         			        			</tbody>
         			        		</table>
                 				@endforeach
-        		        		<br>
         		        		<hr>
         		        			
         		        		<a href="{{ route('authParameters.form') }}" 
         		        			class="btn btn-sm btn-primary">{{ __('Edit parameters') }}</a>
         		        		
         		        		<br><br>
-		        			</div>
-		        			<div class="col-md-4 text-center">
-		        				
+    	        			</div>
+    	        			<div class="col-md-4 text-center">
+    	        				
     		        			<div class="p-5">
-			        				<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}" width="200" height="200">
+    		        				<img src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size('1000')->generate($token)) !!}" width="200" height="200">
     			        		</div>
-
-		        			</div>
-		        		</div>
-		        		
-		        		<div class="text-center p-5" style="color:#fff;">{{ $token }}</div>
-		        		
-		        	</div>
+    
+    	        			</div>
+    	        		</div>
+    	        		
+    	        	</div>
 	        	</div>
         
         	</div>

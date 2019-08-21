@@ -8,25 +8,29 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
+    <div class="container">
+    	<div class="row justify-content-center">
+       		<div class="col-md-10 px-0">
+        		<div class="block my-md-3 my-sm-2 my-0">
+        			<div class="block-content">
         		
-        		<div class="row">
-        			<div class="col-md-4">
-                		<div class="list-group">
-        		        	@foreach ($settingsList as $settings)
-        		        		
-        		        		<a href="{{ route('settings.form', $settings->_id) }}" 
-        		        			class="list-group-item list-group-item-action">{{ $settings->_id }}</a>
-        		        		
-        		        	@endforeach
-                		</div>
-               		</div>
-           		</div>
+                		<div class="row">
+                			<div class="col-md-4">
+                        		<div class="list-group">
+                		        	@foreach ($settingsList as $settings)
+                		        		
+                		        		<a href="{{ route('settings.form', $settings->_id) }}" 
+                		        			class="list-group-item list-group-item-action">{{ $settings->_id }}</a>
+                		        		
+                		        	@endforeach
+                        		</div>
+                       		</div>
+                   		</div>
         		
-        		<br><br>
+        				<br><br>
         		
+		        	</div>
+	        	</div>
         	</div>
         </div>
         

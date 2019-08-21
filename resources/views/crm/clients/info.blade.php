@@ -8,9 +8,10 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
+    <div class="">
+    	<div class="container-fluid py-md-3">
 	    <div class="row">
-	        <div class="wr27">
+	        <div class="col-md-5 py-xs-0">
 	        	<div class="block">
 		        	<div class="block-content">
 		        		@php
@@ -118,7 +119,7 @@
 	        	</div>
 	        </div>	
 	        
-	        <div class="col">
+	        <div class="col-md-7 py-xs-0">
 
 	        	<div class="block">
 	        		<div class="block-header block-header-default">
@@ -216,6 +217,7 @@
 	        	
 	        </div>	
 	        
+	    </div>
 	    </div>
 	</div>
 	

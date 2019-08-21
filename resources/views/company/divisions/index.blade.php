@@ -14,47 +14,42 @@
     ])
 
     <!-- Page Content -->
-    <div class="content">
-        <div class="block">
-        	<div class="block-content">
+	<div class="content content-full">
         	
-		        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-		        	<thead>
-		        		<tr>
-		        			<th>{{ __('A') }}</th>
-		        			<th>{{ __('Name') }}</th>
-		        			<th>{{ __('External ID') }}</th>
-		        			<th>{{ __('Sort index') }}</th>
-		        			<th>{{ __('Action') }}</th>
-		        		</tr>
-		        	</thead>
-		        	<tbody>
-			        	@foreach ($divisions as $division)
-			        		<tr>
-			        			<td class="text-center">
-			        				@include('helpers.viewBool', ['value' => $division->active])
-			        			</td>
-			        			<td>{{ $division->name }}</td>
-			        			<td>{{ $division->code }}</td>
-			        			<td>{{ $division->sort }}</td>
-			        			<td class="text-center">
-									<div class="btn-group">
-										@include('helpers.btnEdit', [
-											'url' => route('divisions.form', $division->id), 
-											'title' => 'Edit division'])
-										@include('helpers.btnDelete', [
-											'url' => route('divisions.delete', $division->id), 
-											'title' => 'Remove division',
-											'confirm' => 'Remove division?'])
-									</div>
-								</td>
-			        		</tr>
-						@endforeach
-			        </tbody>
-		        </table>
-        
-        	</div>
-        </div>
+        <table class="table table-bordered table-hover table-vcenter js-dataTable">
+        	<thead>
+        		<tr>
+        			<th>{{ __('A') }}</th>
+        			<th>{{ __('Name') }}</th>
+        			<th>{{ __('External ID') }}</th>
+        			<th>{{ __('Sort index') }}</th>
+        			<th>{{ __('Action') }}</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+	        	@foreach ($divisions as $division)
+	        		<tr>
+	        			<td class="text-center">
+	        				@include('helpers.viewBool', ['value' => $division->active])
+	        			</td>
+	        			<td>{{ $division->name }}</td>
+	        			<td>{{ $division->code }}</td>
+	        			<td>{{ $division->sort }}</td>
+	        			<td class="text-center">
+							<div class="btn-group">
+								@include('helpers.btnEdit', [
+									'url' => route('divisions.form', $division->id), 
+									'title' => 'Edit division'])
+								@include('helpers.btnDelete', [
+									'url' => route('divisions.delete', $division->id), 
+									'title' => 'Remove division',
+									'confirm' => 'Remove division?'])
+							</div>
+						</td>
+	        		</tr>
+				@endforeach
+	        </tbody>
+        </table>
         
     </div>
     <!-- END Page Content -->
