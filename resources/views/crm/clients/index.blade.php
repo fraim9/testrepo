@@ -29,7 +29,7 @@
         			<th class="text-center text-small">{{ __('Email Opt-In') }}</th>
         			<th class="text-center text-small">{{ __('Msg Opt-In') }}</th>
         			<th class="text-center text-small">{{ __('Postal Opt-In') }}</th>
-        			<th class="text-center text-small">{{ __('Consent signed') }}</th>
+        			<th data-class-name="text-small text-center">{{ __('Consent signed') }}</th>
         			<th class="text-center text-small">{{ __('Consent File') }}</th>
         			<th class="text-center">Mini</th>
         			<th class="text-center">AML</th>
@@ -43,8 +43,9 @@
         			<th><input type="search" class="form-control" name="fPhone" value="{{ $filter->fPhone }}"></th>
         			<th></th>
         			<th>
-        				<select class="form-control" name="fCountry">
-                        	<option value="">{{ __('-- all --') }}</option>
+        				<select class="js-select2 form-control" name="fCountry" style="width: 100%;" data-placeholder="{{ __('-- all --') }}">
+                        	<option></option>
+                        	<option value="0">{{ __('-- all --') }}</option>
                             @if ($countries)
                             	@foreach ($countries as $country)
                             		<option value="{{ $country->id }}" {{ ($country->id == $filter->fCountry) ? 'selected' : '' }}>{{ $country->name }}</option>
@@ -92,8 +93,9 @@
         			<th></th>
         			<th></th>
         			<th>
-        				<select class="form-control" name="fResponsible">
-                        	<option value="">{{ __('-- all --') }}</option>
+        				<select class="js-select2 form-control" name="fResponsible" style="width: 100%;" data-placeholder="{{ __('-- all --') }}">
+                        	<option></option>
+                        	<option value="0">{{ __('-- all --') }}</option>
                             @if ($employees)
                             	@foreach ($employees as $employee)
                             		<option value="{{ $employee->id }}" {{ ($employee->id == $filter->fResponsible) ? 'selected' : '' }}>{{ $employee->name }}</option>
@@ -102,8 +104,9 @@
                         </select>
         			</th>
         			<th>
-        				<select class="form-control" name="fStore">
-                        	<option value="">{{ __('-- all --') }}</option>
+        				<select class="js-select2 form-control" name="fStore" style="width: 100%;" data-placeholder="{{ __('-- all --') }}">
+                        	<option></option>
+                        	<option value="0">{{ __('-- all --') }}</option>
                             @if ($stores)
                             	@foreach ($stores as $store)
                             		<option value="{{ $store->id }}" {{ ($store->id == $filter->fStore) ? 'selected' : '' }}>{{ $store->name }}</option>
@@ -169,6 +172,7 @@
         				],
             		}
             );
+        	
         });
     </script>
     

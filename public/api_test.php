@@ -2,6 +2,7 @@
 error_reporting(E_ALL);
 session_start();
 
+
 if (!isset($_SESSION['test_api_access_token']) || isset($_GET['clean_token'])) {
     
     //===== ПОЛУЧЕНИЕ AUTH TOKEN ===========================
@@ -248,6 +249,47 @@ switch ($method) {
         
         $data = [
                 [
+                        'warehouseId' => '',
+                        'warehouseCode' => 'WW02',
+                        'barcode' => '11111',
+                        'serialNumber' => '001-001',
+                        'physicalQty' => '5',
+                        'availableQty' => '3',
+                        'reservedQty' => '2',
+                        'transferQty' => '1',
+                        'deliveryQty' => '5',
+                ],
+                
+        ];
+        break;
+    case 'sales': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'id' => 0,
+                        'code' => '2019-0456',
+                        'checkNumber' => 1,
+                        'date' => '2019-08-22T10:00:00',
+                        'timeZone' => '+03:00',
+                        'dateLocal' => '',
+                        'storeCode' => 'GUM',
+                        'clientCode' => 'RU03455',
+                        'clientId' => '',
+                        'employeeCode' => '472',
+                        'cashDeskCode' => 'CASH-001',
+                        'lines' => [
+                                [
+                                        'lineNumber' => '',
+                                        'salespersonCode' => '267',
+                                        'warehouseCode' => 'WW02',
+                                        'barcode' => '11111',
+                                        'serialNumber' => '001-001',
+                                        'quantity' => '2',
+                                        'price' => '1000.00',
+                                        'discount' => '200',
+                                ]
+                        ],
                         
                 ],
                 

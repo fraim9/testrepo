@@ -19766,6 +19766,7 @@ function () {
           });
         }, 500);
       });
+      One.helpers(['select2']);
     }
   }]);
 
@@ -19856,6 +19857,9 @@ var Ladda = __webpack_require__(/*! ladda */ "./node_modules/ladda/js/ladda.js")
 
 Ladda.bind('.ladda-button', {
   timeout: 3600000
+});
+jQuery(function () {
+  $(".select2-single").select2();
 }); //require('bootstrap-notify');
 
 /*

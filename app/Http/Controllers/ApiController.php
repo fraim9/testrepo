@@ -60,7 +60,11 @@ class ApiController extends Controller
         } catch (Exception $e) {
             $result->errorCode = $e->getCode() ?: AEF::SYSTEM_ERROR;
             $result->errorMessage = $e->getMessage();
-            $result->errorDetails = AEF::getDetails();
+            if ($e instanceof ApiException) {
+                $result->errorDetails = AEF::getDetails();
+            } else {
+                $result->errorDetails = $e->getTraceAsString();
+            }
             
             if ($e instanceof ApiException) {
                 switch ($e->getCode()) {
@@ -157,6 +161,10 @@ class ApiController extends Controller
                         break;
                     case 'stock':
                         $this->_pushStock($request, $result);
+                        break;
+                        
+                    case 'sales':
+                        $this->_pushSales($request, $result);
                         break;
                         
                     case 'clients':
@@ -327,7 +335,12 @@ class ApiController extends Controller
     
     protected function _pushStock(Request $request, $result)
     {
-        $result->ids = $this->_getImportService()->stock($request->all());
+        $this->_getImportService()->stock($request->all());
+    }
+    
+    protected function _pushSales(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->sales($request->all());
     }
     
     

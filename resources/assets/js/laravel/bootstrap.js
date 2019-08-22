@@ -37,6 +37,13 @@ Ladda.bind('.ladda-button', {
 });
 
 
+jQuery(function(){
+	
+	$(".select2-single").select2();
+	
+});
+
+
 //require('bootstrap-notify');
 
 /*

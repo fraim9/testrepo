@@ -41,6 +41,7 @@ class ApiExceptionFactory
     const STORE_NOT_FOUND           = 501030;
     const WAREHOUSE_NOT_FOUND       = 501040;
     const BARCODE_NOT_FOUND         = 501050;
+    const INVALID_DATE              = 501060;
 
     // 600000 - Ошибки формата данных
     const INVALID_REQUEST_PARAMETERS = 600010;
@@ -81,9 +82,17 @@ class ApiExceptionFactory
             case self::AUTH_NO_LICENSE: return 'AUTH no license';
             case self::AUTH_TOKEN_INVALID: return 'AUTH invalid token';
 
+            case self::CLIENT_NOT_FOUND: return 'Client not found';
+            case self::EMPLOYEE_NOT_FOUND: return 'Employee not found';
+            case self::STORE_NOT_FOUND: return 'Store not found';
+            case self::WAREHOUSE_NOT_FOUND: return 'Warehouse not found';
+            case self::BARCODE_NOT_FOUND: return 'Barcode not found';
+            case self::INVALID_DATE: return 'Invalid date';
             
             
-            case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in request';
+            case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in the request';
+            case self::DATA_NOT_FOUND: return 'Data not found in the request';
+            case self::DATA_TOO_MUCH: return 'Too much data in the request';
             case self::DATA_VALIDATION_ERROR: return 'Data validation error';
             
             

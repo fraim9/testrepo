@@ -17,6 +17,9 @@ use App\Warehouse;
 use App\ItemBarcode;
 use App\ItemSerial;
 use App\ItemStock;
+use App\Sale;
+use App\SaleLine;
+use App\CashDesk;
 
 class DataImport 
 {
@@ -301,7 +304,6 @@ class DataImport
             }
         }
         
-        $ids = [];
         foreach ($data as $row) {
             
             $warehouseId = $this->_getWarehouseId($row['warehouseId'], $row['warehouseCode']);
@@ -315,15 +317,15 @@ class DataImport
             }
             
             $serialNumber = ItemSerial::whereItemId($barcode->item_id)
-                                        ->whereSerial($row['serialNumber'])->getFirst();
+                                        ->whereSerial($row['serialNumber'])->first();
             
             $stock = ItemStock::whereWarehouseId($warehouseId)
                                 ->whereItemId($barcode->item_id)
-                                ->whereSerialId($serialNumber ? $serialNumber->id : 0);
+                                ->whereSerialId($serialNumber ? $serialNumber->id : 0)->first();
             
             
             if (!$stock) {
-                $stock = new Warehouse();
+                $stock = new ItemStock();
                 $stock->warehouse_id = $warehouseId;
                 $stock->item_id = $barcode->item_id;
                 $stock->serial_id = $serialNumber ? $serialNumber->id : 0;
@@ -341,10 +343,189 @@ class DataImport
             $stock->modified_date = date('Y-m-d H:i:s');
             $stock->save();
             
-            $ids[] = ['id' => $stock->id, 'code' => $stock->code];
+        }
+        
+    }
+    
+    public function sales($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'checkNumber' => 'nullable|integer',
+                    'date' => 'nullable|date_format:Y-m-d\TH:i:s',
+                    'timeZone' => 'nullable|string|max:6',
+                    'dateLocal' => 'nullable|date_format:Y-m-d\TH:i:s',
+                    'storeCode' => 'required|string|max:32',
+                    'clientId' => 'nullable|integer',
+                    'clientCode' => 'required|string|max:32',
+                    'employeeCode' => 'required|string|max:32',
+                    'cashDeskCode' => 'nullable|string|max:32',
+                    'lines' => 'required|array',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $sale = null;
+            if ($row['id']) {
+                $sale = Sale::find($row['id']);
+            } else if ($row['code']) {
+                $sale = Sale::whereCode($row['code'])->first();
+            }
+            
+            if (!$sale) {
+                $sale = new Sale();
+                $sale->created_by = $this->_userId;
+                $sale->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $sale->code = $row['code'];
+            $sale->check_number = $row['checkNumber'];
+            $store = $this->_getStoreId(0, $row['storeCode'], true);
+            if (!$store) {
+                throw AEF::create(AEF::STORE_NOT_FOUND);
+            }
+            $sale->store_id = $store->id;
+            
+            $storeTimeZone = TimeZone::find($store->time_zone_id);
+            
+            if ($row['date'] && !$row['timeZone'] && !$row['dateLocal']) {
+                $date = new \DateTime($row['date']);
+                $sale->date = $date->format('Y-m-d H:i:s');
+                $sale->time_offset = $storeTimeZone->offset;
+            } else if ($row['date'] && $row['timeZone'] && !$row['dateLocal']) {
+                $date = new \DateTime($row['date']);
+                $sale->date = $date->format('Y-m-d H:i:s');
+                $sale->time_offset = $row['timeZone'];
+            } else if (!$row['date'] && $row['timeZone'] && $row['dateLocal']) {
+                $date = new \DateTime($row['dateLocal']);
+                $timezone = new \DateTimeZone($row['timeZone']);
+                $date->setTimezone($timezone);
+                $sale->date = $date->format('Y-m-d H:i:s');
+                $sale->time_offset = $row['timeZone'];
+            } else if (!$row['date'] && !$row['timeZone'] && $row['dateLocal']) {
+                $date = new \DateTime($row['dateLocal']);
+                $timezone = new \DateTimeZone($storeTimeZone->offset);
+                $date->setTimezone($timezone);
+                $sale->date = $date->format('Y-m-d H:i:s');
+                $sale->time_offset = $storeTimeZone->offset;
+            } else {
+                throw AEF::create(AEF::INVALID_DATE);
+            }
+            
+            $clientId = $this->_getClientId($row['clientId'], $row['clientCode']);
+            if (!$clientId) {
+                throw AEF::create(AEF::CLIENT_NOT_FOUND);
+            }
+            $sale->client_id = $clientId;
+            
+            $employeeId = $this->_getEmployeeId(0, $row['employeeCode']);
+            if (!$employeeId) {
+                throw AEF::create(AEF::EMPLOYEE_NOT_FOUND);
+            }
+            $sale->employee_id = $employeeId;
+            
+            $cashDesk = CashDesk::whereCode($row['cashDeskCode'])->first();
+            if ($cashDesk) {
+                $sale->cash_desk_id = $cashDesk->id;
+            }
+            
+            $sale->modified_by = $this->_userId;
+            $sale->modified_date = date('Y-m-d H:i:s');
+            $sale->save();
+            
+            // удаляем все строки чека
+            SaleLine::whereSalesId($sale->id)->delete();
+            
+            // добавлям строки чека и вычисляем суммарные показатели
+            $sale->qty = 0;
+            $sale->amount = 0;
+            foreach ($row['lines'] as $i => $line) {
+                $saleLine =  $this->salesLine($sale->id, $i, $line);
+                $sale->qty += $saleLine->quantity;
+                $sale->amount += $saleLine->amount;
+            }
+            $sale->status = 0;
+            $sale->save();
+            
+            $ids[] = ['id' => $sale->id, 'code' => $sale->code];
         }
         
         return $ids;
+    }
+    
+    public function salesLine($salesId, $lineNumber, $data)
+    {
+        
+        $validator = Validator::make($data, [
+                'lineNumber' => 'nullable|integer',
+                'salespersonCode' => 'required|string|max:32',
+                'warehouseCode' => 'required|string|max:32',
+                'barcode' => 'required|string|max:30',
+                'serialNumber' => 'nullable|string|max:32',
+                'quantity' => 'required|integer',
+                'price' => 'required|numeric',
+                'discount' => 'nullable|numeric',
+        ]);
+        if ($validator->fails()) {
+            $details = $validator->errors()->first() . ' [' . json_encode($data) . ']';
+            throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+        }
+        
+        $saleLine = new SaleLine();
+        $saleLine->created_by = $this->_userId;
+        $saleLine->created_date = date('Y-m-d H:i:s');
+        
+        $saleLine->sales_id = $salesId;
+        $saleLine->line_number = $data['lineNumber'] ?: $lineNumber;
+        
+        $salespersonId = $this->_getEmployeeId(0, $data['salespersonCode']);
+        if (!$salespersonId) {
+            throw AEF::create(AEF::EMPLOYEE_NOT_FOUND, $data['salespersonCode']);
+        }
+        $saleLine->salesperson_id = $salespersonId;
+        
+        $warehouseId = $this->_getWarehouseId(0, $data['warehouseCode']);
+        if (!$warehouseId) {
+            throw AEF::create(AEF::WAREHOUSE_NOT_FOUND, $data['warehouseCode']);
+        }
+        $saleLine->warehouse_id = $warehouseId;
+        
+        $barcode = ItemBarcode::find($data['barcode']);
+        if (!$barcode) {
+            throw AEF::create(AEF::BARCODE_NOT_FOUND, $data['barcode']);
+        }
+        $saleLine->item_id = $barcode->item_id;
+        $saleLine->barcode = $barcode->barcode;
+        
+        if ($data['serialNumber']) {
+            $serialNumber = ItemSerial::whereItemId($barcode->item_id)
+                ->whereSerial($data['serialNumber'])->first();
+            if ($serialNumber) {
+                $saleLine->serial_id = $serialNumber->id;
+            }
+        }
+        
+        $saleLine->quantity = $data['quantity'];
+        $saleLine->price = $data['price'];
+        $saleLine->discount = $data['discount'];
+        $saleLine->amount = $saleLine->quantity * $saleLine->price - $saleLine->discount;
+        
+        $saleLine->modified_by = $this->_userId;
+        $saleLine->modified_date = date('Y-m-d H:i:s');
+        $saleLine->save();
+        
+        return $saleLine;
     }
     
     protected function _checkDataAsArray($data)
@@ -362,7 +543,7 @@ class DataImport
         }
     }
     
-    protected function _getStoreId($id, $code)
+    protected function _getStoreId($id, $code, $asObject = false)
     {
         $store = null;
         if ($id) {
@@ -370,7 +551,7 @@ class DataImport
         } else if ($code) {
             $store = Store::whereCode($code)->first();
         }
-        return $store ? $store->id : null;
+        return $store ? ($asObject ? $store : $store->id) : null;
     }
     
     protected function _getEmployeeId($id, $code)

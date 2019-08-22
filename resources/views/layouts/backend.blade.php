@@ -19,6 +19,9 @@
 
         <!-- Fonts and Styles -->
         @yield('css_before')
+
+        <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/oneui.css') }}">
 
@@ -574,6 +577,8 @@
 
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
+        
+        <script src="{{ asset('js/plugins/select2/js/select2.min.js') }}"></script>
 		
         @yield('js_after')
         

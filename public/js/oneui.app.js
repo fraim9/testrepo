@@ -18493,8 +18493,6 @@ function (_Template) {
         }
 
         app._setDataToStorage('sidebar_mini_state', state);
-
-        console.log(state);
       });
 
       $('body').addClass('no-transition');

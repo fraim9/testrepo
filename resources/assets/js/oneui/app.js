@@ -82,7 +82,6 @@ export default class App extends Template {
     		    jQuery(window).trigger('sidebarMiniStateChanged', state);
     		}
     		app._setDataToStorage('sidebar_mini_state', state);
-    		console.log(state);
     	});
     	
     	$('body').addClass('no-transition');

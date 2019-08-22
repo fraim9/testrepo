@@ -108,6 +108,8 @@ class dataTablesAdapter
                 		});
 				}, 500);
         });
+		
+		One.helpers(['select2']);
 	}
 	
 	
