@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers\Aml;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
-use App\Http\Requests\Client as ClientRequest;
-use App\Http\Requests\AmlReport as AmlReportRequest;
 use App\Client;
-use App\Country;
-use App\TimeZone;
 use App\Employee;
 use App\Store;
-use App\AmlMini;
 use App\Services\AmlManager;
-use App\AmlReport;
-use App\AmlReportQuestion;
-use App\AmlReportStatus;
-use App\Company;
 use App\Http\Controllers\Filter;
 use Yajra\Datatables\Datatables;
-use App\Exceptions\AppException;
 use Illuminate\Support\Facades\DB;
+use App\Services\ReturnHelper;
 
 
 class QuestionnairesController extends BackendController
@@ -47,6 +37,8 @@ class QuestionnairesController extends BackendController
     
     public function index(Request $request)
     {
+        // запоминаем, куда нужно вернуться после редактирования AML отчета
+        ReturnHelper::set('questionnaires.index', 'amlReportStore');
         
         $filter = $this->_getFilter($request);
         
@@ -58,56 +50,6 @@ class QuestionnairesController extends BackendController
         
     }
     
-    
-
-    /*
-    public function amlReport($id)
-    {
-        $amlReport = AmlReport::find($id);
-        $amlMini = $amlReport->miniQuest;
-        $client = $amlReport->client;
-        $countries = Country::orderBy('name')->get();
-        $amlReportQuestions = new AmlReportQuestion();
-        $amlReportQuestions->setAmlMini($amlMini);
-        $questions = $amlReportQuestions->findAll();
-        $dateText = (new \DateTime($amlMini->created_date))->format('d.m.Y');
-        $statusList = (new AmlReportStatus())->findAll();
-        $currentEmployee = Auth::user()->employee;
-        return view('crm.clients.amlReport', compact('amlReport', 'amlMini',
-                'client', 'countries', 'questions', 'dateText', 'statusList', 'currentEmployee'));
-    }
-    
-    public function amlReportView($id)
-    {
-        $amlReport = AmlReport::find($id);
-        $amlMini = $amlReport->miniQuest;
-        $client = $amlReport->client;
-        $countries = Country::orderBy('name')->get();
-        $questions = (new AmlReportQuestion())->findAll();
-        return view('crm.clients.amlReportView', compact('amlReport', 'amlMini',
-                'client', 'countries', 'questions'));
-    }
-    
-    public function amlReportStore(AmlReportRequest $request, $id)
-    {
-        $amlReport = AmlReport::find($id);
-        if (!$amlReport) {
-            abort(404);
-        }
-        
-        $amlReport->fill($request->all());
-        
-        $client = Auth::user();
-        $amlReport->responsible_id = $client->employee_id ?: null;
-        $amlReport->check_date = date('Y-m-d H:i:s');
-        
-        $amlReport->modified_date = date('Y-m-d H:i:s');
-        $amlReport->modified_by = Auth::id();
-        $amlReport->save();
-        
-        return redirect()->route('clients.info', ['clientId' => $amlReport->client])->with('success', __('messages.reportAmlSaved'));
-    }
-    */
     
     public function data(Request $request)
     {
@@ -129,14 +71,9 @@ class QuestionnairesController extends BackendController
                 'aml_report.modified_date as reportModified'
                 );
         
-        // AmlMini
-        
-        //$model = AmlMini::query();
-        
-        
         return DataTables::of($model)
-        ->escapeColumns([])
-        ->only(['miniId','mini', 'store', 'initiator', 'created', 'idReport', 'report', 'responsible', 'modified',
+            ->escapeColumns([])
+            ->only(['miniId','mini', 'store', 'initiator', 'created', 'idReport', 'report', 'responsible', 'modified',
                 'clientId', 'clientName'])
                 ->editColumn('miniId', function($mini) {
                     return $mini->id;
@@ -169,9 +106,9 @@ class QuestionnairesController extends BackendController
                 ->editColumn('report', function($mini) {
                     $html = '<div class="text-center">';
                     if ($mini->report->status()->id == \App\AmlReportStatus::COMPLETED) {
-                        $html .= '<a href="' . route('clients.amlReportView', $mini->report->id) . '"><i class="fa fa-eye"></i></a>';
+                        $html .= '<a href="' . route('clients.amlReportView', $mini->report->id) . '?from=questionnaires.index"><i class="fa fa-eye"></i></a>';
                     } else {
-                        $html .= '<a href="' . route('clients.amlReport', $mini->report->id) . '"><i class="fa fa-edit"></i></a>';
+                        $html .= '<a href="' . route('clients.amlReport', $mini->report->id) . '?from=questionnaires.index"><i class="fa fa-edit"></i></a>';
                     }
                     $html .= '</div>';
                     return $html;

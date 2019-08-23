@@ -21,6 +21,7 @@ use App\Company;
 use App\Http\Controllers\Filter;
 use Yajra\Datatables\Datatables;
 use App\Exceptions\AppException;
+use App\Services\ReturnHelper;
 
 
 class ClientsController extends BackendController
@@ -68,6 +69,10 @@ class ClientsController extends BackendController
         }
         compact('clients')
         */
+        
+        // запоминаем, куда нужно вернуться после редактирования AML отчета
+        ReturnHelper::set('clients.index', 'amlReportStore');
+        
         $filter = $this->_getFilter($request);
         
         $countries = Country::orderBy('name')->get();
@@ -80,6 +85,8 @@ class ClientsController extends BackendController
     
     public function info($id)
     {
+        // запоминаем, куда нужно вернуться после редактирования AML отчета
+        ReturnHelper::set('clients.info', 'amlReportStore');
         
         $client = $id ? Client::find($id) : null;
         
@@ -198,7 +205,15 @@ class ClientsController extends BackendController
         $amlReport->modified_by = Auth::id();
         $amlReport->save();
         
-        return redirect()->route('clients.info', ['clientId' => $amlReport->client])->with('success', __('messages.reportAmlSaved'));
+        $route = ReturnHelper::pull('amlReportStore');
+        switch ($route) {
+            case 'clients.index':
+            case 'questionnaires.index':
+                return redirect()->route($route)->with('success', __('messages.reportAmlSaved'));
+            default:
+                return redirect()->route('clients.info', ['clientId' => $amlReport->client])->with('success', __('messages.reportAmlSaved'));
+        }
+        
     }
     
     public function data(Request $request)
