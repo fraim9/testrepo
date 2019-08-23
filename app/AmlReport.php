@@ -31,27 +31,27 @@ class AmlReport extends AppModel
 	}
 	public function store()
 	{
-	    return $this->belongsTo('App\Store');
+	    return $this->belongsTo('App\Store')->withDefault(['name' => '---']);
 	}
 	
 	public function initiator()
 	{
-	    return $this->belongsTo('App\Employee');
+	    return $this->belongsTo('App\Employee')->withDefault(['name' => '---']);
 	}
 
 	public function responsible()
 	{
-	    return $this->belongsTo('App\Employee');
+	    return $this->belongsTo('App\Employee')->withDefault(['name' => '---']);
 	}
 	
 	public function client()
 	{
-	    return $this->belongsTo('App\Client');
+	    return $this->belongsTo('App\Client')->withDefault(['name' => '---']);
 	}
 	
 	public function citizenship()
 	{
-	    return $this->belongsTo('App\Country');
+	    return $this->belongsTo('App\Country')->withDefault(['name' => '---']);
 	}
 	
 	public function status()

@@ -137,6 +137,11 @@ ul.compact {
     font-size: 0.85rem;
 }
 
+.table thead th {
+    font-size: 0.75rem;
+    letter-spacing: normal;
+}
+
 .table .table tr::first-child td {
 	border-top: 0 !important;
 }

@@ -9,6 +9,7 @@ class AclResourceGroups extends AppModelList
     const STORES = 'stores';
     const COMPANY = 'company';
     const CRM = 'crm';
+    const AML = 'aml';
     const SETTINGS = 'settings';
 
     const API = 'api';
@@ -21,6 +22,7 @@ class AclResourceGroups extends AppModelList
         $this->_add(self::STORES, 'Stores');
         $this->_add(self::COMPANY, 'Company');
         $this->_add(self::CRM, 'CRM');
+        $this->_add(self::AML, 'AML');
 
         $this->_add(self::API, 'API');
         

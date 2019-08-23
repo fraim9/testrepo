@@ -24,10 +24,13 @@ class AclResources extends AppModelList {
         
         $this->_add('clients', 'Access to clients', ['group' => AclResourceGroups::CRM]);
 
+        $this->_add('amlQuestionnaires', 'Questionnaires', ['group' => AclResourceGroups::AML]);
+
         
         $this->_add('apiReceiveClients', 'Receive Clients personal data', ['group' => AclResourceGroups::API]);
         $this->_add('apiReceiveSmallAML', 'Receive small AML questionnaires', ['group' => AclResourceGroups::API]);
         $this->_add('apiReceiveFiles', 'Receive files from OmniPOS', ['group' => AclResourceGroups::API]);
+
         
     }
     

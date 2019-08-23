@@ -130,6 +130,12 @@ Route::get('/admin/crm/clients/data', 'Crm\ClientsController@data')->name('clien
 Route::get('/admin/crm/clients/filter', 'Crm\ClientsController@filter')->name('clients.filter');
 
 
+//=== AML ===
+
+Route::get('/admin/aml/questionnaires', 'Aml\QuestionnairesController@index')->name('questionnaires.index');
+Route::get('/admin/aml/questionnaires/data', 'Aml\QuestionnairesController@data')->name('questionnaires.data');
+Route::get('/admin/aml/questionnaires/filter', 'Aml\QuestionnairesController@filter')->name('questionnaires.filter');
+
 
 
 //=== FILES ===

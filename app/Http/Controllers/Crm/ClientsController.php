@@ -87,7 +87,7 @@ class ClientsController extends BackendController
             abort(404);
         }
         
-        $amlMiniList = AmlMini::where('client_id', '=', $client->id)->orderBy('created_date', 'desc')->get();
+        $amlMiniList = AmlMini::whereClientId($client->id)->orderBy('created_date', 'desc')->get();
         if ($amlMiniList) {
             $manager = new AmlManager();
             foreach ($amlMiniList as $amlMini) {
@@ -190,8 +190,8 @@ class ClientsController extends BackendController
         
         $amlReport->fill($request->all());
                 
-        $client = Auth::user();
-        $amlReport->responsible_id = $client->employee_id ?: null; 
+        $user = Auth::user();
+        $amlReport->responsible_id = $user->employee_id ?: null; 
         $amlReport->check_date = date('Y-m-d H:i:s');
         
         $amlReport->modified_date = date('Y-m-d H:i:s');
