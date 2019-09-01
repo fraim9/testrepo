@@ -14,6 +14,7 @@ use App\Employee;
 use App\AclRole;
 use App\Store;
 use App\Http\Controllers\Filter;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends BackendController
 {

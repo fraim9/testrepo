@@ -42,6 +42,11 @@ class ApiExceptionFactory
     const WAREHOUSE_NOT_FOUND       = 501040;
     const BARCODE_NOT_FOUND         = 501050;
     const INVALID_DATE              = 501060;
+    const PRODUCT_NOT_FOUND         = 501070;
+    const PRODUCT_COLOR_NOT_FOUND   = 501080;
+    const PRODUCT_SIZE_NOT_FOUND    = 501090;
+    const PRODUCT_CONFIG_NOT_FOUND  = 501100;
+    const PRODUCT_SEASON_NOT_FOUND  = 501110;
 
     // 600000 - Ошибки формата данных
     const INVALID_REQUEST_PARAMETERS = 600010;
@@ -88,6 +93,11 @@ class ApiExceptionFactory
             case self::WAREHOUSE_NOT_FOUND: return 'Warehouse not found';
             case self::BARCODE_NOT_FOUND: return 'Barcode not found';
             case self::INVALID_DATE: return 'Invalid date';
+            case self::PRODUCT_NOT_FOUND: return 'Product not found';
+            case self::PRODUCT_COLOR_NOT_FOUND: return 'Product color not found';
+            case self::PRODUCT_SIZE_NOT_FOUND: return 'Product size not found';
+            case self::PRODUCT_CONFIG_NOT_FOUND: return 'Product config not found';
+            case self::PRODUCT_SEASON_NOT_FOUND: return 'Product season not found';
             
             
             case self::INVALID_REQUEST_PARAMETERS: return 'Invalid parameters in the request';

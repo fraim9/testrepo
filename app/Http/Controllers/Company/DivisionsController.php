@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BackendController;
 use App\Http\Requests\Division as DivisionRequest;
 use App\Division;
+use App\ProductColor;
+use App\Services\DataImport;
+use App\ProductImage;
 
 
 class DivisionsController extends BackendController
@@ -14,6 +17,16 @@ class DivisionsController extends BackendController
     
     public function index()
     {
+        $query = ProductImage::query();
+        $query->whereProductId(2);
+        $query->whereCode('W');
+        $productImage2 = $query->get();
+        
+        echo '<pre>';
+        print_r($productImage2);
+        echo '</pre>';
+        exit;
+        
         $divisions = Division::all(); 
         return view('company.divisions.index', compact('divisions'));
     }

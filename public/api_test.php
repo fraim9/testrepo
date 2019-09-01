@@ -295,7 +295,173 @@ switch ($method) {
                 
         ];
         break;
+    case 'brands': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'id' => 0,
+                        'code' => 'CNL',
+                        'name' => 'CHANEL',
+                        'logo' => base64_encode(file_get_contents('/Users/roman/Downloads/demo_user_key.png')),
+                        'logoFormat' => 'png'
+                ],
+                [
+                        'id' => 0,
+                        'code' => '7LV',
+                        'name' => '7 level',
+                ],
+                
+        ];
+        break;
+    case 'collections': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'id' => 0,
+                        'code' => 'CH-A-2019',
+                        'name' => 'Осень 2019',
+                        'description' => 'Что такое осень 2019 года это небо 2019 года',
+                        'year' => 2019,
+                        'brandCode' => 'CNL',
+                ],
+                
+        ];
+        break;
+    case 'products': 
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'id' => 0,
+                        'code' => 'A-00001',
+                        'manufactureCode' => 'FKM-754-123',
+                        'name' => 'Свитер женский и мужской, два в одном',
+                        'shortDescription' => 'Корткий мужской свитер средней длинны и с вырезом под женский свитер большой длинны',
+                        'description' => 'Два свитера в одном - просто бросьте таблетку в таз с водой и выбегайте из комнаты. Два свитера по цене одного в тазу лежат не тужат есть не просят лишь глазом косят.',
+                        'composition' => 'нитроэтилгидрадхлорофил, путеводная нить, водородная сыпь',
+                        'brandCode' => 'CNL',
+                        'collectionCode' => 'CH-A-2019',
+                        'divisionCode' => '22',
+                        'model' => 'пуловер 2112',
+                        'colors' => [
+                                [
+                                        'code' => 'RED-1',
+                                        'name' => 'светло-красный',
+                                        'hex' => 'ffdddd',
+                                        'image' => base64_encode(file_get_contents('/Users/roman/Downloads/demo_user_key.png')),
+                                        'imageFormat' => 'png',
+                                ],
+                                [
+                                        'code' => 'RED-2',
+                                        'name' => 'красный',
+                                        'hex' => 'ff0000',
+                                ],
+                                [
+                                        'code' => 'RED-3',
+                                        'name' => 'тёмно-красный',
+                                        'hex' => 'dd0000',
+                                ],
+                        ],
+                        'configs' => [
+                                [
+                                        'code' => 'CONF-001',
+                                        'name' => 'с рукавами и шапкой',
+                                ],
+                                [
+                                        'code' => 'CONF-002',
+                                        'name' => 'без рукавов и с зонтом',
+                                ],
+                        ],
+                        'sizes' => [
+                                [
+                                        'code' => 'S',
+                                        'name' => 'S',
+                                ],
+                                [
+                                        'code' => 'M',
+                                        'name' => 'M',
+                                ],
+                                [
+                                        'code' => 'L',
+                                        'name' => 'L',
+                                ],
+                        ],
+                        'seasons' => [
+                                [
+                                        'code' => 'W',
+                                        'name' => 'Зима',
+                                ],
+                                [
+                                        'code' => 'S',
+                                        'name' => 'Лето',
+                                ],
+                        ],
+                        'sections' => [1, 2, 3],
+                        'items' => [
+                                [
+                                        'colorCode' => 'RED-1',
+                                        'sizeCode' => 'L',
+                                        'configCode' => 'CONF-001',
+                                        'seasonCode' => 'W',
+                                        'gtin' => '1234-56789',
+                                        'barcodes' => [
+                                                '46392847483',
+                                                '46392847484',
+                                                '46392847485',
+                                                '46392847487',
+                                        ],
+                                        'serials' => [
+                                                'A-00001-7483',
+                                                'A-00001-7484',
+                                                'A-00001-7485',
+                                                'A-00001-7487',
+                                        ],
+                                ],
+                                [
+                                        'colorCode' => 'RED-2',
+                                        'sizeCode' => 'M',
+                                        'configCode' => '',
+                                        'seasonCode' => '',
+                                        'gtin' => '1234-567123',
+                                        'barcodes' => [
+                                                '46392847583',
+                                                '46392847584',
+                                                '46392847585',
+                                                '46392847586',
+                                        ],
+                                        'serials' => [
+                                                'A-00001-7583',
+                                                'A-00001-7584',
+                                                'A-00001-7585',
+                                                'A-00001-7586',
+                                        ],
+                                ],
+                        ],
+                ],
+                
+        ];
+        break;
+    case 'productImage':
+        $httpMethod = 'POST';
+        
+        $data = [
+                'productId' => 0,
+                'productCode' => 'A-00001',
+                'colorCode' => 'RED-2',
+                'sizeCode' => 'L',
+                'configCode' => 'CONF-002',
+                'seasonCode' => 'W',
+                'image' => base64_encode(file_get_contents('/Users/roman/Downloads/demo_user_key.png')),
+                'imageFormat' => 'png'
+        ];
+        break;
 }
+
+
+
+
 
 
 

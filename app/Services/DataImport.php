@@ -20,6 +20,17 @@ use App\ItemStock;
 use App\Sale;
 use App\SaleLine;
 use App\CashDesk;
+use App\Brand;
+use Illuminate\Support\Facades\DB;
+use App\Collection;
+use App\Product;
+use App\Division;
+use App\ProductColor;
+use App\ProductConfig;
+use App\ProductSize;
+use App\ProductSeason;
+use App\Item;
+use App\ProductImage;
 
 class DataImport 
 {
@@ -86,6 +97,638 @@ class DataImport
         
         return $ids;
     }
+    
+    public function brands($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'name' => 'required|string|max:150',
+                    'logo' => 'string',
+                    'logoFormat' => 'required_with:logo|in:png,jpg',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $brand = null;
+            if ($row['id']) {
+                $brand = Brand::find($row['id']);
+            } else {
+                $brand = Brand::whereCode($row['code'])->first();
+            }
+            if (!$brand) {
+                $brand = new Brand();
+                $brand->created_by = $this->_userId;
+                $brand->created_date = date('Y-m-d H:i:s');
+            } else if ($brand->logo_id) {
+                $this->_deleteFile($brand->logo_id);
+                $brand->logo_id = null;
+            }
+            
+            $brand->code = $row['code'];
+            $brand->name = $row['name'];
+            
+            if (isset($row['logo']) && isset($row['logoFormat'])) {
+                $brand->logo_id = $this->_storeFile($row['logo'], $row['logoFormat']);
+            }
+            
+            $brand->modified_by = $this->_userId;
+            $brand->modified_date = date('Y-m-d H:i:s');
+            
+            $brand->save();
+            
+            
+            $ids[] = ['id' => $brand->id, 'code' => $brand->code];
+        }
+        
+        return $ids;
+    }
+    
+    public function collections($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'name' => 'required|string|max:150',
+                    'description' => 'nullable|string|max:255',
+                    'year' => 'nullable|integer',
+                    'brandId' => 'nullable|integer',
+                    'brandCode' => 'nullable|string|max:32',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $collection = null;
+            if ($row['id']) {
+                $collection = Collection::find($row['id']);
+            } else {
+                $collection = Collection::whereCode($row['code'])->first();
+            }
+            if (!$collection) {
+                $collection = new Collection();
+                $collection->created_by = $this->_userId;
+                $collection->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $collection->code = $row['code'];
+            $collection->name = $row['name'];
+            $collection->description = $row['description'] ?? null;
+            $collection->year = $row['year'] ?? null;
+            $brandId = $row['brandId'] ?? null;
+            $brandCode = $row['brandCode'] ?? null;
+            if ($brandId || $brandCode) {
+                $collection->brand_id = $this->_getBrandId($brandId, $brandCode);
+            } else {
+                $collection->brand_id = null;
+            }
+            
+            $collection->modified_by = $this->_userId;
+            $collection->modified_date = date('Y-m-d H:i:s');
+            
+            $collection->save();
+            
+            $ids[] = ['id' => $collection->id, 'code' => $collection->code];
+        }
+        
+        return $ids;
+    }
+    
+
+    public function products($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'manufactureCode' => 'nullable|string|max:32',
+                    'name' => 'required|string|max:255',
+                    'shortDescription' => 'nullable|string|max:255',
+                    'description' => 'nullable|string|max:16000',
+                    'composition' => 'nullable|string|max:500',
+                    'brandId' => 'nullable|integer',
+                    'brandCode' => 'nullable|string|max:32',
+                    'collectionId' => 'nullable|integer',
+                    'collectionCode' => 'nullable|string|max:32',
+                    'divisionId' => 'nullable|integer',
+                    'divisionCode' => 'nullable|string|max:32',
+                    'model' => 'nullable|string|max:50',
+                    'colors' => 'nullable|array',
+                    'configs' => 'nullable|array',
+                    'sizes' => 'nullable|array',
+                    'seasons' => 'nullable|array',
+                    'sections' => 'nullable|array',
+                    'items' => 'nullable|array',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $product = null;
+            if ($row['id']) {
+                $product = Product::find($row['id']);
+            } else {
+                $product = Product::whereCode($row['code'])->first();
+            }
+            if (!$product) {
+                $product = new Product();
+                $product->created_by = $this->_userId;
+                $product->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $product->code = $row['code'];
+            $product->manufacture_code = $row['manufactureCode'] ?? null;
+            $product->name = $row['name'];
+            $product->short_description = $row['shortDescription'] ?? null;
+            $product->description = $row['description'] ?? null;
+            $product->composition = $row['composition'] ?? null;
+            $product->model = $row['model'] ?? null;
+            
+            $product->brand_id = $this->_getBrandId($row['brandId'] ?? null, $row['brandCode'] ?? null);
+            $product->collection_id = $this->_getCollectionId($row['collectionId'] ?? null, $row['collectionCode'] ?? null);
+            $product->division_id = $this->_getCollectionId($row['divisionId'] ?? null, $row['divisionCode'] ?? null);
+
+            
+            $product->modified_by = $this->_userId;
+            $product->modified_date = date('Y-m-d H:i:s');
+            
+            $product->save();
+            
+            $colors = [];
+            if (is_array($row['colors']) && count($row['colors'])) {
+                $colors = $this->productColors($product->id, $row['colors']);
+            }
+            
+            $configs = [];
+            if (is_array($row['configs']) && count($row['configs'])) {
+                $configs = $this->productConfigs($product->id, $row['configs']);
+            }
+            
+            $sizes = [];
+            if (is_array($row['sizes']) && count($row['sizes'])) {
+                $sizes = $this->productSizes($product->id, $row['sizes']);
+            }
+            
+            $seasons = [];
+            if (is_array($row['seasons']) && count($row['seasons'])) {
+                $seasons = $this->productSeasons($product->id, $row['seasons']);
+            }
+            
+            if (is_array($row['sections']) && count($row['sections'])) {
+                $product->sections()->sync($row['sections']);
+            }
+            
+            if (is_array($row['items']) && count($row['items'])) {
+                $this->items($product->id, $row['items'], $colors, $configs, $sizes, $seasons);
+            }
+            
+            
+            
+            
+            $ids[] = ['id' => $product->id, 'code' => $product->code];
+        }
+        
+        return $ids;
+    }
+    
+    
+    public function productColors($productId, $data)
+    {
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'code' => 'required|string|max:32',
+                    'name' => 'nullable|string|max:50',
+                    'hex' => 'nullable|string|max:6',
+                    'image' => 'nullable|string',
+                    'imageFormat' => 'required_with:image|in:png,jpg',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $newColors = collect($data)->keyBy('code');
+        $colors = ProductColor::whereProductId($productId)->get()->keyBy('code');
+        
+        // удаляем цвета, которых нет в новом наборе
+        $toDelete = $colors->diffKeys($newColors);
+        foreach ($toDelete as $color) {
+            $color->delete();
+        }
+ 
+        $result = [];
+        foreach ($newColors as $newColor) {
+            
+            $color = $colors->get($newColor['code']);
+            if (!$color) {
+                $color = new ProductColor();
+                $color->product_id = $productId;
+                $color->code = $newColor['code'];
+                $color->created_by = $this->_userId;
+                $color->created_date = date('Y-m-d H:i:s');
+            }
+            $color->name = $newColor['name'] ?? null;
+            $color->hex = $newColor['hex'] ?? null;
+            
+            if ($color->image_id) {
+                $this->_deleteFile($color->image_id);
+                $color->image_id = null;
+            }
+            if (isset($newColor['image']) 
+                    && strlen($newColor['image']) 
+                    && isset($newColor['imageFormat']) 
+                    && strlen($newColor['imageFormat'])) {
+                $color->image_id = $this->_storeFile($newColor['image'], $newColor['imageFormat'], 0);
+            }
+            
+            $color->modified_by = $this->_userId;
+            $color->modified_date = date('Y-m-d H:i:s');
+            
+            $color->save();
+            
+            $result[$color->code] = $color;
+        }
+        return $result;
+    }
+    
+    public function productConfigs($productId, $data)
+    {
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'code' => 'required|string|max:32',
+                    'name' => 'nullable|string|max:50',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $newConfigs = collect($data)->keyBy('code');
+        $configs = ProductConfig::whereProductId($productId)->get()->keyBy('code');
+        
+        // удаляем цвета, которых нет в новом наборе
+        $toDelete = $configs->diffKeys($newConfigs);
+        foreach ($toDelete as $config) {
+            $config->delete();
+        }
+        
+        $result = [];
+        foreach ($newConfigs as $newConfig) {
+            
+            $config = $configs->get($newConfig['code']);
+            if (!$config) {
+                $config = new ProductConfig();
+                $config->product_id = $productId;
+                $config->code = $newConfig['code'];
+                $config->created_by = $this->_userId;
+                $config->created_date = date('Y-m-d H:i:s');
+            }
+            $config->name = $newConfig['name'] ?? null;
+            
+            $config->modified_by = $this->_userId;
+            $config->modified_date = date('Y-m-d H:i:s');
+            
+            $config->save();
+            
+            $result[$config->code] = $config;
+        }
+        return $result;
+    }
+    
+    public function productSizes($productId, $data)
+    {
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'code' => 'required|string|max:32',
+                    'name' => 'nullable|string|max:50',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $newSizes = collect($data)->keyBy('code');
+        $sizes = ProductSize::whereProductId($productId)->get()->keyBy('code');
+        
+        // удаляем размеры, которых нет в новом наборе
+        $toDelete = $sizes->diffKeys($newSizes);
+        foreach ($toDelete as $config) {
+            $config->delete();
+        }
+        
+        $result = [];
+        $i = 1;
+        foreach ($newSizes as $newSize) {
+            
+            $size = $sizes->get($newSize['code']);
+            if (!$size) {
+                $size = new ProductSize();
+                $size->product_id = $productId;
+                $size->code = $newSize['code'];
+                $size->created_by = $this->_userId;
+                $size->created_date = date('Y-m-d H:i:s');
+            }
+            $size->name = $newSize['name'] ?? null;
+            $size->sort = $i++;
+            
+            $size->modified_by = $this->_userId;
+            $size->modified_date = date('Y-m-d H:i:s');
+            
+            $size->save();
+            
+            $result[$size->code] = $size;
+        }
+        return $result;
+    }
+    
+    public function productSeasons($productId, $data)
+    {
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'code' => 'required|string|max:32',
+                    'name' => 'nullable|string|max:50',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $newSeasons = collect($data)->keyBy('code');
+        $seasons = ProductSeason::whereProductId($productId)->get()->keyBy('code');
+        
+        // удаляем сезоны, которых нет в новом наборе
+        $toDelete = $seasons->diffKeys($newSeasons);
+        foreach ($toDelete as $config) {
+            $config->delete();
+        }
+        
+        $result = [];
+        $i = 1;
+        foreach ($newSeasons as $newSeason) {
+            
+            $season = $seasons->get($newSeason['code']);
+            if (!$season) {
+                $season = new ProductSeason();
+                $season->product_id = $productId;
+                $season->code = $newSeason['code'];
+                $season->created_by = $this->_userId;
+                $season->created_date = date('Y-m-d H:i:s');
+            }
+            $season->name = $newSeason['name'] ?? null;
+            $season->sort = $i++;
+            
+            $season->modified_by = $this->_userId;
+            $season->modified_date = date('Y-m-d H:i:s');
+            
+            $season->save();
+            
+            $result[$season->code] = $season;
+        }
+        return $result;
+    }
+    
+    public function items($productId, $data, $colors, $configs, $sizes, $seasons)
+    {
+        $newItems = [];
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'colorCode' => 'nullable|string|max:32',
+                    'sizeCode' => 'nullable|string|max:32',
+                    'configCode' => 'nullable|string|max:32',
+                    'seasonCode' => 'nullable|string|max:32',
+                    'barcodes' => 'nullable|array',
+                    'serials' => 'nullable|array',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+            $colorCode = strlen($row['colorCode']) ? $row['colorCode'] : 'none';
+            $sizeCode = strlen($row['sizeCode']) ? $row['sizeCode'] : 'none';
+            $configCode = strlen($row['configCode']) ? $row['configCode'] : 'none';
+            $seasonCode = strlen($row['seasonCode']) ? $row['seasonCode'] : 'none';
+            $key = md5($colorCode . $sizeCode . $configCode . $seasonCode);
+            $row['key'] = $key;
+            $newItems[$key] = $row;
+        }
+        
+        $items = Item::whereProductId($productId)->get()->map(function($item) {
+            $item->key = md5($item->color->code . $item->size->code . $item->config->code . $item->season->code);
+            return $item;
+        })->keyBy('key');
+        
+        // удаляем элементы, которых нет в новом наборе
+        $toDelete = $items->diffKeys($newItems);
+        foreach ($toDelete as $item) {
+            $item->delete();
+        }
+        
+        foreach ($newItems as $newItem) {
+            
+            $item = $items->get($newItem['key']);
+            if (!$item) {
+                $item = new Item();
+                $item->product_id = $productId;
+                $item->created_by = $this->_userId;
+                $item->created_date = date('Y-m-d H:i:s');
+            }
+
+            if ($newItem['colorCode']) {
+                $color = $colors[$newItem['colorCode']];
+                if ($color) {
+                    $item->color_id = $color->id;
+                }
+            }
+            if ($newItem['sizeCode']) {
+                $size = $sizes[$newItem['sizeCode']];
+                if ($size) {
+                    $item->size_id = $size->id;
+                }
+            }
+            if ($newItem['configCode']) {
+                $config = $configs[$newItem['configCode']];
+                if ($config) {
+                    $item->config_id = $config->id;
+                }
+            }
+            if ($newItem['seasonCode']) {
+                $season = $seasons[$newItem['seasonCode']];
+                if ($season) {
+                    $item->season_id = $season->id;
+                }
+            }
+            
+            $item->gtin = $newItem['gtin'] ?? null;
+            
+            $item->modified_by = $this->_userId;
+            $item->modified_date = date('Y-m-d H:i:s');
+            unset($item->key);
+            $item->save();
+            
+            ItemBarcode::whereItemId($item->id)->delete();
+            if (isset($newItem['barcodes']) && is_array($newItem['barcodes'])) {
+                foreach ($newItem['barcodes'] as $barcode) {
+                    $itemBarcode = new ItemBarcode();
+                    $itemBarcode->barcode = $barcode;
+                    $itemBarcode->item_id = $item->id;
+                    $itemBarcode->created_by = $this->_userId;
+                    $itemBarcode->created_date = date('Y-m-d H:i:s');
+                    $itemBarcode->modified_by = $this->_userId;
+                    $itemBarcode->modified_date = date('Y-m-d H:i:s');
+                    $itemBarcode->save();
+                }
+            }
+            
+            $serials = ItemSerial::whereItemId($item->id)->get()->keyBy('serial');
+            if (isset($newItem['serials']) && is_array($newItem['serials'])) {
+                $newSerials = [];
+                foreach ($newItem['serials'] as $serial) {
+                    $newSerials[$serial] = $serial;
+                }
+                $toDelete = $serials->diffKeys($newSerials);
+                foreach ($toDelete as $serial) {
+                    $serial->delete();
+                }
+                
+                foreach ($newSerials as $newSerial) {
+                    $itemSerial = $serials->get($newSerial);
+                    if (!$itemSerial) {
+                        $itemSerial = new ItemSerial();
+                        $itemSerial->item_id = $item->id;
+                        $itemSerial->created_by = $this->_userId;
+                        $itemSerial->created_date = date('Y-m-d H:i:s');
+                        $itemSerial->serial = $newSerial;
+                        $itemSerial->modified_by = $this->_userId;
+                        $itemSerial->modified_date = date('Y-m-d H:i:s');
+                        
+                        $itemSerial->save();
+                    }
+                }
+            }
+            
+        }
+    }
+    
+
+    public function productImage($data)
+    {
+        $validator = Validator::make($data, [
+                'productId' => 'nullable|integer',
+                'productCode' => 'required|string|max:32',
+                'colorCode' => 'nullable|string|max:32',
+                'sizeCode' => 'nullable|string|max:32',
+                'configCode' => 'nullable|string|max:32',
+                'seasonCode' => 'nullable|string|max:32',
+                'image' => 'required|string',
+                'imageFormat' => 'required|in:png,jpg',
+        ]);
+        if ($validator->fails()) {
+            $details = $validator->errors()->first() . ' [' . json_encode($data) . ']';
+            throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+        }
+        
+        $productId = $this->_getProductId($data['productId'] ?? null, $data['productCode']);
+        if (!$productId) {
+            throw AEF::create(AEF::PRODUCT_NOT_FOUND);
+        }
+        
+        $query = ProductImage::query();
+        $query->whereProductId($productId);
+        
+        $color = null;
+        if (isset($data['colorCode']) && strlen($data['colorCode'])) {
+            $color = ProductColor::whereProductId($productId)->whereCode($data['colorCode'])->first();
+            if (!$color) {
+                throw AEF::create(AEF::PRODUCT_COLOR_NOT_FOUND, $data['colorCode']);
+            }
+            $query->whereColorId($color->id);
+        }
+        $size = null;
+        if (isset($data['sizeCode']) && strlen($data['sizeCode'])) {
+            $size = ProductSize::whereProductId($productId)->whereCode($data['sizeCode'])->first();
+            if (!$size) {
+                throw AEF::create(AEF::PRODUCT_SIZE_NOT_FOUND, $data['sizeCode']);
+            }
+            $query->whereSizeId($size->id);
+        }
+        $config = null;
+        if (isset($data['configCode']) && strlen($data['configCode'])) {
+            $config = ProductConfig::whereProductId($productId)->whereCode($data['configCode'])->first();
+            if (!$config) {
+                throw AEF::create(AEF::PRODUCT_CONFIG_NOT_FOUND, $data['configCode']);
+            }
+            $query->whereConfigId($config->id);
+        }
+        $season = null;
+        if (isset($data['seasonCode']) && strlen($data['seasonCode'])) {
+            $season = ProductSeason::whereProductId($productId)->whereCode($data['seasonCode'])->first();
+            if (!$season) {
+                throw AEF::create(AEF::PRODUCT_SEASON_NOT_FOUND, $data['seasonCode']);
+            }
+            $query->whereSeasonId($season->id);
+        }
+        
+        $productImage = $query->first();
+        if (!$productImage) {
+            $productImage = new ProductImage();
+            $productImage->product_id = $productId;
+            $productImage->created_by = $this->_userId;
+            $productImage->created_date = date('Y-m-d H:i:s');
+            if ($color) {
+                $productImage->color_id = $color->id;
+            }
+            if ($size) {
+                $productImage->size_id = $size->id;
+            }
+            if ($config) {
+                $productImage->config_id = $config->id;
+            }
+            if ($season) {
+                $productImage->season_id = $season->id;
+            }
+        }
+        
+        $productImage->image_id = $this->_storeFile($data['image'], $data['imageFormat'], 0, $productImage->image_id);
+        
+        $productImage->modified_by = $this->_userId;
+        $productImage->modified_date = date('Y-m-d H:i:s');
+        
+        //echo '<pre>';
+        //print_r($productImage);
+        //echo '</pre>';
+        //exit;
+        $productImage->save();
+        
+    }
+    
+    
     
     public function clients($data)
     {
@@ -528,6 +1171,18 @@ class DataImport
         return $saleLine;
     }
     
+    protected function _storeFile($data, $ext, $cold = 0, $fileId = false)
+    {
+        $data = base64_decode($data);
+        $file = Files::storeFile($data, $ext, $cold, $this->_userId, $fileId);
+        return $file->id;
+    }
+
+    protected function _deleteFile($fileId)
+    {
+        Files::deleteFile($fileId);
+    }
+    
     protected function _checkDataAsArray($data)
     {
         if (!is_array($data)) {
@@ -605,6 +1260,50 @@ class DataImport
             $warehouse = Warehouse::whereCode($code)->first();
         }
         return $warehouse ? $warehouse->id : null;
+    }
+    
+    protected function _getBrandId($id, $code)
+    {
+        $brand = null;
+        if ($id) {
+            $brand = Brand::find($id);
+        } else if ($code) {
+            $brand = Brand::whereCode($code)->first();
+        }
+        return $brand ? $brand->id : null;
+    }
+    
+    protected function _getCollectionId($id, $code)
+    {
+        $collection = null;
+        if ($id) {
+            $collection = Collection::find($id);
+        } else if ($code) {
+            $collection = Collection::whereCode($code)->first();
+        }
+        return $collection ? $collection->id : null;
+    }
+    
+    protected function _getDivisionId($id, $code)
+    {
+        $division = null;
+        if ($id) {
+            $division = Division::find($id);
+        } else if ($code) {
+            $division = Division::whereCode($code)->first();
+        }
+        return $division ? $division->id : null;
+    }
+    
+    protected function _getProductId($id, $code)
+    {
+        $product = null;
+        if ($id) {
+            $product = Product::find($id);
+        } else if ($code) {
+            $product = Product::whereCode($code)->first();
+        }
+        return $product ? $product->id : null;
     }
     
     

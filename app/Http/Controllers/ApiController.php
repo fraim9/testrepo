@@ -155,6 +155,18 @@ class ApiController extends Controller
                     case 'productSections':
                         $this->_pushProductSections($request, $result);
                         break;
+                    case 'brands':
+                        $this->_pushBrands($request, $result);
+                        break;
+                    case 'collections':
+                        $this->_pushCollections($request, $result);
+                        break;
+                    case 'products':
+                        $this->_pushProducts($request, $result);
+                        break;
+                    case 'productImage':
+                        $this->_pushProductImage($request, $result);
+                        break;
                         
                     case 'warehouses':
                         $this->_pushWarehouses($request, $result);
@@ -321,6 +333,25 @@ class ApiController extends Controller
     protected function _pushProductSections(Request $request, $result)
     {
         $result->ids = $this->_getImportService()->productSections($request->all());
+    }
+    
+    protected function _pushBrands(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->brands($request->all());
+    }
+    
+    protected function _pushCollections(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->collections($request->all());
+    }
+    
+    protected function _pushProducts(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->products($request->all());
+    }
+    protected function _pushProductImage(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->productImage($request->all());
     }
     
     protected function _pushClients(Request $request, $result)
