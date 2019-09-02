@@ -17,16 +17,6 @@ class DivisionsController extends BackendController
     
     public function index()
     {
-        $query = ProductImage::query();
-        $query->whereProductId(2);
-        $query->whereCode('W');
-        $productImage2 = $query->get();
-        
-        echo '<pre>';
-        print_r($productImage2);
-        echo '</pre>';
-        exit;
-        
         $divisions = Division::all(); 
         return view('company.divisions.index', compact('divisions'));
     }

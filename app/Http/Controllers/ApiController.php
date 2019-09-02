@@ -183,6 +183,10 @@ class ApiController extends Controller
                         $this->_pushClients($request, $result);
                         break;
                         
+                    case 'employees':
+                        $this->_pushEmployees($request, $result);
+                        break;
+                        
                     default:
                         throw AEF::create(AEF::API_METHOD_UNKNOWN);
                 }
@@ -354,11 +358,6 @@ class ApiController extends Controller
         $result->ids = $this->_getImportService()->productImage($request->all());
     }
     
-    protected function _pushClients(Request $request, $result)
-    {
-        $result->ids = $this->_getImportService()->clients($request->all());
-    }
-    
     protected function _pushWarehouses(Request $request, $result)
     {
         $result->ids = $this->_getImportService()->warehouses($request->all());
@@ -372,6 +371,16 @@ class ApiController extends Controller
     protected function _pushSales(Request $request, $result)
     {
         $result->ids = $this->_getImportService()->sales($request->all());
+    }
+    
+    protected function _pushClients(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->clients($request->all());
+    }
+    
+    protected function _pushEmployees(Request $request, $result)
+    {
+        $result->ids = $this->_getImportService()->employees($request->all());
     }
     
     

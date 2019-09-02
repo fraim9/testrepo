@@ -64,7 +64,7 @@ class DataImport
         foreach ($data as $row) {
             
             $section = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $section = ProductSection::find($row['id']);
             } else {
                 $section = ProductSection::whereCode($row['code'])->first();
@@ -119,7 +119,7 @@ class DataImport
         foreach ($data as $row) {
             
             $brand = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $brand = Brand::find($row['id']);
             } else {
                 $brand = Brand::whereCode($row['code'])->first();
@@ -176,7 +176,7 @@ class DataImport
         foreach ($data as $row) {
             
             $collection = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $collection = Collection::find($row['id']);
             } else {
                 $collection = Collection::whereCode($row['code'])->first();
@@ -248,7 +248,7 @@ class DataImport
         foreach ($data as $row) {
             
             $product = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $product = Product::find($row['id']);
             } else {
                 $product = Product::whereCode($row['code'])->first();
@@ -805,7 +805,7 @@ class DataImport
         foreach ($data as $row) {
             
             $client = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $client = Client::find($row['id']);
             } else {
                 $client = Client::whereCode($row['code'])->first();
@@ -900,7 +900,7 @@ class DataImport
         foreach ($data as $row) {
             
             $warehouse = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $warehouse = Warehouse::find($row['id']);
             } else {
                 $warehouse = Warehouse::whereCode($row['code'])->first();
@@ -1020,7 +1020,7 @@ class DataImport
         foreach ($data as $row) {
             
             $sale = null;
-            if ($row['id']) {
+            if (isset($row['id']) && $row['id']) {
                 $sale = Sale::find($row['id']);
             } else if ($row['code']) {
                 $sale = Sale::whereCode($row['code'])->first();
@@ -1169,6 +1169,73 @@ class DataImport
         $saleLine->save();
         
         return $saleLine;
+    }
+    
+    public function employees($data)
+    {
+        $this->_checkDataAsArray($data);
+        
+        foreach ($data as $row) {
+            $validator = Validator::make($row, [
+                    'id' => 'nullable|integer',
+                    'code' => 'required|string|max:32',
+                    'name' => 'required|string|max:150',
+                    'personnel_number' => 'nullable|string|max:32',
+                    'position' => 'nullable|string|max:150',
+                    'birth_day' => 'nullable|int|between:1,31',
+                    'birth_month' => 'nullable|int|between:1,12',
+                    'email' => 'nullable|email|max:100',
+                    'phone' => 'nullable|string|max:26',
+                    'phone_mobile' => 'nullable|string|max:26',
+                    'phone_personal' => 'nullable|string|max:26',
+                    'managerCode' => 'nullable|string|max:32',
+                    'active' => 'boolean',
+            ]);
+            if ($validator->fails()) {
+                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
+            }
+        }
+        
+        $ids = [];
+        foreach ($data as $row) {
+            
+            $employee = null;
+            if (isset($row['id']) && $row['id']) {
+                $employee = Employee()::find($row['id']);
+            } else {
+                $employee = Employee::whereCode($row['code'])->first();
+            }
+            if (!$employee) {
+                $employee = new Employee();
+                $employee->created_by = $this->_userId;
+                $employee->created_date = date('Y-m-d H:i:s');
+            }
+            
+            $employee->code = $row['code'];
+            $employee->name = $row['name'];
+            $employee->personnel_number = $row['personnel_number'];
+            $employee->position = $row['position'];
+            $employee->birth_day = $row['birth_day'];
+            $employee->birth_month = $row['birth_month'];
+            $employee->email = $row['email'];
+            $employee->phone = $row['phone'];
+            $employee->phone_mobile = $row['phone_mobile'];
+            $employee->phone_personal = $row['phone_personal'];
+            $manager = Employee::whereCode($row['managerCode'])->first();
+            if ($manager) {
+                $employee->manager_id = $manager->id;
+            }
+            $employee->active = (boolean) $row['active'];
+            
+            $employee->modified_by = $this->_userId;
+            $employee->modified_date = date('Y-m-d H:i:s');
+            $employee->save();
+            
+            $ids[] = ['id' => $employee->id, 'code' => $employee->code];
+        }
+        
+        return $ids;
     }
     
     protected function _storeFile($data, $ext, $cold = 0, $fileId = false)

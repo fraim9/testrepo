@@ -457,6 +457,26 @@ switch ($method) {
                 'imageFormat' => 'png'
         ];
         break;
+    case 'employees':
+        $httpMethod = 'POST';
+        
+        $data = [
+                [
+                        'code' => 'W-001-001',
+                        'name' => 'Иванов Чжан Мансурович',
+                        'personnel_number' => '101',
+                        'position' => 'ответственный за всё',
+                        'birth_day' => '1',
+                        'birth_month' => '1',
+                        'email' => 'chan-jan-abricos@mail.co',
+                        'phone' => '+31(234)565-43-21',
+                        'phone_mobile' => '+31(916)565-43-21',
+                        'phone_personal' => '+31(926)565-43-21',
+                        'managerCode' => '001',
+                        'active' => true,
+                ],
+        ];
+        break;
 }
 
 
