@@ -64,7 +64,7 @@ class DataExport
         $obj->passportNumber = $client->passport_number;
         $obj->passportIssuedDate = $client->passport_issued_date;
         $obj->passportIssuedBy = $client->passport_issued_by;
-        $obj->passportSubdivisionCode = $client->id;
+        $obj->passportSubdivisionCode = $client->passport_subdivision_code;
         $obj->inn = $client->inn;
         $obj->registrationAddress = $client->registration_address;
         $obj->postalOptIn = ($client->postal_opt_in == 1);

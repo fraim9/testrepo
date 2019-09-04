@@ -63,7 +63,7 @@ class ApiController extends Controller
             if ($e instanceof ApiException) {
                 $result->errorDetails = AEF::getDetails();
             } else {
-                $result->errorDetails = $e->getTraceAsString();
+                //$result->errorDetails = $e->getTraceAsString();
             }
             
             if ($e instanceof ApiException) {

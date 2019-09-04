@@ -49,8 +49,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'parentId' => 'nullable|integer',
                     'parentCode' => 'required|string|max:32',
                     'name' => 'required|string|max:150',
@@ -76,13 +76,13 @@ class DataImport
             }
             
             $parent = null;
-            if ($row['parentId']) {
+            if (isset($row['parentId']) && $row['parentId']) {
                 $parent = ProductSection::find($row['parentId']);
             } else if ($row['parentCode']) {
                 $parent = ProductSection::whereCode($row['parentCode'])->first();
             }
             
-            $section->code = $row['code'];
+            $section->code = $row['code'] ?? null;
             $section->parent_id = $parent ? $parent->id : 0;
             $section->name = $row['name'];
             
@@ -104,8 +104,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'name' => 'required|string|max:150',
                     'logo' => 'string',
                     'logoFormat' => 'required_with:logo|in:png,jpg',
@@ -133,7 +133,7 @@ class DataImport
                 $brand->logo_id = null;
             }
             
-            $brand->code = $row['code'];
+            $brand->code = $row['code'] ?? null;
             $brand->name = $row['name'];
             
             if (isset($row['logo']) && isset($row['logoFormat'])) {
@@ -158,8 +158,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'name' => 'required|string|max:150',
                     'description' => 'nullable|string|max:255',
                     'year' => 'nullable|integer',
@@ -187,7 +187,7 @@ class DataImport
                 $collection->created_date = date('Y-m-d H:i:s');
             }
             
-            $collection->code = $row['code'];
+            $collection->code = $row['code'] ?? null;
             $collection->name = $row['name'];
             $collection->description = $row['description'] ?? null;
             $collection->year = $row['year'] ?? null;
@@ -217,8 +217,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'manufactureCode' => 'nullable|string|max:32',
                     'name' => 'required|string|max:255',
                     'shortDescription' => 'nullable|string|max:255',
@@ -259,7 +259,7 @@ class DataImport
                 $product->created_date = date('Y-m-d H:i:s');
             }
             
-            $product->code = $row['code'];
+            $product->code = $row['code'] ?? null;
             $product->manufacture_code = $row['manufactureCode'] ?? null;
             $product->name = $row['name'];
             $product->short_description = $row['shortDescription'] ?? null;
@@ -278,35 +278,32 @@ class DataImport
             $product->save();
             
             $colors = [];
-            if (is_array($row['colors']) && count($row['colors'])) {
+            if (isset($row['colors']) && is_array($row['colors']) && count($row['colors'])) {
                 $colors = $this->productColors($product->id, $row['colors']);
             }
             
             $configs = [];
-            if (is_array($row['configs']) && count($row['configs'])) {
+            if (isset($row['configs']) && is_array($row['configs']) && count($row['configs'])) {
                 $configs = $this->productConfigs($product->id, $row['configs']);
             }
             
             $sizes = [];
-            if (is_array($row['sizes']) && count($row['sizes'])) {
+            if (isset($row['sizes']) && is_array($row['sizes']) && count($row['sizes'])) {
                 $sizes = $this->productSizes($product->id, $row['sizes']);
             }
             
             $seasons = [];
-            if (is_array($row['seasons']) && count($row['seasons'])) {
+            if (isset($row['seasons']) && is_array($row['seasons']) && count($row['seasons'])) {
                 $seasons = $this->productSeasons($product->id, $row['seasons']);
             }
             
-            if (is_array($row['sections']) && count($row['sections'])) {
+            if (isset($row['sections']) && is_array($row['sections']) && count($row['sections'])) {
                 $product->sections()->sync($row['sections']);
             }
             
-            if (is_array($row['items']) && count($row['items'])) {
+            if (isset($row['items']) && is_array($row['items']) && count($row['items'])) {
                 $this->items($product->id, $row['items'], $colors, $configs, $sizes, $seasons);
             }
-            
-            
-            
             
             $ids[] = ['id' => $product->id, 'code' => $product->code];
         }
@@ -530,10 +527,10 @@ class DataImport
                 $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
-            $colorCode = strlen($row['colorCode']) ? $row['colorCode'] : 'none';
-            $sizeCode = strlen($row['sizeCode']) ? $row['sizeCode'] : 'none';
-            $configCode = strlen($row['configCode']) ? $row['configCode'] : 'none';
-            $seasonCode = strlen($row['seasonCode']) ? $row['seasonCode'] : 'none';
+            $colorCode = $row['colorCode'] ?? 'none';
+            $sizeCode = $row['sizeCode'] ?? 'none';
+            $configCode = $row['configCode'] ?? 'none';
+            $seasonCode = $row['seasonCode'] ?? 'none';
             $key = md5($colorCode . $sizeCode . $configCode . $seasonCode);
             $row['key'] = $key;
             $newItems[$key] = $row;
@@ -640,8 +637,8 @@ class DataImport
     public function productImage($data)
     {
         $validator = Validator::make($data, [
-                'productId' => 'nullable|integer',
-                'productCode' => 'required|string|max:32',
+                'productId' => 'required_without:code|integer',
+                'productCode' => 'required_without:id|string|max:32',
                 'colorCode' => 'nullable|string|max:32',
                 'sizeCode' => 'nullable|string|max:32',
                 'configCode' => 'nullable|string|max:32',
@@ -654,7 +651,7 @@ class DataImport
             throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
         }
         
-        $productId = $this->_getProductId($data['productId'] ?? null, $data['productCode']);
+        $productId = $this->_getProductId($data['productId'] ?? null, $data['productCode'] ?? null);
         if (!$productId) {
             throw AEF::create(AEF::PRODUCT_NOT_FOUND);
         }
@@ -736,14 +733,14 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'firstName' => 'nullable|string|max:50',
                     'middleName' => 'nullable|string|max:50',
                     'lastName' => 'nullable|string|max:50',
                     'firstNameLat' => 'nullable|string|max:50',
                     'lastNameLat' => 'nullable|string|max:50',
-                    'gender' => 'nullable|string|size:1',
+                    'gender' => 'nullable|string|size:1|in:M,F',
                     'comment' => 'nullable|string|max:500',
                     'phone' => 'nullable|string|max:26',
                     'email' => 'nullable|email|max:100',
@@ -816,56 +813,56 @@ class DataImport
                 $client->created_date = date('Y-m-d H:i:s');
             }
             
-            $client->code = $row['code'];
+            $client->code = $row['code'] ?? null;
             
-            $client->first_name = $row['firstName'];
-            $client->middle_name = $row['middleName'];
-            $client->last_name = $row['lastName'];
+            $client->first_name = $row['firstName'] ?? null;
+            $client->middle_name = $row['middleName'] ?? null;
+            $client->last_name = $row['lastName'] ?? null;
             $client->name = trim(implode(' ', [$client->last_name, $client->first_name, $client->middle_name]));
-            $client->first_name_lat = $row['firstNameLat'];
-            $client->last_name_lat = $row['lastNameLat'];
+            $client->first_name_lat = $row['firstNameLat'] ?? null;
+            $client->last_name_lat = $row['lastNameLat'] ?? null;
             
-            $client->gender = $row['gender'];
-            $client->comment = $row['comment'];
+            $client->gender = $row['gender'] ?? null;
+            $client->comment = $row['comment'] ?? null;
             
-            $client->phone = $row['phone'];
-            $client->email = $row['email'];
+            $client->phone = $row['phone'] ?? null;
+            $client->email = $row['email'] ?? null;
             
-            $client->bd_day = $row['bdDay'];
-            $client->bd_month = $row['bdMonth'];
-            $client->bd_year = $row['bdYear'];
-            $client->birth_place = $row['birthPlace'];
+            $client->bd_day = $row['bdDay'] ?? null;
+            $client->bd_month = $row['bdMonth'] ?? null;
+            $client->bd_year = $row['bdYear'] ?? null;
+            $client->birth_place = $row['birthPlace'] ?? null;
             
-            $client->time_zone_id = $this->_getTimeZoneId($row['timeZoneId'], $row['timeZoneCode']);
+            $client->time_zone_id = $this->_getTimeZoneId($row['timeZoneId'] ?? null, $row['timeZoneCode'] ?? null);
             $client->country_id = $this->_getCountryIdByIso3($row['countryCode']);
-            $client->postcode = $row['postcode'];
-            $client->city = $row['city'];
-            $client->address = $row['address'];
+            $client->postcode = $row['postcode'] ?? null;
+            $client->city = $row['city'] ?? null;
+            $client->address = $row['address'] ?? null;
 
-            $client->citizenship_id = $this->_getCountryIdByIso3($row['citizenshipCode']);
-            $client->passport_series = $row['passportSeries'];
-            $client->passport_number = $row['passportNumber'];
-            $client->passport_issued_date = $row['passportIssuedDate'];
-            $client->passport_issued_by = $row['passportIssuedBy'];
-            $client->passport_subdivision_code = $row['passportSubdivisionCode'];
-            $client->registration_address = $row['registrationAddress'];
-            $client->inn = $row['inn'];
+            $client->citizenship_id = $this->_getCountryIdByIso3($row['citizenshipCode'] ?? null);
+            $client->passport_series = $row['passportSeries'] ?? null;
+            $client->passport_number = $row['passportNumber'] ?? null;
+            $client->passport_issued_date = $row['passportIssuedDate'] ?? null;
+            $client->passport_issued_by = $row['passportIssuedBy'] ?? null;
+            $client->passport_subdivision_code = $row['passportSubdivisionCode'] ?? null;
+            $client->registration_address = $row['registrationAddress'] ?? null;
+            $client->inn = $row['inn'] ?? null;
             
             $client->discount = 0;
             $client->discount_auto_calc = 0;
             
-            $client->postal_opt_in = $row['postalOptIn'];
-            $client->voice_opt_in = $row['voiceOptIn'];
-            $client->email_opt_in = $row['emailOptIn'];
-            $client->msg_opt_in = $row['msgOptIn'];
-            $client->consent_signed = $row['consentSigned'];
+            $client->postal_opt_in = $row['postalOptIn'] ?? false;
+            $client->voice_opt_in = $row['voiceOptIn'] ?? false;
+            $client->email_opt_in = $row['emailOptIn'] ?? false;
+            $client->msg_opt_in = $row['msgOptIn'] ?? false;
+            $client->consent_signed = $row['consentSigned'] ?? false;
             
-            $client->employee_id = $this->_getEmployeeId($row['employeeId'], $row['employeeCode']);
-            $client->responsible_id = $this->_getEmployeeId($row['responsibleId'], $row['responsibleCode']);
-            $client->created_employee_id = $this->_getEmployeeId($row['createdEmployeeId'], $row['createdEmployeeCode']);
+            $client->employee_id = $this->_getEmployeeId($row['employeeId'] ?? null, $row['employeeCode'] ?? null);
+            $client->responsible_id = $this->_getEmployeeId($row['responsibleId'] ?? null, $row['responsibleCode'] ?? null);
+            $client->created_employee_id = $this->_getEmployeeId($row['createdEmployeeId'] ?? null, $row['createdEmployeeCode'] ?? null);
                         
-            $client->created_store_id = $this->_getStoreId($row['createdStoreId'], $row['createdStoreCode']);
-            $client->attached_store_id = $this->_getStoreId($row['attachedStoreId'], $row['attachedStoreCode']);
+            $client->created_store_id = $this->_getStoreId($row['createdStoreId'] ?? null, $row['createdStoreCode'] ?? null);
+            $client->attached_store_id = $this->_getStoreId($row['attachedStoreId'] ?? null, $row['attachedStoreCode'] ?? null);
             
             $client->modified_by = $this->_userId;
             $client->modified_date = date('Y-m-d H:i:s');
@@ -884,8 +881,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'name' => 'nullable|string|max:150',
                     'storeId' => 'nullable|integer',
                     'storeCode' => 'nullable|string|max:32',
@@ -911,9 +908,9 @@ class DataImport
                 $warehouse->created_date = date('Y-m-d H:i:s');
             }
             
-            $warehouse->code = $row['code'];
-            $warehouse->name = $row['name'];
-            $warehouse->store_id = $this->_getStoreId($row['storeId'], $row['storeCode']);
+            $warehouse->code = $row['code'] ?? null;
+            $warehouse->name = $row['name'] ?? null;
+            $warehouse->store_id = $this->_getStoreId($row['storeId'] ?? null, $row['storeCode'] ?? null);
             
             $warehouse->modified_by = $this->_userId;
             $warehouse->modified_date = date('Y-m-d H:i:s');
@@ -931,8 +928,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'warehouseId' => 'nullable|integer',
-                    'warehouseCode' => 'required|string|max:32',
+                    'warehouseId' => 'required_without:code|integer',
+                    'warehouseCode' => 'required_without:id|string|max:32',
                     'barcode' => 'required|string|max:150',
                     'serialNumber' => 'nullable|string|max:32',
                     'physicalQty' => 'required|integer',
@@ -949,9 +946,9 @@ class DataImport
         
         foreach ($data as $row) {
             
-            $warehouseId = $this->_getWarehouseId($row['warehouseId'], $row['warehouseCode']);
+            $warehouseId = $this->_getWarehouseId($row['warehouseId'] ?? null, $row['warehouseCode'] ?? null);
             if (!$warehouseId) {
-                throw AEF::create(AEF::WAREHOUSE_NOT_FOUND, json_encode(['id' => $row['warehouseId'], 'code' => $row['warehouseCode']]));
+                throw AEF::create(AEF::WAREHOUSE_NOT_FOUND, json_encode(['id' => $row['warehouseId'] ?? null, 'code' => $row['warehouseCode'] ?? null]));
             }
             
             $barcode = ItemBarcode::find($row['barcode']);
@@ -959,8 +956,10 @@ class DataImport
                 throw AEF::create(AEF::BARCODE_NOT_FOUND, $row['barcode']);
             }
             
-            $serialNumber = ItemSerial::whereItemId($barcode->item_id)
-                                        ->whereSerial($row['serialNumber'])->first();
+            if (isset($row['serialNumber']) && strlen($row['serialNumber'])) {
+                $serialNumber = ItemSerial::whereItemId($barcode->item_id)
+                                            ->whereSerial($row['serialNumber'])->first();
+            }
             
             $stock = ItemStock::whereWarehouseId($warehouseId)
                                 ->whereItemId($barcode->item_id)
@@ -996,8 +995,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'checkNumber' => 'nullable|integer',
                     'date' => 'nullable|date_format:Y-m-d\TH:i:s',
                     'timeZone' => 'nullable|string|max:6',
@@ -1032,8 +1031,8 @@ class DataImport
                 $sale->created_date = date('Y-m-d H:i:s');
             }
             
-            $sale->code = $row['code'];
-            $sale->check_number = $row['checkNumber'];
+            $sale->code = $row['code'] ?? null;
+            $sale->check_number = $row['checkNumber'] ?? null;
             $store = $this->_getStoreId(0, $row['storeCode'], true);
             if (!$store) {
                 throw AEF::create(AEF::STORE_NOT_FOUND);
@@ -1041,6 +1040,10 @@ class DataImport
             $sale->store_id = $store->id;
             
             $storeTimeZone = TimeZone::find($store->time_zone_id);
+            
+            $row['date'] = $row['date'] ?? false;
+            $row['timeZone'] = $row['timeZone'] ?? false;
+            $row['dateLocal'] = $row['dateLocal'] ?? false;
             
             if ($row['date'] && !$row['timeZone'] && !$row['dateLocal']) {
                 $date = new \DateTime($row['date']);
@@ -1066,7 +1069,7 @@ class DataImport
                 throw AEF::create(AEF::INVALID_DATE);
             }
             
-            $clientId = $this->_getClientId($row['clientId'], $row['clientCode']);
+            $clientId = $this->_getClientId($row['clientId'] ?? null, $row['clientCode']);
             if (!$clientId) {
                 throw AEF::create(AEF::CLIENT_NOT_FOUND);
             }
@@ -1078,9 +1081,11 @@ class DataImport
             }
             $sale->employee_id = $employeeId;
             
-            $cashDesk = CashDesk::whereCode($row['cashDeskCode'])->first();
-            if ($cashDesk) {
-                $sale->cash_desk_id = $cashDesk->id;
+            if (isset($row['cashDeskCode']) && strlen($row['cashDeskCode'])) {
+                $cashDesk = CashDesk::whereCode($row['cashDeskCode'])->first();
+                if ($cashDesk) {
+                    $sale->cash_desk_id = $cashDesk->id;
+                }
             }
             
             $sale->modified_by = $this->_userId;
@@ -1130,7 +1135,7 @@ class DataImport
         $saleLine->created_date = date('Y-m-d H:i:s');
         
         $saleLine->sales_id = $salesId;
-        $saleLine->line_number = $data['lineNumber'] ?: $lineNumber;
+        $saleLine->line_number = isset($data['lineNumber']) ? $data['lineNumber'] : $lineNumber;
         
         $salespersonId = $this->_getEmployeeId(0, $data['salespersonCode']);
         if (!$salespersonId) {
@@ -1151,7 +1156,7 @@ class DataImport
         $saleLine->item_id = $barcode->item_id;
         $saleLine->barcode = $barcode->barcode;
         
-        if ($data['serialNumber']) {
+        if (isset($data['serialNumber']) && strlen($data['serialNumber'])) {
             $serialNumber = ItemSerial::whereItemId($barcode->item_id)
                 ->whereSerial($data['serialNumber'])->first();
             if ($serialNumber) {
@@ -1161,7 +1166,7 @@ class DataImport
         
         $saleLine->quantity = $data['quantity'];
         $saleLine->price = $data['price'];
-        $saleLine->discount = $data['discount'];
+        $saleLine->discount = $data['discount'] ?? 0;
         $saleLine->amount = $saleLine->quantity * $saleLine->price - $saleLine->discount;
         
         $saleLine->modified_by = $this->_userId;
@@ -1177,8 +1182,8 @@ class DataImport
         
         foreach ($data as $row) {
             $validator = Validator::make($row, [
-                    'id' => 'nullable|integer',
-                    'code' => 'required|string|max:32',
+                    'id' => 'required_without:code|integer',
+                    'code' => 'required_without:id|string|max:32',
                     'name' => 'required|string|max:150',
                     'personnel_number' => 'nullable|string|max:32',
                     'position' => 'nullable|string|max:150',
@@ -1212,21 +1217,23 @@ class DataImport
                 $employee->created_date = date('Y-m-d H:i:s');
             }
             
-            $employee->code = $row['code'];
+            $employee->code = $row['code'] ?? null;
             $employee->name = $row['name'];
-            $employee->personnel_number = $row['personnel_number'];
-            $employee->position = $row['position'];
-            $employee->birth_day = $row['birth_day'];
-            $employee->birth_month = $row['birth_month'];
-            $employee->email = $row['email'];
-            $employee->phone = $row['phone'];
-            $employee->phone_mobile = $row['phone_mobile'];
-            $employee->phone_personal = $row['phone_personal'];
-            $manager = Employee::whereCode($row['managerCode'])->first();
-            if ($manager) {
-                $employee->manager_id = $manager->id;
+            $employee->personnel_number = $row['personnel_number'] ?? null;
+            $employee->position = $row['position'] ?? null;
+            $employee->birth_day = $row['birth_day'] ?? null;
+            $employee->birth_month = $row['birth_month'] ?? null;
+            $employee->email = $row['email'] ?? null;
+            $employee->phone = $row['phone'] ?? null;
+            $employee->phone_mobile = $row['phone_mobile'] ?? null;
+            $employee->phone_personal = $row['phone_personal'] ?? null;
+            if (isset($row['managerCode']) && strlen($row['managerCode'])) {
+                $manager = Employee::whereCode($row['managerCode'])->first();
+                if ($manager) {
+                    $employee->manager_id = $manager->id;
+                }
             }
-            $employee->active = (boolean) $row['active'];
+            $employee->active = (boolean) ($row['active'] ?? false);
             
             $employee->modified_by = $this->_userId;
             $employee->modified_date = date('Y-m-d H:i:s');
@@ -1262,6 +1269,10 @@ class DataImport
         
         if (count($data) > self::MAX_ROWS_LIMIT) {
             throw AEF::create(AEF::DATA_TOO_MUCH, ' > ' . self::MAX_ROWS_LIMIT);
+        }
+        
+        if (!isset($data[0]) || !is_array($data[0])) {
+            throw AEF::create(AEF::INVALID_REQUEST_PARAMETERS);
         }
     }
     

@@ -96,10 +96,10 @@ switch ($method) {
     case 'pull-clients':
         $method = 'clients';
         $httpMethod = 'GET';
-        $data['modifiedFrom'] = '2019-06-30T01:00:00';
+        $data['modifiedFrom'] = '2019-01-30T01:00:00';
         //$data['onlyCount'] = '1';
         $data['page'] = '1';
-        $data['pageSize'] = '2';
+        $data['pageSize'] = '10';
         break;
     case 'amlminis':
         $httpMethod = 'GET';
@@ -164,15 +164,15 @@ switch ($method) {
         $httpMethod = 'POST';
         
         $data = [
-                [
-                    'id' => '',
+                
+                    'id' => '18',
                     'code' => '789',
                     'firstName' => 'Махмет',
                     'middleName' => 'Мерзлуевич',
                     'lastName' => 'Абрикосов',
                     'firstNameLat' => '',
                     'lastNameLat' => '',
-                    'gender' => 'm',
+                    'gender' => 'M',
                     'comment' => 'странный клиент',
                     'phone' => '+79051234567',
                     'email' => 'abricos.cocos@mail.com',
@@ -221,7 +221,7 @@ switch ($method) {
                     
                     'attachedStoreId' => '',
                     'attachedStoreCode' => 'GUM',
-                ],
+                
         ];
         break;
     case 'warehouses': 
