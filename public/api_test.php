@@ -164,9 +164,9 @@ switch ($method) {
         $httpMethod = 'POST';
         
         $data = [
-                
-                    'id' => '18',
-                    'code' => '789',
+                [
+                    //'id' => '18',
+                    //'code' => '789',
                     'firstName' => 'Махмет',
                     'middleName' => 'Мерзлуевич',
                     'lastName' => 'Абрикосов',
@@ -221,7 +221,7 @@ switch ($method) {
                     
                     'attachedStoreId' => '',
                     'attachedStoreCode' => 'GUM',
-                
+                ],
         ];
         break;
     case 'warehouses': 

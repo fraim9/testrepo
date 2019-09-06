@@ -56,7 +56,7 @@ class DataImport
                     'name' => 'required|string|max:150',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -111,7 +111,7 @@ class DataImport
                     'logoFormat' => 'required_with:logo|in:png,jpg',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -167,7 +167,7 @@ class DataImport
                     'brandCode' => 'nullable|string|max:32',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -239,7 +239,7 @@ class DataImport
                     'items' => 'nullable|array',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -323,7 +323,7 @@ class DataImport
                     'imageFormat' => 'required_with:image|in:png,jpg',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -380,7 +380,7 @@ class DataImport
                     'name' => 'nullable|string|max:50',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -425,7 +425,7 @@ class DataImport
                     'name' => 'nullable|string|max:50',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -472,7 +472,7 @@ class DataImport
                     'name' => 'nullable|string|max:50',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -524,7 +524,7 @@ class DataImport
                     'serials' => 'nullable|array',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
             $colorCode = $row['colorCode'] ?? 'none';
@@ -792,7 +792,7 @@ class DataImport
                     
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -888,7 +888,7 @@ class DataImport
                     'storeCode' => 'nullable|string|max:32',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -939,7 +939,7 @@ class DataImport
                     'deliveryQty' => 'required|integer',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -1009,7 +1009,7 @@ class DataImport
                     'lines' => 'required|array',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
@@ -1197,7 +1197,7 @@ class DataImport
                     'active' => 'boolean',
             ]);
             if ($validator->fails()) {
-                $details = $validator->errors()->first() . ' [' . json_encode($row) . ']';
+                $details = $validator->errors()->first() . ' [' . json_encode($row, JSON_UNESCAPED_UNICODE) . ']';
                 throw AEF::create(AEF::DATA_VALIDATION_ERROR, $details);
             }
         }
