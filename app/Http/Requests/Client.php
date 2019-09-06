@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Settings;
 
 class Client extends FormRequest
 {
@@ -23,6 +24,7 @@ class Client extends FormRequest
      */
     public function rules()
     {
+        $general = Settings::General();
         return [
                 'code' => 'nullable|string|max:32',
                 
@@ -30,8 +32,8 @@ class Client extends FormRequest
                 'middle_name' => 'nullable|string|max:50',
                 'last_name' => 'required|string|max:50',
                
-                'first_name_lat' => 'required|string|max:50',
-                'last_name_lat' => 'required|string|max:50',
+                'first_name_lat' => ($general['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
+                'last_name_lat'  => ($general['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
                 
                 'gender' => 'required|string|size:1',
                 

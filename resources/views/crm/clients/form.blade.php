@@ -47,19 +47,21 @@
 							'value' => $client->middle_name ?? ''
 						])
 						
-						@include('helpers.formText', [
-							'name' => 'last_name_lat', 
-							'label' => 'Last name (Lat)', 
-							'required' => true,
-							'value' => $client->last_name_lat ?? ''
-						])
-						
-						@include('helpers.formText', [
-							'name' => 'first_name_lat', 
-							'label' => 'First name (Lat)', 
-							'required' => true,
-							'value' => $client->first_name_lat ?? ''
-						])
+						@if ($generalSettings['nameLat'])
+    						@include('helpers.formText', [
+    							'name' => 'last_name_lat', 
+    							'label' => 'Last name (Lat)', 
+    							'required' => true,
+    							'value' => $client->last_name_lat ?? ''
+    						])
+    						
+    						@include('helpers.formText', [
+    							'name' => 'first_name_lat', 
+    							'label' => 'First name (Lat)', 
+    							'required' => true,
+    							'value' => $client->first_name_lat ?? ''
+    						])
+    					@endif
 						
 						@include('helpers.formSelect', [
 							'name' => 'gender', 

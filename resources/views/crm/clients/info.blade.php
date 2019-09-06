@@ -40,8 +40,8 @@
 		        					__('Фамилия') => $client->last_name,
 		        					__('Имя') => $client->first_name,
 		        					__('Отчество') => $client->middle_name,
-		        					__('Фамилия (lat)') => $client->last_name_lat,
-		        					__('Имя (lat)') => $client->first_name_lat,
+		        					__('Фамилия (lat)') => $generalSettings['nameLat'] ? $client->last_name_lat : 'hide',
+		        					__('Имя (lat)') => $generalSettings['nameLat'] ? $client->first_name_lat : 'hide',
 		        					__('Пол') => ($client->gender == 'M') ? __('Мужской') : __('Женский'),
 		        					__('День рождения') => $bdText,
 		        					__('Место рождения') => $client->birth_place,
@@ -91,10 +91,12 @@
         					<table class="table table-sm">
 			        			<tbody>
                 					@foreach($rows as $name => $value)
-                						<tr>
-        		        					<td style="width:45%" class="text-small text-muted">{{ $name }}</td>
-        		        					<td class="">{!! $value !!}</td>
-        		        				</tr>
+                						@if ($value != 'hide') 
+                    						<tr>
+            		        					<td style="width:45%" class="text-small text-muted">{{ $name }}</td>
+            		        					<td class="">{!! $value !!}</td>
+            		        				</tr>
+            		        			@endif
                 					@endforeach
 			        			</tbody>
 			        		</table>

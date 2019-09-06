@@ -148,6 +148,11 @@
             </li>
             --}}
             <li class="nav-main-item">
+            	<a class="nav-main-link{{ request()->is('*/settings/form/General*') ? ' active' : '' }}" href="{{ route('settings.form', 'General') }}">
+                	<span class="nav-main-link-name">{{ __('General') }}</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
             	<a class="nav-main-link{{ request()->is('*/settings/form/iPOS*') ? ' active' : '' }}" href="{{ route('settings.form', 'iPOS') }}">
                 	<span class="nav-main-link-name">{{ __('iPOS') }}</span>
                 </a>

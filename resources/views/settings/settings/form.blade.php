@@ -14,6 +14,16 @@
 	        		</div>
 					<div class="block-content">
 						
+						@if ($settings->_id == 'General')
+						
+							@include('helpers.formCheckbox', [
+								'name' => 'doc[nameLat]', 
+								'label' => __('Latin name entry'), 
+								'value' => $settings->doc['nameLat'] ?? ''
+							])
+						
+						@endif
+						
 						@if ($settings->_id == 'Storage')
 						
 							@include('helpers.formSelect', [

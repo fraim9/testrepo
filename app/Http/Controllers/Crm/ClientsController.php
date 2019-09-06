@@ -22,6 +22,7 @@ use App\Http\Controllers\Filter;
 use Yajra\Datatables\Datatables;
 use App\Exceptions\AppException;
 use App\Services\ReturnHelper;
+use App\Settings;
 
 
 class ClientsController extends BackendController
@@ -102,6 +103,8 @@ class ClientsController extends BackendController
             }
         }
         
+        $generalSettings = Settings::General();
+        
         /*
         $countries = Country::orderBy('name')->get();
         $timeZoneModel = new TimeZone();
@@ -110,7 +113,7 @@ class ClientsController extends BackendController
         $stores = Store::orderBy('name')->get();
         */
         
-        return view('crm.clients.info', compact('client', 'amlMiniList'));
+        return view('crm.clients.info', compact('client', 'amlMiniList', 'generalSettings'));
     }
     
     public function form(Request $request, $id)
@@ -124,10 +127,13 @@ class ClientsController extends BackendController
         $companyInfo = Company::getInfo();
         $currentUser = Auth::user();
         
+        $generalSettings = Settings::General();
+        
         $filter = $this->_getFilter($request);
         
         return view('crm.clients.form', compact('client', 'countries', 'timeZones', 
-                'employees', 'stores', 'companyInfo', 'currentUser', 'filter'));
+                'employees', 'stores', 'companyInfo', 'currentUser', 'generalSettings', 
+                'filter'));
     }
     
     public function store(ClientRequest $request, $id)
