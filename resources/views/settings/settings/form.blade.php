@@ -17,9 +17,9 @@
 						@if ($settings->_id == 'General')
 						
 							@include('helpers.formCheckbox', [
-								'name' => 'doc[nameLat]', 
+								'name' => 'doc[client][nameLat]', 
 								'label' => __('Latin name entry'), 
-								'value' => $settings->doc['nameLat'] ?? ''
+								'value' => $settings->doc['client']['nameLat'] ?? ''
 							])
 						
 						@endif

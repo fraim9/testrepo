@@ -32,8 +32,8 @@ class Client extends FormRequest
                 'middle_name' => 'nullable|string|max:50',
                 'last_name' => 'required|string|max:50',
                
-                'first_name_lat' => ($general['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
-                'last_name_lat'  => ($general['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
+                'first_name_lat' => ($general['client']['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
+                'last_name_lat'  => ($general['client']['nameLat'] ? 'required' : 'nullable') . '|string|max:50',
                 
                 'gender' => 'required|string|size:1',
                 

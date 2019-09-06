@@ -47,7 +47,7 @@
 							'value' => $client->middle_name ?? ''
 						])
 						
-						@if ($generalSettings['nameLat'])
+						@if ($generalSettings['client']['nameLat'])
     						@include('helpers.formText', [
     							'name' => 'last_name_lat', 
     							'label' => 'Last name (Lat)', 
