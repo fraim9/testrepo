@@ -14,6 +14,8 @@ class Settings extends AppModel
 	
 	public $timestamps = false;
 	
+	public static $availableKeys = ['General', 'iPOS', 'Storage', 'OmniPOS'];
+	
 	
 	/**
 	 * The attributes that are mass assignable.
@@ -39,19 +41,36 @@ class Settings extends AppModel
 	    
 	}
 	
+	public static function findOrFail($id)
+	{
+	    if (!in_array($id, static::$availableKeys)) {
+	       abort(404);
+	    }
+	    $settings = static::find($id);
+	    if (!$settings) {
+	        $settings = new static();
+	        $doc = new \stdClass();
+	        $doc->_id = $id;
+	        $settings->doc = $doc;
+	        $settings->save();
+	        $settings->_id = $id;
+	    }
+	    return $settings;
+	}
+	
 	public static function General()
 	{
-	    return static::query()->find('General')->doc;
+	    return static::find('General')->doc;
 	}
 	
 	public static function iPos()
 	{
-	    return static::query()->find('iPOS')->doc;
+	    return static::find('iPOS')->doc;
 	}
 	
 	public static function Storage()
 	{
-	    return static::query()->find('Storage')->doc;
+	    return static::find('Storage')->doc;
 	}
 	
 	
