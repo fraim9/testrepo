@@ -65,9 +65,9 @@ class Files
     {
         $settings = Settings::Storage();
         if ($cold) {
-            $path = $settings->doc['localStorage']['folderPathCold'];
+            $path = $settings['localStorage']['folderPathCold'];
         } else {
-            $path = $settings->doc['localStorage']['folderPath'];
+            $path = $settings['localStorage']['folderPath'];
         }
         return $path;
     }
