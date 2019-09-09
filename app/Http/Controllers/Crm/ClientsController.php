@@ -20,9 +20,10 @@ use App\AmlReportStatus;
 use App\Company;
 use App\Http\Controllers\Filter;
 use Yajra\Datatables\Datatables;
-use App\Exceptions\AppException;
 use App\Services\ReturnHelper;
 use App\Settings;
+use App\ClientEmail;
+use App\ClientPhone;
 
 
 class ClientsController extends BackendController
@@ -113,7 +114,10 @@ class ClientsController extends BackendController
         $stores = Store::orderBy('name')->get();
         */
         
-        return view('crm.clients.info', compact('client', 'amlMiniList', 'generalSettings'));
+        $oldEmails = ClientEmail::whereClientId($client->id)->where('email', '!=', addslashes($client->email))->get();
+        $oldPhones = ClientPhone::whereClientId($client->id)->where('phone', '!=', addslashes($client->phone))->get();
+        
+        return view('crm.clients.info', compact('client', 'amlMiniList', 'generalSettings', 'oldEmails', 'oldPhones'));
     }
     
     public function form(Request $request, $id)
@@ -332,10 +336,27 @@ class ClientsController extends BackendController
                 $query->where('name', 'like', "%" . $filter->fName . "%");
             }
             if ($filter->fEmail) {
-                $query->where('email', 'like', "%" . $filter->fEmail . "%");
+                $ids = ClientEmail::where('email', 'like', "%" . addslashes($filter->fEmail) . "%")->distinct()->get(['client_id']);
+                if ($ids->count()) {
+                    $idss = $ids->map(function($item) {
+                        return $item->client_id;
+                    });
+                    $query->whereIn('id', $idss->toArray());
+                } else {
+                    $query->where('id', '-1'); // блокируем вывод
+                }
             }
             if ($filter->fPhone) {
-                $query->where('phone', 'like', "%" . $filter->fPhone . "%");
+                $ids = ClientPhone::where('phone', 'like', "%" . addslashes($filter->fPhone) . "%")->distinct()->get(['client_id']);
+                if ($ids->count()) {
+                    $idss = $ids->map(function($item) {
+                        return $item->client_id;
+                    });
+                        $query->whereIn('id', $idss->toArray());
+                } else {
+                    $query->where('id', '-1'); // блокируем вывод
+                }
+                //$query->where('phone', 'like', "%" . $filter->fPhone . "%");
             }
             if ($filter->fCountry) {
                 $query->where('country_id', $filter->fCountry);

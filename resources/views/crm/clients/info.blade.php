@@ -29,10 +29,23 @@
 		        				'<a href="' . route('file.download', $client->consent_file_id) . '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' . __('Скачать') . '</a>' 
 		        			: '---';
 		        			
+		        			$oldPhoneText  = '';
+		        			if ($oldPhones->count()) {
+		        				$oldPhoneText =  __('Old values') . ':<br>' . implode('<br>', $oldPhones->map(function($item){
+		        					return $item->phone;
+		        				})->toArray());
+		        			}
+		        			$oldEmailText  = '';
+		        			if ($oldEmails->count()) {
+		        				$oldEmailText =  __('Old values') . ':<br>' . implode('<br>', $oldEmails->map(function($item){
+		        					return $item->email;
+		        				})->toArray());
+		        			}
+		        			
 		        			$data = [
 		        				__('Контакты') => [
-		        					__('Телефон') => $client->phone,
-		        					__('E-mail') => $client->email,
+		        					__('Телефон') => $client->phone . '<div class="text-muted text-smallest">' . $oldPhoneText . '</div>',
+		        					__('E-mail') => $client->email . '<div class="text-muted text-smallest">' . $oldEmailText . '</div>',
 		        				],
 		        				__('Общая информация') => [
 		        					__('ID') => $client->id,
