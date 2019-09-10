@@ -67,7 +67,6 @@
                             data: null,
                             defaultContent: '<div class="btn-group">' +
                                 '<a href="#" class="btn btn-sm btn-edit btn-light js-tooltip-enabled" data-toggle="tooltip" title="Edit user"><i class="fa fa-fw fa-pencil-alt"></i></a>' +
-                                '<a href="#" class="btn btn-sm btn-delete btn-light js-tooltip-enabled" data-toggle="tooltip" title="Remove store"><i class="fa fa-fw fa-times"></i></a>' +
                                 '</div>'
                         }
                     ],
@@ -79,16 +78,6 @@
             jQuery(document).on( 'click', '.btn-edit', function () {
                 let id = table.row( jQuery(this).parents('tr')[0] ).data().id;
                 window.location.href = '{!! route('stores.form', ['id' => null]) !!}/' + id;
-            } );
-
-            jQuery(document).on( 'click', '.btn-delete', function () {
-
-                if( !confirm('Remove store?') ){
-                    return;
-                }
-
-                let id = table.row( jQuery(this).parents('tr')[0] ).data().id;
-                window.location.href = '{!! route('stores.index') !!}/' + id + '/delete';
             } );
         });
     </script>
