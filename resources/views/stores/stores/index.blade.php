@@ -23,13 +23,11 @@
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Store group') }}</th>
                 <th>{{ __('Currency') }}</th>
-                <th>{{ __('Action') }}</th>
             </tr>
             <tr class="table-filter">
                 <th><input type="search" class="form-control" name="fName" value="{{ $filter->fName }}"></th>
                 <th><input type="search" class="form-control" name="fCode" value="{{ $filter->fCode }}"></th>
                 <th><input type="search" class="form-control" name="fPhone" value="{{ $filter->fPhone }}"></th>
-                <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
@@ -58,27 +56,10 @@
                         {data: 'code', name: 'code'},
                         {data: 'phone', name: 'phone'},
                         {data: 'group', name: 'group'},
-                        {data: 'currency', name: 'currency'},
-                        {}
-                    ],
-                    columnDefs: [
-                        {
-                            targets: -1,
-                            data: null,
-                            defaultContent: '<div class="btn-group">' +
-                                '<a href="#" class="btn btn-sm btn-edit btn-light js-tooltip-enabled" data-toggle="tooltip" title="Edit user"><i class="fa fa-fw fa-pencil-alt"></i></a>' +
-                                '</div>'
-                        }
-                    ],
+                        {data: 'currency', name: 'currency'}
+                    ]
                 }
             );
-
-            let table = jQuery('#table').DataTable();
-
-            jQuery(document).on( 'click', '.btn-edit', function () {
-                let id = table.row( jQuery(this).parents('tr')[0] ).data().id;
-                window.location.href = '{!! route('stores.form', ['id' => null]) !!}/' + id;
-            } );
         });
     </script>
 @endsection
