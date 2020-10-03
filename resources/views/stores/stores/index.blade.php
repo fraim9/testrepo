@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    
+
     @include('layouts.backendPageHero', [
     	'title' => 'Stores',
     	'btns' => [
@@ -15,72 +15,51 @@
 
     <!-- Page Content -->
     <div class="content content-full">
-        <table class="table table-bordered table-hover table-vcenter js-dataTable">
-        	<thead>
-        		<tr>
-        			<th>{{ __('Name') }}</th>
-        			<th>{{ __('External ID') }}</th>
-        			<th>{{ __('Phone') }}</th>
-        			<th>{{ __('Store group') }}</th>
-        			<th>{{ __('Currency') }}</th>
-        			<th>{{ __('Action') }}</th>
-        		</tr>
-        	</thead>
-        	<tbody>
-	        	@foreach ($stores as $store)
-	        		<tr>
-	        			<td>
-	        				{{ $store->name }}
-	        				<div class="text-small text-muted">{{ $store->address }}</div>
-	        			</td>
-	        			<td>{{ $store->code }}</td>
-	        			<td>{{ $store->phone }}</td>
-	        			<td>{{ $store->group->name }}</td>
-	        			<td>{{ $store->currency }}</td>
-	        			<td class="text-center">
-							<div class="btn-group">
-								@include('helpers.btnEdit', [
-									'url' => route('stores.form', $store->id), 
-									'title' => 'Edit user'])
-								@include('helpers.btnDelete', [
-									'url' => route('stores.delete', $store->id), 
-									'title' => 'Remove store',
-									'confirm' => 'Remove store?'])
-							</div>
-						</td>
-	        		</tr>
-				@endforeach
-	        </tbody>
+        <table id="table" class="table table-bordered table-hover table-vcenter js-dataTable">
+            <thead>
+            <tr>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('External ID') }}</th>
+                <th>{{ __('Phone') }}</th>
+                <th>{{ __('Store group') }}</th>
+                <th>{{ __('Currency') }}</th>
+            </tr>
+            <tr class="table-filter">
+                <th><input type="search" class="form-control" name="fName" value="{{ $filter->fName }}"></th>
+                <th><input type="search" class="form-control" name="fCode" value="{{ $filter->fCode }}"></th>
+                <th><input type="search" class="form-control" name="fPhone" value="{{ $filter->fPhone }}"></th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
         </table>
-        
     </div>
     <!-- END Page Content -->
 @endsection
 
-
-
-
 @section('css_after')
-	<link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
+    @include('helpers.datatables.includeCSS')
 @endsection
 
 @section('js_after')
-	<script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-    
+    @include('helpers.datatables.includeJS')
     <script>
-        jQuery(function(){
-
-        	// Init full DataTable
-            jQuery('.js-dataTable').dataTable({
-            	'columnDefs': [
-					{ "width": "80px", targets: [ 5 ] }
-				],
-            });
-
+        jQuery(function () {
+            dtAdapter.init(
+                jQuery('#table'),
+                '{!! route('stores.filter') !!}',
+                {
+                    serverSide: true,
+                    ajax: '{!! route('stores.data') !!}',
+                    columns: [
+                        {data: 'name', name: 'name'},
+                        {data: 'code', name: 'code'},
+                        {data: 'phone', name: 'phone'},
+                        {data: 'group', name: 'group'},
+                        {data: 'currency', name: 'currency'}
+                    ]
+                }
+            );
         });
     </script>
-    
 @endsection
-

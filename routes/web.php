@@ -92,12 +92,13 @@ Route::get('/admin/stores', 'Stores\StoresController@index')->name('stores.index
 Route::get('/admin/stores/form/{id}', 'Stores\StoresController@form')->name('stores.form');
 Route::post('/admin/stores/{id}', 'Stores\StoresController@store')->name('stores.store');
 Route::get('/admin/stores/{id}/delete', 'Stores\StoresController@delete')->name('stores.delete');
+Route::get('/admin/stores/data', 'Stores\StoresController@data')->name('stores.data');
+Route::get('/admin/stores/filter', 'Stores\StoresController@filter')->name('stores.filter');
 
 Route::get('/admin/stores/prices', 'Stores\PricesController@index')->name('prices.index');
 Route::get('/admin/stores/prices/form/{id}', 'Stores\PricesController@form')->name('prices.form');
 Route::post('/admin/stores/prices/{id}', 'Stores\PricesController@store')->name('prices.store');
 Route::get('/admin/stores/prices/{id}/delete', 'Stores\PricesController@delete')->name('prices.delete');
-
 
 //=== COMPANY ===
 
